@@ -16,7 +16,6 @@ import pers.wong.kec.common.CommonUtil;
 import pers.wong.kec.common.enums.KecAllEnum;
 import pers.wong.kec.dao.dao.PostMapper;
 import pers.wong.kec.domain.responseDTO.PopularPostResponseDTO;
-import pers.wong.kec.service.PostService;
 
 /**
  * @author Wangjunwei
@@ -28,9 +27,9 @@ import pers.wong.kec.service.PostService;
 @EnableScheduling
 public class ScheduleConfig {
 
-  private static final Logger log = LoggerFactory.getLogger(ScheduleConfig.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleConfig.class);
 
-  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
 
   @Resource
@@ -47,7 +46,7 @@ public class ScheduleConfig {
   @Scheduled(cron = "0 0 0 * * *")
 //  @Scheduled(fixedRate = 1000 * 5)
   public void popularPostSchedule() {
-    log.info("热门主贴定时任务：开始时间 {}", dateFormat.format(new Date()));
+    LOGGER.info("热门主贴定时任务：开始时间 {}", DATE_FORMAT.format(new Date()));
     List<PopularPostResponseDTO> popularList = postMapper.popularPostList();
     //获取原本的热帖并将其设为普通
     List<String> oldPopular = postMapper.selectOldHot();
@@ -55,7 +54,7 @@ public class ScheduleConfig {
     List<String> newPopular = new ArrayList<>();
     int o = postMapper.updatePostType(oldPopular, KecAllEnum.POST_TYPE_NORMAL.getCode());
     if (null == popularList || popularList.size() == 0) {
-      log.info("热门主贴定时任务完成，没有符合的主贴");
+      LOGGER.info("热门主贴定时任务完成，没有符合的主贴");
     } else {
       //计算分数，倒序排序，获取前一百名设为热帖
       IntStream.range(0, popularList.size()).forEach(i -> {
@@ -69,7 +68,7 @@ public class ScheduleConfig {
       } else {
         size = 100;
       }
-      IntStream.range(0, size).forEach(i ->{
+      IntStream.range(0, size).forEach(i -> {
         if (popularList.get(i).getScore() > 0.0) {
           newPopular.add(popularList.get(i).getPostId());
         }
@@ -77,7 +76,7 @@ public class ScheduleConfig {
       int i1 = postMapper.updatePostType(newPopular, KecAllEnum.POST_TYPE_POPULAR.getCode());
       //TODO
     }
-    log.info("热门主贴定时任务：结束时间 {}", dateFormat.format(new Date()));
-    log.info("============================================================");
+    LOGGER.info("热门主贴定时任务：结束时间 {}", DATE_FORMAT.format(new Date()));
+    LOGGER.info("============================================================");
   }
 }
