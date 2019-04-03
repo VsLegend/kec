@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <title>管理员登录</title>
+  <!-- CSS  -->
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style type="text/css">
+    .row {
+      width: 800px;
+    }
+  </style>
+</head>
+<body style="background-image: url('/static/image/9.jpg'); background-size: 100%; background-repeat: no-repeat; ">
+
+
+<!--表单-->
+<div class="row" style="width: 30%; margin-top: 10%">
+  <form class="col s12">
+    <h4 class="blue-text text-darken-1" style="margin-left: 100px">管理员登录</h4>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="studentno" type="text" data-length="10" maxlength="10" />
+        <label class="blue-text text-darken-1" for="studentno">账号</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="password" type="password" data-length="10">
+        <label class="blue-text text-darken-1" for="password">密码</label>
+      </div>
+    </div>
+    <a class="center blue-text text-lighten-1" href="/entrance/login">用户登录</a>
+    <br>
+    <!--登录提示信息！！-->
+    <div class="center row" style="width: 300px; margin-left: 38px;">
+      <span id="sign_info" class="red-text" style="font-size: larger;"></span>
+    </div>
+    <div class="row" style="margin-left: 10px;">
+      <button class="btn waves-effect blue darken-1 white-text" style="width: 360px" type="button" id="admin_login">确认</button>
+    </div>
+  </form>
+</div>
+
+
+<!--  导入脚本-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/admin.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script>
+  $(document).ready(function () {
+    //输入框的字数限制
+    $('input#module_name, textarea#textarea2').characterCounter();
+    //Select jQuery
+    $('select').formSelect();
+    //collapsibel
+    $('.collapsible').collapsible();
+    //对话框初始化
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+  });
+
+  $('#admin_login').click(function () {
+    admin_login();
+  });
+
+  //回车提交
+  $(document).keyup(function(event){
+    if(event.keyCode ===13){
+      admin_login();
+    }
+  });
+
+  //登录检验
+  function admin_login() {
+    if (check_info()) {
+      admin_login_ajax();
+    }
+  }
+
+  //管理员登录Ajax
+  function admin_login_ajax() {
+    var user = {
+      studentno: $('#studentno').val(),
+      password: $('#password').val(),
+      type: 2
+    };
+    // console.log(user.studentno);
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json",
+      url: "/user/login",
+      data: JSON.stringify(user),
+      datatype: 'json',
+      cache: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          alert("你好 "+ data.data.name + "!");
+          //登录成功后跳转
+          var h = "/backstage/admin";
+          window.location.href = h;
+        } else {
+          alert(data.data);
+        }
+      },
+      error: function (e) {
+        showMessage("服务器异常，登录失败");
+      }
+    });
+  }
+
+  //用户名密码验证
+  function check_info(){
+    var studentno = $('#studentno').val();
+    var password = $('#password').val();
+    if (isNull(studentno) || isNull(password)) {
+      msg = "用户名或密码不能为空";
+      showMessage(msg);
+      return false;
+    }
+    // if (!/^\d+$/.test(studentno)) {
+    //   msg = "用户名为纯数字组成";
+    //   showMessage(msg);
+    //   return false;
+    // }
+    return true;
+  }
+
+  // 注册信息方法
+  function showMessage(message) {
+    $("#sign_info").empty();
+    $("#sign_info").text(message);
+  }
+</script>
+
+</body>
+</html>

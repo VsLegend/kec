@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>消息中心</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+<!--导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" style>
+      <li style="width: 100px" class="center">
+        <i class="large material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center"><a href="/"><i
+          class="material-icons large black-text">home</i></a></li>
+      <li style="width: 130px" class="center"><a href="/entrance/moduleDisplay" class="black-text">板块展示</a></li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
+      <!--消息展示，有未读消息时，出现未读的条数-->
+      <li style="width: 130px" class="center active red lighten-3">
+        <a href="/entrance/needInfo/messageCenter" id="unread-message" class="white-text">消息中心</a></li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center black-text" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+<br><br><br><br>
+<!--内容-->
+
+<div class="container center">
+  <ul class="collapsible">
+    <!--表头-->
+    <li>
+      <div class="collapsible-header">
+        <h4>所有消息</h4>
+      </div>
+    </li>
+    <!--消息内容-->
+
+    <!--分页-->
+    <li id="message-tail">
+      <br>
+      <div class="container center" >
+        <ul class="pagination" id="message-pagination">
+        </ul>
+      </div>
+      <br>
+    </li>
+  </ul>
+
+  <!--用户详情展示-->
+  <div id="sender-modal-detail" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>吧龄：2</p>
+      <p>发帖：90</p>
+      <p>他关注的板块：XX XX XX</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">返回</a>
+    </div>
+  </div>
+
+</div>
+
+<br><br><br><br>
+
+<footer class="page-footer white">
+  <hr>
+  <div class="container">
+    <div class="row">
+      <div class="col l3 s12">
+        <h5 class="black-text">友情链接</h5>
+        <ul>
+          <li><a class="orange-text text-lighten-2" href="https://materializecss.com/">Materialize</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://www.google.com/">Google</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://www.baidu.com/?tn=78000241_5_hao_pg">百度</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://tieba.baidu.com/index.html">贴吧</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright black">
+    <div class="container">
+      技术支持<a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<!--//分页-->
+<script src="/static/js/jq-paginator.js"></script>
+<script>
+  $(document).ready(function () {
+    //小贴士工具
+    $('.tooltipped').tooltip();
+    //传送带初始化
+    $('.carousel').carousel();
+    //对话框初始化
+    $('.modal').modal();
+    //激活所有input
+    M.updateTextFields();
+    //collapsibel
+    $('.collapsible').collapsible();
+    $('.carousel.carousel-slider').carousel({
+      //宽度是否为全屏宽度
+      fullWidth: false,
+      indicators: true
+    });
+    //Parallax 视差
+    $('.parallax').parallax();
+    get_user_loginInfo_ajax();
+    //未读消息、
+    show_unread_message();
+    //加载消息
+    var message = message_push_ajax(10, 1);
+    //分页初始化
+    $('#message-pagination').jqPaginator({
+      totalPages: message.pages === 0 ? 1 : message.pages,
+      visiblePages: 10,
+      pageSize: message.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        var i = 0;
+        if (i>0) {
+          get_focus_post_list(message.pageSize, num)
+        }
+      }
+    });
+  });
+
+  //获取消息推送的内容
+function message_push_ajax(size, num) {
+  var message = null;
+  var page ={
+    pageNum: num,
+    pageSize: size
+  };
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/messagePush/selectUserMessage",
+    data: JSON.stringify(page),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data);
+        message = data.data;
+        //页面加载信息
+        show_message_list(data.data.list);
+      } else {
+        showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+      }
+    },
+    error: function (e) {
+      showMessage('服务器异常，页面加载错误');
+    }
+  });
+  return message;
+}
+
+function show_message_list(data) {
+  //加载消息
+  for (var i = 0; i < data.length; i++) {
+    //是否查看，否增加new标签
+    var newTag = '';
+    //关联的内容
+    var messageInfo = data[i].messageRelationResponseDTO;
+    var url = get_content_by_type(data[i].messageType, messageInfo.relationId, messageInfo.status);
+    url = (url === null ? '#null' : url);
+    var messageId = data[i].messageId;
+    //发送该信息人的信息
+    var sender = get_user_detail_ajax(data[i].sender);
+    if (data[i].readFlag === '0') {
+      newTag = '<i class="material-icons red-text">fiber_new</i>';
+    }
+    $('#message-tail').before('<li><br>'
+        + '<div class="collapsible-header" onclick="messageRead(\''+ messageId + '\')">'
+        + newTag
+        + '<br><a href="#!">' +  data[i].content + '</a></div> '
+        + '<div class="collapsible-body">'
+        + '<a href="#sender-modal-detail" class="modal-trigger" id=\"' + sender.id + '\" >'
+        + sender.name + '</a>'
+        + '：<a href="'+ url + '">'
+        +  messageInfo.relationContent + '</a></div> '
+        + '</a></div><br></li>');
+  }
+  if (data.length === 0) {
+    $('#message-tail').before("<br><p class='red-text'>暂无消息</p>");
+    return;
+  }
+
+  //点击查看主贴详情
+  $("[href='" + url + "']").click(function () {
+    //用户详情
+    if (url === '#null') {
+      showMessage('主贴已被删除');
+    }
+  });
+
+  //点击查看用户详情
+  $("[href='#sender-modal-detail']").click(function () {
+    //用户详情
+    var detail = get_user_detail_ajax(this.id);
+    $('#sender-modal-detail').find("h4").text(detail.name);
+  });
+}
+
+//消息已读ajax
+function messageRead(messageId) {
+  $.ajax({
+    type: 'GET',
+    contentType: "application/json",
+    url: "/messagePush/messageRead/" + messageId,
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data);
+      } else {
+        showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+      }
+    },
+    error: function (e) {
+      showMessage('服务器异常，页面加载错误');
+    }
+  });
+}
+
+
+//根据返回消息的类型返回地址
+function get_content_by_type(type , id, status) {
+  /**
+   * 消息类型：0系统新闻new_id
+   * 1帖子 当status为0时，可查看，为1时显示已删除
+   * 2评论回复commnet_id  当status为0时，可查看，为1时显示已删除
+   */
+  var url = null;
+  //新闻暂时没有页面
+  if (type === '0') {
+    return '';
+  } else if (type === '1') {
+    //处理帖子
+    if (status === '1') {
+      return null;
+    }
+    url = '/entrance/needInfo/postDetail?id=' + id;
+    return url;
+  } else if (type === '2') {
+    if (status === '1') {
+      return null;
+    }
+    //处理评论
+    url = '/entrance/needInfo/postDetail?id=' + id;
+    return url;
+  }
+}
+</script>
+
+</body>
+</html>

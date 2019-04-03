@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>板块管理中心</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style>
+    header, main, footer {
+      padding-left: 300px;
+    }
+
+    #nav-text{
+      padding-left: 320px;
+    }
+
+    @media only screen and (max-width : 992px) {
+      header, main, footer {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!--导航栏-->
+<nav  class="z-depth-0 white">
+  <div class="nav-wrapper">
+    <span id="nav-text" class="brand-logo left blue-text text-lighten-3">板块管理</span>
+    <ul class="right hide-on-med-and-down">
+      <li><a class="blue-text text-lighten-3" href="/logout">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+<hr style="margin: 0px;padding: 0px">
+
+<header>
+  <!--滑窗-->
+  <ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="/static/image/1.jpg">
+        </div>
+        <ul class="hide-on-med-and-down">
+          <li><img class="circle" src="/static/image/8.jpg"></li>
+          <li><span class="white-text name">Admin</span></li>
+          <li><span class="white-text"><br></span></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="/backstage/admin">新闻中心</a></li>
+    <li class="active"><a href="/backstage/moduleManeger">板块管理</a></li>
+    <!--<li class="divider"></li>-->
+    <li><a href="/backstage/postClassification">帖子管理</a></li>
+    <li><a href="/backstage/controlUser">用户管理</a></li>
+  </ul>
+</header>
+
+<br><br>
+
+<main>
+<!--内容-->
+<div class="row">
+  <div class="container">
+    <div class="left input-field col s12">
+      <!--添加栏，筛选栏--><br>
+      <div class="row">
+        <div class="right">
+          <a href="/backstage/addNewModule"
+             class="waves-effect btn blue lighten-3 white-text">新增板块</a>
+        </div>
+      </div>
+      <br><br>
+      <!--板块列表展示-->
+      <table class="highlight centered" style="line-height: 50px" id="module_table" >
+        <thead>
+          <tr class="grey lighten-3">
+            <th>板块名称</th>
+            <th>版主信息</th>
+            <th>归属类型</th>
+            <th>当前状态</th>
+            <th>创建时间</th>
+            <th>板块操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <br><br><br>
+
+      <!--翻页-->
+      <div class="container center" >
+        <ul class="pagination" id="module-pagination">
+        </ul>
+      </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <!--用户详情展示-->
+    <div id="user-modal-in-module" class="modal">
+      <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>吧龄：2</p>
+        <p>发帖：90</p>
+        <p>他关注的板块：XX XX XX</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">返回</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<!--脚部-->
+<br><br>
+<footer class="page-footer white">
+  <div class="footer-copyright white">
+    <div class="container">
+      <span class="black-text">技术支持</span>
+      <a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/admin.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script>
+  $(document).ready(function(){
+    //Select jQuery
+    $('select').formSelect();
+    $('.modal').modal();
+    //collapsibel
+    $('.collapsible').collapsible();
+    var list = module_ajax(10, 1);
+    //分页初始化
+    $('#module-pagination').jqPaginator({
+      totalPages: list.pages === 0 ? 1 : list.pages,
+      visiblePages: 10,
+      pageSize: list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //
+        module_ajax(list.pageSize, num)
+      }
+    });
+  });
+
+</script>
+</body>
+</html>

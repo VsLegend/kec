@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <title>用户注册</title>
+  <!-- CSS  -->
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style type="text/css">
+    #sign_up_table tr{
+      border-bottom: 0px;
+    }
+  </style>
+</head>
+<body style="background: #fafafa;">
+
+<!--导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" style>
+      <li style="width: 100px" class="center"><i
+          class="large material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center"><a href="/"><i
+          class="material-icons large black-text">home</i></a></li>
+      <li style="width: 130px" class="center"><a href="/entrance/moduleDisplay" class="black-text">板块展示</a></li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a id="unread-message" href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a></li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center red-text text-lighten-3" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+  <br><br><br><br>
+  <!--表单-->
+  <div class="container center" style="background: white;">
+    <form id="user_signup" class="col s12 z-depth-1">
+      <table id="sign_up_table">
+        <thead>
+        <tr>
+          <td colspan="2" class="center"><h4 class="red-text text-lighten-3">注册</h4></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <!--用户名-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">account_circle</i>
+              <input id="username" type="text">
+              <label for="username">Name</label>
+            </div>
+            <br>
+          </td>
+          <td>
+            <!--邮箱-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">email</i>
+              <input id="email" type="email">
+              <label for="email">Email</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--学号-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">gps_fixed</i>
+              <input id="studentno" type="text" data-length="10" maxlength="10">
+              <label for="studentno">Student Number</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--性别-->
+            <p>
+              <i class="material-icons prefix blue-text text-lighten-2">face</i>
+              <label>
+                <input value="男" name="gender" type="radio" checked />
+                <span>男</span>
+              </label>
+              <label>
+                <input value="女" name="gender" type="radio" />
+                <span>女</span>
+              </label>
+            </p>
+          </td>
+        </tr>
+        <!--密码-->
+        <tr>
+          <td>
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">filter_center_focus</i>
+              <input id="password" type="password">
+              <label for="password">Password</label>
+            </div>
+            <br>
+          </td>
+          <td>
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">repeat</i>
+              <input id="password2" type="password">
+              <label for="password2">Repeat Password</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="center">
+            <div class="row">
+              <!--注册提示信息！！-->
+              <div class="center row" style="width: 300px; margin-left: 38px;">
+                <span id="sign_info" class="red-text" style="font-size: larger;"></span>
+              </div>
+              <button class="btn white black-text waves-effect waves-red" style="width: 360px" type="submit" name="action">提交</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </form>
+  </div>
+
+  <br><br><br><br>
+<!--脚部-->
+<footer class="page-footer grey darken-1">
+  <div class="footer-copyright">
+    <div class="container">
+      技术支持<a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+<!--  导入脚本-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/commonJs.js"></script>
+
+
+</body>
+</html>

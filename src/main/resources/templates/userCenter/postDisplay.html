@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>板块内容展示</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+<!--导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" style>
+      <li style="width: 100px" class="center"><i
+          class="large material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center"><a href="/"><i
+          class="material-icons large black-text">home</i></a></li>
+      <li style="width: 130px" class="center active red lighten-3"><a href="/entrance/moduleDisplay" class="white-text">板块展示</a></li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a id="unread-message" href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a></li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center black-text" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!--内容-->
+<br><br><br><br>
+<div class="row">
+  <div class="container center">
+    <div class="row">
+      <!--面包屑-->
+      <div class="row">
+        <nav>
+          <div class="nav-wrapper white">
+            <div class="col s12">
+              <a href="#!" onclick="go_back()" class="breadcrumb left grey-text text-lighten-1">返回板块</a>
+              <a class="breadcrumb left grey-text text-lighten-1">></a>
+              <a class="breadcrumb left black-text text-lighten-3">主贴展示</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <!--主贴列表展示-->
+      <br>
+
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card medium" style="height: 350px" id="module-card">
+            <!--板块基本信息展示-->
+            <div class="card-image">
+              <img src="/static/image/1.jpg">
+              <span class="card-title black-text" style="padding-top: 20px">
+                <b class="left"></b><br><br>
+                <a class="left modal-trigger" href="#user-modal-detail" style="font-size: large;">版主：</a><br>
+                <p class="left" style="font-size: large;">简介：</p>
+              </span>
+            </div>
+            <div class="card-content center">
+              <p class="col s4 orange-text text-lighten-3">关注：80</p>
+              <p class="col s4 orange-text text-lighten-3">帖子：100</p>
+              <p class="col s4 orange-text text-lighten-3">今日发帖：3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!--帖子展示-->
+      <div class="row">
+        <div class="col s12 m12 z-depth-1">
+          <table class="highlight" id="show-post">
+            <thead>
+            <tr>
+              <td class="center" colspan = "5"><h5>看帖</h5></td>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <br>
+          </table>
+          <br><br>
+
+          <!--翻页-->
+          <div class="container center" >
+            <ul class="pagination" id="module-pagination">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!--用户详情展示-->
+      <div id="user-modal-detail" class="modal">
+        <div class="modal-content">
+          <h4>Modal Header</h4>
+          <p>吧龄：2</p>
+          <p>发帖：90</p>
+          <p>他关注的板块：XX XX XX</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">返回</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<br><br>
+
+<!--新增主贴信息表单-->
+<div class="row center">
+  <div class="container">
+  <form>
+    <div class="row">
+      <div class="input-field">
+        <i class="material-icons prefix">mode_edit</i>
+        <input id="post_name" type="text" data-length="30">
+        <label for="post_name">主贴标题</label>
+      </div>
+    </div>
+    <div class="row">
+      <label for="post_container" class="left">主贴内容：</label><br>
+      <!-- 加载编辑器的容器 -->
+      <script id="post_container" name="content" type="text/plain">
+      </script>
+    </div>
+    <br>
+  </form>
+  <!--提交-->
+  <div class="row">
+    <button id="add_new_module"
+            class="waves-effect waves-light btn modal-trigger red lighten-3 white-text"
+            style="width: 200px; margin-left: 20px;"
+            type="button">提交
+    </button>
+  </div>
+  </div>
+</div>
+
+<!--脚部-->
+<footer class="page-footer black">
+  <div class="footer-copyright">
+    <div class="container">
+      技术支持<a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/post.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="/static/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/static/UEditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+  window.ue = UE.getEditor('post_container');
+</script>
+<script>
+  $(document).ready(function () {
+    //输入框的字数限制
+    $('input#post_name, textarea#textarea2').characterCounter();
+    //小贴士工具
+    $('.tooltipped').tooltip();
+    //Select jQuery
+    $('select').formSelect();
+    //collapsibel
+    $('.collapsible').collapsible();
+    //对话框初始化
+    $('.modal').modal();
+    //加载登录信息
+    get_user_loginInfo_ajax();
+    //未读消息、
+    show_unread_message();
+    //加载板块以及板块下的帖子信息
+    var moduleId = getUrlParam("moduleId");
+    var post_list = user_get_post(moduleId);
+    $('#module-pagination').jqPaginator({
+      totalPages: post_list.pages,
+      visiblePages: 10,
+      pageSize: post_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //翻页
+        var i = 0;
+        if (i > 0) {
+          get_module_post_ajax(num, moduleId)
+        }
+        i++;
+      }
+    });
+  });
+
+  //提交
+  $('#add_new_module').click(function () {
+    if ($('#post_name').val().isEmpty || $('#post_name').val() === '') {
+      alert("帖子名称不能为空");
+    } else if ($('#post_name').val().length >= 30) {
+      alert("帖子名称名称过长");
+    } else {
+      add_new_post_ajax(getUrlParam("moduleId"));
+    }
+  });
+
+  //发评论
+  $('#add_new_comment').click(function () {
+    send_comment_p(getUrlParam("id"));
+  });
+
+  // 帖子类型，0普通 1置顶  2精华  3热门
+</script>
+</body>
+</html>

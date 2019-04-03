@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.wong.kec.dao.dao.PostMapper">
+  <resultMap id="BaseResultMap" type="pers.wong.kec.domain.entity.Post">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="module_id" jdbcType="VARCHAR" property="moduleId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+
+  <select id="getPostList" parameterType="pers.wong.kec.domain.requestDTO.SearchRequestDTO"
+    resultType="pers.wong.kec.domain.responseDTO.PostResponseDTO">
+    ( SELECT
+      id AS postId,
+      title,
+      content,
+      user_name AS userName,
+      user_id AS userId,
+      module_id AS moduleId,
+      type,
+      `status`,
+      create_time AS createTime
+      FROM post
+      WHERE type = '1'
+        and module_id = #{moduleId}
+        <if test='userId != null and userId!="" '>
+          and user_id = #{userId}
+        </if>
+        <if test='key != null and key!="" '>
+          <bind name="keyWord" value="'%' + key + '%'" />
+          and (title like #{keyWord} or content like #{keyWord})
+        </if>
+        <if test='status != null and status!="" '>
+          and status = #{status}
+        </if>
+      ORDER BY create_time
+      )
+    UNION
+      (SELECT
+        id AS postId,
+        title,
+        content,
+        user_name AS userName,
+        user_id AS userId,
+        module_id AS moduleId,
+        type,
+        `status`,
+        create_time AS createTime
+      FROM post
+      WHERE type NOT IN ( '1' )
+        and module_id = #{moduleId}
+        <if test='userId != null and userId!="" '>
+          and user_id = #{userId}
+        </if>
+        <if test='key != null and key!="" '>
+          <bind name="keyWord" value="'%' + key + '%'" />
+          and (title like #{keyWord} or content like #{keyWord})
+        </if>
+        <if test='status != null and status!="" '>
+          and status = #{status}
+        </if>
+      ORDER BY create_time
+      )
+  </select>
+
+  <insert id="insertPost" parameterType="pers.wong.kec.domain.requestDTO.PostDTO">
+    insert into post values (#{postId}, #{title}, #{content}, #{userName}, #{userId}, #{moduleId}
+    , #{type}, #{status}, #{createTime}, #{updateTime}, #{updateUser})
+  </insert>
+
+  <select id="getPostById" resultType="pers.wong.kec.domain.responseDTO.PostResponseDTO">
+    select
+      id AS postId,
+      title,
+      content,
+      user_name AS userName,
+      user_id AS userId,
+      module_id AS moduleId,
+      type,
+      `status`,
+      create_time AS createTime
+    from post
+    where id = #{postId}
+  </select>
+
+  <select id="getUserHasPostedList" resultType="pers.wong.kec.domain.responseDTO.UserAttentionResponseDTO">
+    SELECT post.id AS postId, post.title, post.content AS postContent, post.`status` AS postStatus,
+		  module_id AS moduleId, module.`name` AS moduleName, module.`status` AS moduleStatus
+    FROM post
+		INNER JOIN module
+		ON post.module_id = module.id
+    WHERE post.user_id = #{userId}
+  </select>
+
+  <select id="selectPostInfo" resultType="pers.wong.kec.domain.responseDTO.MessageRelationResponseDTO">
+    SELECT id AS relationId, title AS relationContent, `status`
+    FROM post
+    WHERE id = #{postId}
+  </select>
+
+  <select id="popularPostList" resultType="pers.wong.kec.domain.responseDTO.PopularPostResponseDTO">
+    SELECT
+      p.id AS postId,
+      TIMESTAMPDIFF( HOUR, create_time, NOW( ) ) AS hours,
+      f.follow AS follow
+    FROM
+      post p
+      LEFT JOIN ( SELECT post_id AS postId, COUNT( 1 ) AS follow FROM user_attention WHERE `status` = '0' GROUP BY post_id ) f
+      ON p.id = f.postId
+    WHERE
+      `status` = '0'
+      AND f.follow > 0
+  </select>
+
+  <update id="updatePostType" parameterType="java.util.List">
+    update post
+    set type = #{type}
+    where id in
+    <foreach collection="list" index="index" item="item"
+      separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <select id="selectOldHot" resultType="java.lang.String">
+    select id
+    from post
+    where status = '0' and type = '3'
+  </select>
+
+  <select id="getHotPostList" resultType="pers.wong.kec.domain.responseDTO.PostResponseDTO">
+    select
+      p.id AS postId,
+      p.title,
+      p.content,
+      p.user_name AS userName,
+      p.user_id AS userId,
+      p.module_id AS moduleId,
+      m.type AS moduleType,
+      p.type,
+      p.`status`,
+      p.create_time AS createTime
+    from post p
+		LEFT JOIN module m
+		ON p.module_id = m.id
+    where p.status = '0' and p.type = '3'
+    <if test='moduleType != null and moduleType!="" '>
+      AND m.type = #{moduleType}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>用户管理中心</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style>
+    header, main, footer {
+      padding-left: 300px;
+    }
+
+    #nav-text{
+      padding-left: 320px;
+    }
+
+    @media only screen and (max-width : 992px) {
+      header, main, footer {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!--导航栏-->
+<nav  class="z-depth-0 white">
+  <div class="nav-wrapper">
+    <span id="nav-text" class="brand-logo left blue-text text-lighten-3">用户管理</span>
+    <ul class="right hide-on-med-and-down">
+      <li><a class="blue-text text-lighten-3" href="/logout">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+<hr style="margin: 0px;padding: 0px">
+
+
+<header>
+  <!--滑窗-->
+  <ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="/static/image/1.jpg">
+        </div>
+        <ul class="hide-on-med-and-down">
+          <li><img class="circle" src="/static/image/8.jpg"></li>
+          <li><span class="white-text name">Admin</span></li>
+          <li><span class="white-text"><br></span></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="/backstage/admin">新闻中心</a></li>
+    <li><a href="/backstage/moduleManeger">板块管理</a></li>
+    <!--<li class="divider"></li>-->
+    <li><a href="/backstage/postClassification">帖子管理</a></li>
+    <li class="active"><a href="/backstage/controlUser">用户管理</a></li>
+  </ul>
+</header>
+
+<main>
+<!--内容-->
+<!--暂时还缺对学员的操作处理-->
+<br><br>
+<div class="row">
+  <div class="container center">
+    <div class="row">
+      <div class="row">
+        <div class="input-field col s10">
+          <input id="search-key" type="text">
+          <label for="search-key">通过用户学号或者名字搜索</label>
+        </div>
+        <div class="row col s2">
+          <button id="open-choose-admin" style="width: 120px; margin-top: 15px"
+                  class="waves-effect waves-light btn modal-trigger grey darken-1 white-text" type="button">搜索</button>
+        </div>
+      </div>
+        <!--用户列表展示-->
+        <h6 class="left blue-text text-lighten-3" style="margin-left: 60px">用户列表展示</h6>
+        <br><br><hr>
+        <table class="highlight centered" style="line-height: 50px" id="show-user-table" >
+          <thead>
+          <tr>
+            <th>用户姓名</th>
+            <th>学号</th>
+            <th>类型</th>
+            <th>当前状态</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+    </div>
+    <br><br>
+    <!--翻页-->
+    <div class="container center" >
+      <ul class="pagination" id="module-pagination">
+      </ul>
+    </div>
+  </div>
+</div>
+</main>
+
+<!--脚部-->
+<br><br>
+<footer class="page-footer white">
+  <div class="footer-copyright white">
+    <div class="container">
+      <span class="black-text">技术支持</span>
+      <a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
+<script>
+  $(document).ready(function(){
+    //输入框的字数限制
+    $('input#module_name, textarea#textarea2').characterCounter();
+    //Select jQuery
+    $('select').formSelect();
+    //collapsibel
+    $('.collapsible').collapsible();
+    //对话框初始化
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+    var user_list = choose_admin_ajax(1);
+    //分页初始化
+    $('#module-pagination').jqPaginator({
+      totalPages: user_list.pages,
+      visiblePages: 10,
+      pageSize: user_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //
+        choose_admin_ajax(num)
+      }
+    });
+  });
+
+  //搜索用户
+  $('#open-choose-admin').click(function () {
+    var user_list = choose_admin_ajax(1);
+    //分页初始化
+    $('#module-pagination').jqPaginator({
+      totalPages: user_list.pages === 0 ? 1 : user_list.pages,
+      visiblePages: 10,
+      pageSize: user_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //
+        choose_admin_ajax(num)
+      }
+    });
+  });
+
+  //用户查询
+  function choose_admin_ajax(num) {
+    var user_list = null;
+    var searchRequestDTO = {
+      pageSize: 10,
+      pageNum: num,
+      key: $('#search-key').val()
+    };
+    // console.log(moduleDTO.name);
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json",
+      url: "/userControl/getUserList",
+      data: JSON.stringify(searchRequestDTO),
+      datatype: 'json',
+      cache: false,
+      //同步
+      async: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          // console.log(data.data.list);
+          //展示
+          user_list = data.data;
+          show_user_in_table(data.data.list);
+        } else {
+          alert(data.data.code);
+        }
+      },
+      error: function (data) {
+        console.log(data.responseJSON);
+        alert("查询异常");
+      }
+    });
+    return user_list;
+  }
+
+  //将值赋给table
+  function show_user_in_table(list) {
+    $("#show-user-table tbody").empty();
+    for (var i = 0; i < list.length; i++) {
+      var status = (list[i].status === '0'? '正常' : '封号');
+      if (status === '封号') {
+        var style = 'style="color:red"';
+      } else {
+        var style = '';
+      }
+      $("#show-user-table tbody").append("<tr>" +
+          "<td><span " + style + ">" + list[i].name+"</span></td>" +
+          "<td><span " + style + ">" + list[i].studentno+"</span></td>" +
+          "<td><span " + style + ">" + list[i].type +"</span></td>" +
+          "<td><span " + style + ">" + status +"</span></td>" +
+          "<td>" + list[i].createTime+"</td>" +
+          "<td><a "+ style + " href='#!' onclick='change_user_status_ajax(\"" + list[i].id + "\")'>"
+          + (list[i].status === '0'? '禁用' : '解封') +"</a></td>" +
+          "</tr>");
+    }
+    if (list.length === 0) {
+      $("#show-user-table tbody")
+        .append('<tr><td colspan="5" class="center"><br><p class="red-text">暂无内容</p></td></tr>');
+    }
+  }
+
+  //改变用户状态
+  function change_user_status_ajax(userId) {
+    $.ajax({
+      type: 'GET',
+      contentType: "application/json",
+      url: "/userControl/deleteUserStatus/" + userId,
+      data: JSON.stringify(),
+      datatype: 'json',
+      cache: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          // console.log(data.data.list);
+          M.toast({html: '修改成功!'});
+          location.reload();
+        } else {
+          alert(data.data);
+        }
+      },
+      error: function (data) {
+        // console.log(data.responseJSON);
+        alert("服务器异常，板块添加失败。");
+      }
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+mybatis:
+  type-aliases-package: pers.wong.kec.domain
+  mapper-locations: classpath:pers/wong/kec/dao/mapper/*.xml
+#debug: true
+
+
+spring:
+  profiles:
+    active: dev
+
+# dev product

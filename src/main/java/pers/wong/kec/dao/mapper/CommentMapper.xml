@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.wong.kec.dao.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="pers.wong.kec.domain.entity.Comment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="post_id" jdbcType="VARCHAR" property="postId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="relation_type" jdbcType="VARCHAR" property="relationType" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+
+  <select id="getPostCommentInfo" resultType="pers.wong.kec.domain.responseDTO.CommentResponseDTO">
+        select
+      id AS commentId,
+      content,
+      user_name AS userName,
+      user_id AS userId,
+      relation_id AS relationId,
+			relation_type AS relationType,
+      `status`,
+      create_time AS createTime
+    from `comment`
+    where relation_id = #{postId} AND relation_type = '0'
+    ORDER BY createTime
+  </select>
+
+  <select id="getCommentReplyInfo" resultType="pers.wong.kec.domain.responseDTO.ReplyResponseDTO">
+        select
+      id AS replyId,
+      content,
+      user_name AS userName,
+      user_id AS userId,
+      relation_id AS relationId,
+			relation_type AS relationType,
+      `status`,
+      create_time AS createTime
+    from `comment`
+    where relation_id = #{commentId} AND relation_type = '1'
+    ORDER BY createTime
+  </select>
+
+  <select id="getReplyPostId" resultType="java.lang.String">
+    SELECT
+      relation_id AS postId
+    FROM
+      `comment`
+    WHERE
+      id = ( SELECT relation_id FROM `comment` WHERE id = #{commentId} AND `status` = '0' AND relation_type = '1' )
+  </select>
+
+  <select id="selectCommentInfo" resultType="pers.wong.kec.domain.responseDTO.MessageRelationResponseDTO">
+    SELECT post_id AS relationId, content AS relationContent, `status`
+    FROM comment
+    WHERE id = #{commentId}
+  </select>
+
+  <select id="getCommentNum" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM `comment`
+    WHERE `status` = '0' AND post_id = #{postId}
+    <if test="day != null and day != 0 ">
+      AND DATE(create_time)
+      BETWEEN DATE_SUB(DATE(NOW()),INTERVAL #{day} DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 1 DAY)
+    </if>
+  </select>
+</mapper>

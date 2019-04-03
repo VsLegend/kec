@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>主贴展示</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style>
+    header, main, footer {
+      padding-left: 300px;
+    }
+
+    #nav-text{
+      padding-left: 320px;
+    }
+
+    @media only screen and (max-width : 992px) {
+      header, main, footer {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!--导航栏-->
+<nav  class="z-depth-0 white">
+  <div class="nav-wrapper">
+    <span id="nav-text" class="brand-logo left blue-text text-lighten-3">新闻中心</span>
+    <ul class="right hide-on-med-and-down">
+      <li><a class="blue-text text-lighten-3" href="/logout">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+<hr style="margin: 0px;padding: 0px">
+
+
+<header>
+  <!--滑窗-->
+  <ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="/static/image/1.jpg">
+        </div>
+        <ul class="hide-on-med-and-down">
+          <li><img class="circle" src="/static/image/8.jpg"></li>
+          <li><span class="white-text name">Admin</span></li>
+          <li><span class="white-text"><br></span></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="/backstage/admin">新闻中心</a></li>
+    <li><a href="/backstage/moduleManeger">板块管理</a></li>
+    <!--<li class="divider"></li>-->
+    <li class="active"><a href="/backstage/postClassification">帖子管理</a></li>
+    <li><a href="/backstage/controlUser">用户管理</a></li>
+  </ul>
+</header>
+
+<main>
+<!--内容-->
+<div class="row">
+  <div class="container">
+    <div class="input-field col s12">
+      <!--添加栏，筛选栏--><br>
+      <div class="row">
+        <div class="left">
+          <h6 class="blue-text text-lighten-3" style="margin-left: 60px">新增主贴</h6>
+        </div>
+        <div class="right">
+          <a onclick="go_back()" style="margin-right: 60px"
+             class="waves-effect waves-light btn blue lighten-3">返回</a>
+        </div>
+      </div>
+      <hr>
+      <br><br>
+
+      <div class="col s12">
+        <div class="card-panel grey lighten-5 z-depth-1" id="post_card_show">
+          <!--主贴内容-->
+          <div class="row valign-wrapper" id="post_div">
+            <div class="col s2">
+              <img src="/static/image/tomato.png" alt="" class="circle-clipper responsive-img"><!-- notice the "circle" class -->
+              <br><a href="#!"></a>
+            </div>
+            <div class="col s10">
+              <p class="right">1楼</p>
+              <span></span>
+
+            </div>
+          </div>
+          <br><hr color="#f0f4c3"><br>
+        </div>
+        <!--翻页-->
+        <div class="container center" >
+          <ul class="pagination" id="post-pagination">
+          </ul>
+        </div>
+      </div>
+
+      <br><br><br>
+
+      <!--回复主贴-->
+      <div class="row center col s12">
+        <form>
+            <label for="post_container" class="left">评论内容：</label><br>
+            <!-- 加载编辑器的容器 -->
+            <script id="post_container" name="content" type="text/plain">
+            </script>
+          <br>
+        </form>
+        <!--提交-->
+        <div class="row">
+          <button id="add_new_comment"
+                  class="btn-large btn waves-effect waves-light blue lighten-3"
+                  style="width: 200px; margin-left: 20px;" type="button">评论<i class="material-icons right">send</i></button>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    </div>
+  </div>
+</div>
+</main>
+
+
+<!--脚部-->
+<br><br>
+<footer class="page-footer white">
+  <div class="footer-copyright white">
+    <div class="container">
+      <span class="black-text">技术支持</span>
+      <a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/post.js"></script>
+<script src="/static/js/admin.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="/static/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/static/UEditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+  window.ue = UE.getEditor('post_container');
+</script>
+<script>
+  $(document).ready(function () {
+    //输入框的字数限制
+    $('input#post_name, textarea#textarea2').characterCounter();
+    //Select jQuery
+    $('select').formSelect();
+    //collapsibel
+    $('.collapsible').collapsible();
+    //对话框初始化
+    $('.modal').modal();
+    var list = post_content_ajax(10, 1);
+    //初始化页面数据
+    show_post_comment(list, getUrlParam("id"));
+    //分页初始化
+    $('#post-pagination').jqPaginator({
+      totalPages: list.pages,
+      visiblePages: 10,
+      pageSize: list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //初始化也要调用
+        var i = 0;
+        if (i !== 0){
+          var data = post_content_ajax(list.pageSize, num);
+          show_post_comment(data, getUrlParam("id"));
+        }
+        i++;
+      }
+    });
+  });
+
+  //发评论
+  $('#add_new_comment').click(function () {
+    send_comment_p(getUrlParam("id"));
+  });
+
+  // 帖子类型，0普通 1置顶  2精华  3热门
+  function textarea_content() {
+    // 获取富文本框内容
+    //对编辑器的操作最好在编辑器ready之后再做
+    ue.ready(function() {
+      //获取html内容，返回: <p>hello</p>
+      ue.getContent();
+      //获取纯文本内容，返回: hello
+      // var txt = ue.getContentTxt();
+    });
+  }
+</script>
+</body>
+</html>

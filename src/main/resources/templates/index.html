@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>论坛首页</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+<!--页面导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" style>
+      <li style="width: 100px" class="center"><i
+          class="large material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center active red lighten-3"><a href="/"><i
+          class="material-icons large white-text">home</i></a></li>
+      <li style="width: 130px" class="center"><a href="/entrance/moduleDisplay" class="black-text">板块展示</a></li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a id="unread-message" href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a></li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center black-text" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!--//内容-->
+<div class="row">
+  <div class="col s12 m9 l10">
+    <div class="container">
+      <!--新闻-->
+      <div id="news-section" class="section scrollspy">
+        <div class="section white">
+          <div class="row container">
+            <h4 class="header">最新快讯</h4>
+            <p class="grey-text text-darken-3 lighten-3">The latest news from around the world.</p>
+          </div>
+        </div>
+        <div class="carousel center">
+          <!--<div class="carousel-fixed-item center">-->
+          <!--<a class="btn waves-effect white black-text">button</a>-->
+          <!--</div>-->
+          <div class="carousel-item red lighten-4 white-text" href="#one!">
+            <h2>First News</h2>
+            <p class="white-text">This is your first panel</p>
+          </div>
+          <div class="carousel-item amber lighten-4 white-text" href="#two!">
+            <h2>Second News</h2>
+            <p class="white-text">This is your second panel</p>
+          </div>
+          <div class="carousel-item green lighten-4 white-text" href="#three!">
+            <h2>Third News</h2>
+            <p class="white-text">This is your third panel</p>
+          </div>
+          <div class="carousel-item blue lighten-4 white-text" href="#four!">
+            <h2>Fourth News</h2>
+            <p class="white-text">This is your fourth panel</p>
+          </div>
+        </div>
+      </div>
+
+      <!--热门展示-->
+      <div id="hot-post" class="section scrollspy">
+        <h4 class="header">全站热门</h4>
+        <p class="grey-text text-darken-3 lighten-3">Popular content across the site.</p>
+        <br>
+        <!--帖子展示-->
+        <div class="row">
+          <div class="col s12 m12 z-depth-0">
+            <table class="highlight" id="hot-post-table">
+              <tbody>
+              </tbody>
+              <br>
+            </table>
+            <br><br>
+          </div>
+        </div>
+        <br><br>
+      </div>
+
+
+      <div id="school-service" class="section scrollspy">
+        <h4 class="header">校园服务</h4>
+        <p class="grey-text text-darken-3 lighten-3">Popular content across the site.</p>
+        <br>
+        <!--帖子展示-->
+        <div class="row">
+          <div class="col s12 m12 z-depth-0">
+            <table class="highlight" id="school-service-table">
+              <tbody>
+              </tbody>
+              <br>
+            </table>
+            <br><br>
+          </div>
+        </div>
+        <br><br>
+      </div>
+
+      <!--学习交流热门精华贴-->
+      <div id="learning" class="section scrollspy">
+        <h4 class="header">学习交流</h4>
+        <p class="grey-text text-darken-3 lighten-3">Popular content across the site.</p>
+        <br>
+        <!--帖子展示-->
+        <div class="row">
+          <div class="col s12 m12 z-depth-0">
+            <table class="highlight" id="learning-table">
+              <tbody>
+              </tbody>
+              <br>
+            </table>
+            <br><br>
+          </div>
+        </div>
+        <br><br>
+      </div>
+
+      <!--娱乐交流热门精华贴-->
+      <div id="entertainment" class="section scrollspy">
+        <h4 class="header">娱乐交友</h4>
+        <p class="grey-text text-darken-3 lighten-3">Popular content across the site.</p>
+        <br>
+        <!--帖子展示-->
+        <div class="row">
+          <div class="col s12 m12 z-depth-0">
+            <table class="highlight" id="entertainment-table">
+              <tbody>
+              </tbody>
+              <br>
+            </table>
+            <br><br>
+          </div>
+        </div>
+        <br><br>
+      </div>
+
+      <!--其他部分热门贴-->
+      <div id="others" class="section scrollspy">
+        <h4 class="header">其他</h4>
+        <p class="grey-text text-darken-3 lighten-3">Popular content across the site.</p>
+        <br>
+        <!--帖子展示-->
+        <div class="row">
+          <div class="col s12 m12 z-depth-0">
+            <table class="highlight" id="others-table">
+              <tbody>
+              </tbody>
+              <br>
+            </table>
+            <br><br>
+          </div>
+        </div>
+        <br><br>
+      </div>
+    </div>
+  </div>
+
+
+  <!--内容导航-->
+  <div class="col hide-on-small-only m3 l2">
+    <br><br><br>
+    <ul class="section table-of-contents fixed">
+      <li><a href="#news-section">新闻公告</a></li>
+      <li><a href="#hot-post">全站热门</a></li>
+      <li><a href="#school-service">校园服务</a></li>
+      <li><a href="#learning">学习交流</a></li>
+      <li><a href="#entertainment">娱乐交友</a></li>
+      <li><a href="#others">其他热门</a></li>
+      <!--空锚点回到顶部-->
+      <li><br></li>
+      <li><a href="#">回到顶部</a></li>
+    </ul>
+  </div>
+
+</div>
+
+
+<!--<div class="parallax-container">-->
+  <!--<div class="parallax"><img src="/static/image/13.jpg"></div>-->
+<!--</div>-->
+<!--<div class="parallax-container">-->
+  <!--<div class="parallax"><img src="/static/image/3.jpg"></div>-->
+<!--</div>-->
+
+
+<footer class="page-footer white">
+  <hr>
+  <div class="container">
+    <div class="row">
+      <div class="col l3 s12">
+        <h5 class="black-text">友情链接</h5>
+        <ul>
+          <li><a class="orange-text text-lighten-2" href="https://materializecss.com/">Materialize</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://www.google.com/">Google</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://www.baidu.com/?tn=78000241_5_hao_pg">百度</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://tieba.baidu.com/index.html">贴吧</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright black">
+    <div class="container">
+      技术支持<a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/materialize.min.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/user.js"></script>
+<script>
+  $(document).ready(function () {
+    //小贴士工具
+    $('.tooltipped').tooltip();
+    //传送带初始化
+    $('.carousel').carousel();
+    //右侧固定导航
+    $('.scrollspy').scrollSpy();
+    $('.carousel.carousel-slider').carousel({
+      //宽度是否为全屏宽度
+      fullWidth: false,
+      indicators: true
+    });
+    //Parallax 视差
+    $('.parallax').parallax();
+    //登录用户信息
+    get_user_loginInfo_ajax();
+    //未读消息、
+    show_unread_message();
+  });
+</script>
+
+</body>
+</html>

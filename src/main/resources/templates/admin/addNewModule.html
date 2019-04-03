@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>KeC</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style>
+    header, main, footer {
+      padding-left: 300px;
+    }
+
+    #nav-text{
+      padding-left: 320px;
+    }
+
+    @media only screen and (max-width : 992px) {
+      header, main, footer {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!--导航栏-->
+<nav  class="z-depth-0 white">
+  <div class="nav-wrapper">
+    <span id="nav-text" class="brand-logo left blue-text text-lighten-3">新增板块</span>
+    <ul class="right hide-on-med-and-down">
+      <li><a class="blue-text text-lighten-3" href="/logout">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+<hr style="margin: 0px;padding: 0px">
+
+
+<header>
+  <!--滑窗-->
+  <ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="/static/image/1.jpg">
+        </div>
+        <ul class="hide-on-med-and-down">
+          <li><img class="circle" src="/static/image/8.jpg"></li>
+          <li><span class="white-text name">Admin</span></li>
+          <li><span class="white-text"><br></span></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="/backstage/admin">新闻中心</a></li>
+    <li class="active"><a href="/backstage/moduleManeger">板块管理</a></li>
+    <!--<li class="divider"></li>-->
+    <li><a href="/backstage/postClassification">帖子管理</a></li>
+    <li><a href="/backstage/controlUser">用户管理</a></li>
+  </ul>
+</header>
+
+<br><br>
+
+<main>
+<!--内容-->
+<div class="row">
+  <div class="container">
+    <div class="input-field col s12">
+      <!--添加栏，筛选栏--><br>
+      <div class="row">
+        <div class="right">
+          <a href="/backstage/moduleManeger" class="waves-effect waves-light btn blue lighten-3 white-text">
+            <i class="material-icons left">arrow_back</i>返回</a>
+        </div>
+      </div>
+      <br><br>
+      <!--新增板块信息表单-->
+      <div class="row" style="width: 100%;margin-left: 20%">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <input  id="module_name" type="text" data-length="10">
+              <label for="module_name">板块名称</label>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="input-field col s6">
+            <select id="module_type">
+              <option value="" disabled selected>选择板块类型</option>
+              <option value="0">校园服务</option>
+              <option value="1">学习交流</option>
+              <option value="2">娱乐交友</option>
+              <option value="3">其它板块</option>
+            </select>
+            <label>板块类型</label>
+            </div>
+          </div>
+          <br>
+          <!--板块管理员选择的对话框  待续--------->
+          <div class="row">
+            <div class="row" style="margin-left: 15px">
+              <div class="col s4">
+                <input disabled value="" id="admin-name" type="text" class="validate blue-text text-lighten-3">
+              </div>
+              <div class="col s2">
+                <a id="open-choose-admin"
+                   class="waves-effect waves-light modal-trigger btn blue lighten-3" href="#modal1">板块管理员选择</a>
+              </div>
+            </div>
+
+            <!--弹出框-->
+            <div id="modal1" class="modal modal-fixed-footer">
+              <div class="modal-content">
+                <h4 class="center">板块管理员选择</h4>
+                <!--搜索栏-->
+                <div class="row">
+                  <div class="input-field col s8">
+                    <input id="search-key" type="text">
+                    <label for="search-key">通过用户学号或者名字搜索</label>
+                  </div>
+                  <div class="row col s4">
+                    <button id="choose-module-admin" style="margin-top: 15px"
+                            class="waves-effect waves-light btn blue lighten-3" type="button">搜索关键字</button>
+                  </div>
+                </div>
+                <!--用户列表展示-->
+                <table class="highlight" style="min-height: 200px" id="show-user-table" >
+                  <thead>
+                  <tr>
+                    <th>用户姓名</th>
+                    <th>学号</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                <br><br>
+
+                <!--翻页-->
+                <div class="container center" >
+                  <ul class="pagination" id="module-pagination">
+                  </ul>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <a id="confirm-admin-button" style="margin-right: 40px"
+                   class="waves-effect waves-light btn blue lighten-3">确定</a>
+                <a href="#" style="margin-right: 40px" id="cancel-modal"
+                   class="modal-close waves-effect waves-light btn blue lighten-3">取消</a>
+              </div>
+              <br>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+             <div class="input-field col s6">
+               <textarea id="module_summary" class="materialize-textarea"></textarea>
+               <label for="module_summary">板块简介富文本</label>
+             </div>
+           </div>
+          <br>
+        </form>
+        <!--提交-->
+        <div class="row" style="margin-left: 10px;">
+          <button id="add_new_module" class="waves-effect waves-light btn blue lighten-3"
+                  style="width: 160px" type="button">提交</button>
+          <button id="update_module" class="waves-effect waves-light btn blue lighten-3"
+                  style="width: 160px" type="button">提交</button>
+          <a href="/backstage/moduleManeger" style="width:160px; margin-left: 90px; text-align: center"
+             class="waves-effect waves-light btn blue lighten-3">取消</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</main>
+
+<!--脚部-->
+<br><br>
+<footer class="page-footer white">
+  <div class="footer-copyright white">
+    <div class="container">
+      <span class="black-text">技术支持</span>
+      <a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/admin.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script>
+
+  //页面初始化
+  window.onload = function () {
+    $('#update_module').hide();
+    //不为空，即为编辑界面
+    update_module();
+  };
+
+  $(document).ready(function(){
+    window.choose_user = {
+      id: null,
+      name: null
+    };
+    //输入框的字数限制
+    $('input#module_name, textarea#textarea2').characterCounter();
+    //小贴士工具
+    $('.tooltipped').tooltip();
+    //Select jQuery
+    $('select').formSelect();
+    //collapsibel
+    $('.collapsible').collapsible();
+    //对话框初始化
+    $('.modal').modal();
+  });
+
+
+  function update_module() {
+    var moduleId = getUrlParam("moduleId");
+    var module = get_module_detail_ajax(moduleId);
+    if (null === module) {
+      return;
+    }
+    $('#nav-text').html("编辑 -> " + module.name);
+    //插入内容
+    $('#module_name').val(module.name);
+    $('#admin-name').val(module.userName);
+    $('#module_summary').val(module.summary);
+    $('#module_type').val(module.type);
+    $('#add_new_module').hide();
+    $('#update_module').show();
+  }
+
+  //更新板块
+  $('#update_module').click(function () {
+    if (check_module_info()) {
+      update_module_ajax();
+    }
+  });
+
+  //提交新增板块
+  $('#add_new_module').click(function () {
+    if (check_module_info()) {
+      new_module_ajax();
+    }
+  });
+
+  function check_module_info() {
+    if ($('#module_name').val().isEmpty || $('#module_name').val() === '') {
+      showMessage("板块名称为空");
+      return false
+    } else if ($('#module_name').val().length >= 10) {
+      showMessage("名称过长");
+      return false;
+    } else if ($('#post_type').val() === null) {
+      showMessage("未选择主贴类型");
+      return false;
+    }
+    return true;
+  }
+
+  //板块管理员搜索
+  $('#choose-module-admin').click(function () {
+    var user_list = choose_admin_ajax(1);
+    //分页初始化
+    // console.log(user_list);
+    $('#module-pagination').jqPaginator({
+      totalPages: user_list.pages,
+      visiblePages: 10,
+      pageSize: user_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //换页
+        choose_admin_ajax(num)
+      }
+    });
+  });
+
+  //打开板块管理员选择
+  $('#open-choose-admin').click(function () {
+    var user_list = choose_admin_ajax(1);
+    //分页初始化
+    // console.log(user_list);
+    $('#module-pagination').jqPaginator({
+      totalPages: user_list.pages,
+      visiblePages: 10,
+      pageSize: user_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //换页
+        choose_admin_ajax(num)
+      }
+    });
+  });
+
+  //确定板块管理员
+  $('#confirm-admin-button').click(function () {
+    confirm_admin();
+  });
+
+  //板块管理员选择ajax
+  function choose_admin_ajax(num) {
+    var user_list = null;
+    var searchRequestDTO = {
+      pageSize: 10,
+      pageNum: num,
+      status: 0,
+      key: $('#search-key').val()
+    };
+    // console.log(moduleDTO.name);
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json",
+      url: "/userControl/getUserList",
+      data: JSON.stringify(searchRequestDTO),
+      datatype: 'json',
+      cache: false,
+      async: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          // console.log(data.data.list);
+          //展示
+          user_list = data.data;
+          show_user_in_table(data.data.list);
+        } else {
+          alert(data.data.code);
+        }
+      },
+      error: function (data) {
+        console.log(data.responseJSON);
+        alert("查询异常");
+      }
+    });
+    return user_list;
+  }
+
+
+  //将值赋给table
+  function show_user_in_table(list) {
+    //先清空表格
+    $("#show-user-table tbody").empty();
+    choose_user = {
+      id: null,
+      name: null
+    };
+    for (var i = 0; i < list.length; i++) {
+      $("#show-user-table tbody").append("<tr>" +
+          "<td><label><input type='radio' name='userId' id='" + list[i].id + "' /><span>" + list[i].name +"</span></label></td>" +
+          "<td>" + list[i].studentno+"</td>" +
+          "</tr>");
+    }
+    //单选赋值
+    $('input[type="radio"][name="userId"]').change(function() {
+      // console.log(choose_user);
+      choose_user.id = this.id;
+      choose_user.name =  $(this).next('span').html();
+      // console.log(choose_user);
+    });
+  }
+
+  //确认板块管理员
+  function confirm_admin() {
+    // console.log(choose_user);
+    if (choose_user.id === null) {
+      alert('当前未选中用户')
+    } else {
+      $('#admin-name').val(choose_user.name);
+      document.getElementById('cancel-modal').click();
+    }
+  }
+
+</script>
+</body>
+</html>

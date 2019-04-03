@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>个人中心</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style type="text/css">
+    #show_user_detail_table tr{
+      border-bottom: 0px;
+    }
+    #show_user_change_password tr{
+      border-bottom: 0px;
+    }
+  </style>
+</head>
+
+<body>
+<!--导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" style>
+      <li style="width: 100px" class="center"><i
+          class="large waves-red material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center waves-red"><a href="/"><i
+          class="material-icons large black-text">home</i></a></li>
+      <li style="width: 130px" class="center"><a href="/entrance/moduleDisplay" class="waves-red black-text">板块展示</a></li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus" class="waves-red black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a id="unread-message" href="/entrance/needInfo/messageCenter" class="waves-red black-text">消息中心</a></li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center waves-red black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center waves-red black-text" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="parallax-container">
+  <div class="parallax"><img src="/static/image/11.jpg"></div>
+</div>
+<div class="section white">
+  <div class="row container">
+    <h3 class="header">个人中心</h3>
+    <p class="grey-text text-darken-3 lighten-3">Personal center, personalized signature.</p>
+  </div>
+
+  <br><br><br><br>
+
+  <!--个人信息展示   密码修改暂未完成-->
+  <div class="container center">
+    <form class="col s12">
+      <!--//基本信息修改-->
+      <table id="show_user_detail_table">
+        <tbody>
+        <tr>
+          <td>
+            <!--用户名-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">account_circle</i>
+              <input id="username" type="text" disabled>
+              <label for="username">Name</label>
+            </div>
+            <br>
+          </td>
+          <td>
+            <!--邮箱-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">email</i>
+              <input id="email" type="email" disabled>
+              <label for="email">Email</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--学号-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">gps_fixed</i>
+              <input id="studentno" type="text" disabled data-length="10" maxlength="10">
+              <label for="studentno">Student Number</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--性别-->
+            <p>
+              <i class="material-icons prefix blue-text text-lighten-2">face</i>
+              <label>
+                <input value="男" name="gender" type="radio" disabled />
+                <span>男</span>
+              </label>
+              <label>
+                <input value="女" name="gender" type="radio" disabled />
+                <span>女</span>
+              </label>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td id="save_change">
+            <!--修改信息-->
+            <br><br>
+            <a href="#!" onclick="show_save_change()" class="btn white black-text waves-effect waves-red">修改基本信息</a>
+            <br><br>
+          </td>
+          <td>
+            <!--修改密码-->
+            <br><br>
+            <a href="#!" onclick="show_pass_change()" class="btn white black-text waves-effect waves-red">点击修改密码</a>
+            <br><br>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <!--//密码修改-->
+      <table id="show_user_change_password" hidden="hidden">
+        <tbody>
+        <tr>
+          <td>
+            <!--原密码-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">autorenew</i>
+              <input id="old_password" type="password">
+              <label for="old_password">Old Password</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--新密码-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">fiber_new</i>
+              <input id="new_password" type="password">
+              <label for="new_password">New Password</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--重复新密码-->
+            <div class="input-field col s6">
+              <i class="material-icons prefix blue-text text-lighten-2">fiber_new</i>
+              <input id="re_new_password" type="password">
+              <label for="re_new_password">Repeat New Password</label>
+            </div>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--修改密码-->
+            <br><br>
+            <a href="#!" onclick="save_password()" class="btn white black-text waves-effect waves-red">保存密码</a>
+            <br><br>
+          </td>
+          <td>
+            <!--取消-->
+            <br><br>
+            <a href="#!" onclick="show_info_change()" class="btn white black-text waves-effect waves-red">&nbsp;取&nbsp;&nbsp;消&nbsp;</a>
+            <br><br>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+
+</div>
+
+
+<footer class="page-footer white">
+  <hr>
+  <div class="container">
+    <div class="row">
+      <div class="col l3 s12">
+        <h5 class="black-text">友情链接</h5>
+        <ul>
+          <li><a class="orange-text text-lighten-2" href="https://materializecss.com/">Materialize</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://www.google.com/">Google</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://www.baidu.com/?tn=78000241_5_hao_pg">百度</a></li>
+          <li><a class="orange-text text-lighten-2" href="https://tieba.baidu.com/index.html">贴吧</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright black">
+    <div class="container">
+      技术支持<a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script>
+  $(document).ready(function () {
+    //小贴士工具
+    $('.tooltipped').tooltip();
+    //选择工具
+    $('select').formSelect();
+    //获取用户信息
+    var user = get_user_loginInfo_ajax();
+    //Parallax 视差
+    $('.parallax').parallax();
+    //个人中心展示用户信息，可修改
+    load_user_info_In_page(user);
+    //未读消息、
+    show_unread_message();
+  });
+
+  //加载用户信息
+  function load_user_info_In_page(user) {
+    $('#username').val(user.name);
+    $('#email').val(user.email);
+    $('#studentno').val(user.studentno);
+    $("input:radio[value='" + user.gender + "']").attr('checked','true');
+  }
+
+  //打开修改功能
+  function show_save_change() {
+    $('input').removeAttr("disabled");//去除input元素的disabled属性
+    $('#studentno').attr("disabled",true);//学号不允许修改
+    $('#save_change').empty();
+    $('#save_change').append('<br><br><a href="#!" onclick="save_changes()" '
+        + 'class="btn white black-text waves-effect waves-red">点击保存修改</a><br><br>');
+    var sp = '<span>已进入编辑状态，编辑完毕后请点击保存</span>';
+    showMessage(sp);
+  }
+  //保存修改
+  function save_changes() {
+    if (check_info()) {
+      change_user_info_ajax();
+    }
+  }
+
+  //展示密码修改页
+  function show_pass_change() {
+    showMessage('已进入密码编辑状态，修改完毕后请点击保存');
+    $("#show_user_change_password").removeAttr('hidden');//元素显示
+    $("#show_user_detail_table").attr('hidden', true);//元素显示
+  }
+  //展示基本信息修改页
+  function show_info_change() {
+    showMessage('已取消修改密码');
+    $("#show_user_detail_table").removeAttr('hidden');//元素显示
+    $("#show_user_change_password").attr('hidden', true);//元素显示
+  }
+
+  //保存密码
+  function save_password() {
+    //新密码校验
+    var oldPass = $('#old_password').val();
+    var newPass = $('#new_password').val();
+    var reNewPass = $('#re_new_password').val();
+    if (oldPass.length === 0 || newPass.length ===0 || reNewPass.length ===0) {
+      showMessage('填写未完成');
+      return ;
+    }
+    if ( !password_check(newPass, reNewPass)) {
+      return ;
+    }
+    var UserResponseDTO = {
+      oldPassword: oldPass,
+      newPassword: newPass,
+      reNewPassword: reNewPass
+    };
+    //密码正确性校验以及修改密码
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json",
+      url: "/user/changePassword",
+      data: JSON.stringify(UserResponseDTO),
+      datatype: 'json',
+      cache: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          showMessage('密码修改成功');
+          setInterval("window.location.href = '/'", 1500);
+        } else {
+          showMessage(data.data);
+        }
+      },
+      error: function (e) {
+        showMessage("服务器异常，登录失败");
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

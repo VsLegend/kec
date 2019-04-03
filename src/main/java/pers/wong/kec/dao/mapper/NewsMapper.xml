@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.wong.kec.dao.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="pers.wong.kec.domain.entity.News">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+
+  <select id="getNewsList" resultType="pers.wong.kec.domain.requestDTO.NewsDTO">
+    select id, title, content, image_url as imageUrl, status, create_time as createTime
+    from news
+    where status = '0'
+      <if test="title != null and title.length() > 0 ">
+        <bind name="title" value="'%' + title + '%'"></bind>
+        and title like #{title}
+      </if>
+    order by create_time desc
+  </select>
+</mapper>
