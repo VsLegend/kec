@@ -120,30 +120,30 @@
 <!--新增主贴信息表单-->
 <div class="row center">
   <div class="container">
-  <form>
-    <div class="row">
-      <div class="input-field">
-        <i class="material-icons prefix">mode_edit</i>
-        <input id="post_name" type="text" data-length="30">
-        <label for="post_name">主贴标题</label>
+    <form>
+      <div class="row">
+        <div class="input-field">
+          <i class="material-icons prefix">mode_edit</i>
+          <input id="post_name" type="text" data-length="30">
+          <label for="post_name">主贴标题</label>
+        </div>
       </div>
-    </div>
+      <div class="row">
+        <label for="post_container" class="left">主贴内容：</label><br>
+        <!-- 加载编辑器的容器 -->
+        <script id="post_container" name="content" type="text/plain">
+        </script>
+      </div>
+      <br>
+    </form>
+    <!--提交-->
     <div class="row">
-      <label for="post_container" class="left">主贴内容：</label><br>
-      <!-- 加载编辑器的容器 -->
-      <script id="post_container" name="content" type="text/plain">
-      </script>
+      <button id="add_new_module"
+              class="waves-effect waves-light btn modal-trigger red lighten-3 white-text"
+              style="width: 200px; margin-left: 20px;"
+              type="button">提交
+      </button>
     </div>
-    <br>
-  </form>
-  <!--提交-->
-  <div class="row">
-    <button id="add_new_module"
-            class="waves-effect waves-light btn modal-trigger red lighten-3 white-text"
-            style="width: 200px; margin-left: 20px;"
-            type="button">提交
-    </button>
-  </div>
   </div>
 </div>
 
@@ -175,16 +175,6 @@
 </script>
 <script>
   $(document).ready(function () {
-    //输入框的字数限制
-    $('input#post_name, textarea#textarea2').characterCounter();
-    //小贴士工具
-    $('.tooltipped').tooltip();
-    //Select jQuery
-    $('select').formSelect();
-    //collapsibel
-    $('.collapsible').collapsible();
-    //对话框初始化
-    $('.modal').modal();
     //加载登录信息
     get_user_loginInfo_ajax();
     //未读消息、

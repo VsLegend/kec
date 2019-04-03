@@ -80,10 +80,10 @@
       <!--回复主贴-->
       <div class="row center col s12">
         <form>
-            <label for="post_container" class="left">评论内容：</label><br>
-            <!-- 加载编辑器的容器 -->
-            <script id="post_container" name="content" type="text/plain">
-            </script>
+          <label for="post_container" class="left">评论内容：</label><br>
+          <!-- 加载编辑器的容器 -->
+          <script id="post_container" name="content" type="text/plain">
+          </script>
           <br>
         </form>
         <!--提交-->
@@ -97,8 +97,8 @@
 
     <br>
 
-    </div>
   </div>
+</div>
 </div>
 
 <!--脚部-->
@@ -129,16 +129,6 @@
 </script>
 <script>
   $(document).ready(function () {
-    //输入框的字数限制
-    $('input#post_name, textarea#textarea2').characterCounter();
-    //小贴士工具
-    $('.tooltipped').tooltip();
-    //Select jQuery
-    $('select').formSelect();
-    //collapsibel
-    $('.collapsible').collapsible();
-    //对话框初始化
-    $('.modal').modal();
     var postId = getUrlParam("id");
     get_user_loginInfo_ajax();
     //未读消息、

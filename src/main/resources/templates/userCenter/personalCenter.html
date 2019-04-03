@@ -214,14 +214,8 @@
 <script src="/static/js/commonJs.js"></script>
 <script>
   $(document).ready(function () {
-    //小贴士工具
-    $('.tooltipped').tooltip();
-    //选择工具
-    $('select').formSelect();
     //获取用户信息
     var user = get_user_loginInfo_ajax();
-    //Parallax 视差
-    $('.parallax').parallax();
     //个人中心展示用户信息，可修改
     load_user_info_In_page(user);
     //未读消息、

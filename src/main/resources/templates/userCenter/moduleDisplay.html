@@ -25,7 +25,7 @@
       <!--<li class="divider"></li>-->
       <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
       <li style="width: 130px" class="center"><a id="unread-message"
-          href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a></li>
+                                                 href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a></li>
     </ul>
     <ul class="right hide-on-med-and-down" id="user_login_info">
       <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
@@ -135,15 +135,6 @@
 <script src="/static/js/commonJs.js"></script>
 <script>
   $(document).ready(function () {
-    //传送带初始化
-    $('.carousel').carousel();
-    $('.carousel.carousel-slider').carousel({
-      //宽度是否为全屏宽度
-      fullWidth: false,
-      indicators: true
-    });
-    //小贴士工具
-    $('.tooltipped').tooltip();
     get_user_loginInfo_ajax();
     //未读消息、
     show_unread_message();

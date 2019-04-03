@@ -37,101 +37,101 @@
   </div>
 </nav>
 
-  <br><br><br><br>
-  <!--表单-->
-  <div class="container center" style="background: white;">
-    <form id="user_signup" class="col s12 z-depth-1">
-      <table id="sign_up_table">
-        <thead>
-        <tr>
-          <td colspan="2" class="center"><h4 class="red-text text-lighten-3">注册</h4></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>
-            <!--用户名-->
-            <div class="input-field col s6">
-              <i class="material-icons prefix blue-text text-lighten-2">account_circle</i>
-              <input id="username" type="text">
-              <label for="username">Name</label>
+<br><br><br><br>
+<!--表单-->
+<div class="container center" style="background: white;">
+  <form id="user_signup" class="col s12 z-depth-1">
+    <table id="sign_up_table">
+      <thead>
+      <tr>
+        <td colspan="2" class="center"><h4 class="red-text text-lighten-3">注册</h4></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <!--用户名-->
+          <div class="input-field col s6">
+            <i class="material-icons prefix blue-text text-lighten-2">account_circle</i>
+            <input id="username" type="text">
+            <label for="username">Name</label>
+          </div>
+          <br>
+        </td>
+        <td>
+          <!--邮箱-->
+          <div class="input-field col s6">
+            <i class="material-icons prefix blue-text text-lighten-2">email</i>
+            <input id="email" type="email">
+            <label for="email">Email</label>
+          </div>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!--学号-->
+          <div class="input-field col s6">
+            <i class="material-icons prefix blue-text text-lighten-2">gps_fixed</i>
+            <input id="studentno" type="text" data-length="10" maxlength="10">
+            <label for="studentno">Student Number</label>
+          </div>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!--性别-->
+          <p>
+            <i class="material-icons prefix blue-text text-lighten-2">face</i>
+            <label>
+              <input value="男" name="gender" type="radio" checked />
+              <span>男</span>
+            </label>
+            <label>
+              <input value="女" name="gender" type="radio" />
+              <span>女</span>
+            </label>
+          </p>
+        </td>
+      </tr>
+      <!--密码-->
+      <tr>
+        <td>
+          <div class="input-field col s6">
+            <i class="material-icons prefix blue-text text-lighten-2">filter_center_focus</i>
+            <input id="password" type="password">
+            <label for="password">Password</label>
+          </div>
+          <br>
+        </td>
+        <td>
+          <div class="input-field col s6">
+            <i class="material-icons prefix blue-text text-lighten-2">repeat</i>
+            <input id="password2" type="password">
+            <label for="password2">Repeat Password</label>
+          </div>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="center">
+          <div class="row">
+            <!--注册提示信息！！-->
+            <div class="center row" style="width: 300px; margin-left: 38px;">
+              <span id="sign_info" class="red-text" style="font-size: larger;"></span>
             </div>
-            <br>
-          </td>
-          <td>
-            <!--邮箱-->
-            <div class="input-field col s6">
-              <i class="material-icons prefix blue-text text-lighten-2">email</i>
-              <input id="email" type="email">
-              <label for="email">Email</label>
-            </div>
-            <br>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <!--学号-->
-            <div class="input-field col s6">
-              <i class="material-icons prefix blue-text text-lighten-2">gps_fixed</i>
-              <input id="studentno" type="text" data-length="10" maxlength="10">
-              <label for="studentno">Student Number</label>
-            </div>
-            <br>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <!--性别-->
-            <p>
-              <i class="material-icons prefix blue-text text-lighten-2">face</i>
-              <label>
-                <input value="男" name="gender" type="radio" checked />
-                <span>男</span>
-              </label>
-              <label>
-                <input value="女" name="gender" type="radio" />
-                <span>女</span>
-              </label>
-            </p>
-          </td>
-        </tr>
-        <!--密码-->
-        <tr>
-          <td>
-            <div class="input-field col s6">
-              <i class="material-icons prefix blue-text text-lighten-2">filter_center_focus</i>
-              <input id="password" type="password">
-              <label for="password">Password</label>
-            </div>
-            <br>
-          </td>
-          <td>
-            <div class="input-field col s6">
-              <i class="material-icons prefix blue-text text-lighten-2">repeat</i>
-              <input id="password2" type="password">
-              <label for="password2">Repeat Password</label>
-            </div>
-            <br>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="center">
-            <div class="row">
-              <!--注册提示信息！！-->
-              <div class="center row" style="width: 300px; margin-left: 38px;">
-                <span id="sign_info" class="red-text" style="font-size: larger;"></span>
-              </div>
-              <button class="btn white black-text waves-effect waves-red" style="width: 360px" type="submit" name="action">提交</button>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <button class="btn white black-text waves-effect waves-red" style="width: 360px" type="submit" name="action">提交</button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-    </form>
-  </div>
+  </form>
+</div>
 
-  <br><br><br><br>
+<br><br><br><br>
 <!--脚部-->
 <footer class="page-footer grey darken-1">
   <div class="footer-copyright">
