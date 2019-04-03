@@ -109,23 +109,6 @@
 <script src="/static/js/jq-paginator.js"></script>
 <script>
   $(document).ready(function () {
-    //小贴士工具
-    $('.tooltipped').tooltip();
-    //传送带初始化
-    $('.carousel').carousel();
-    //对话框初始化
-    $('.modal').modal();
-    //激活所有input
-    M.updateTextFields();
-    //collapsibel
-    $('.collapsible').collapsible();
-    $('.carousel.carousel-slider').carousel({
-      //宽度是否为全屏宽度
-      fullWidth: false,
-      indicators: true
-    });
-    //Parallax 视差
-    $('.parallax').parallax();
     get_user_loginInfo_ajax();
     //未读消息、
     show_unread_message();
@@ -152,136 +135,136 @@
   });
 
   //获取消息推送的内容
-function message_push_ajax(size, num) {
-  var message = null;
-  var page ={
-    pageNum: num,
-    pageSize: size
-  };
-  $.ajax({
-    type: 'POST',
-    contentType: "application/json",
-    url: "/messagePush/selectUserMessage",
-    data: JSON.stringify(page),
-    datatype: 'json',
-    async: false,
-    cache: false,
-    timeout: 99999,
-    success: function (data) {
-      if (data.code === 1000) {
-        // console.log(data.data);
-        message = data.data;
-        //页面加载信息
-        show_message_list(data.data.list);
-      } else {
-        showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+  function message_push_ajax(size, num) {
+    var message = null;
+    var page ={
+      pageNum: num,
+      pageSize: size
+    };
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json",
+      url: "/messagePush/selectUserMessage",
+      data: JSON.stringify(page),
+      datatype: 'json',
+      async: false,
+      cache: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          // console.log(data.data);
+          message = data.data;
+          //页面加载信息
+          show_message_list(data.data.list);
+        } else {
+          showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+        }
+      },
+      error: function (e) {
+        showMessage('服务器异常，页面加载错误');
       }
-    },
-    error: function (e) {
-      showMessage('服务器异常，页面加载错误');
-    }
-  });
-  return message;
-}
-
-function show_message_list(data) {
-  //加载消息
-  for (var i = 0; i < data.length; i++) {
-    //是否查看，否增加new标签
-    var newTag = '';
-    //关联的内容
-    var messageInfo = data[i].messageRelationResponseDTO;
-    var url = get_content_by_type(data[i].messageType, messageInfo.relationId, messageInfo.status);
-    url = (url === null ? '#null' : url);
-    var messageId = data[i].messageId;
-    //发送该信息人的信息
-    var sender = get_user_detail_ajax(data[i].sender);
-    if (data[i].readFlag === '0') {
-      newTag = '<i class="material-icons red-text">fiber_new</i>';
-    }
-    $('#message-tail').before('<li><br>'
-        + '<div class="collapsible-header" onclick="messageRead(\''+ messageId + '\')">'
-        + newTag
-        + '<br><a href="#!">' +  data[i].content + '</a></div> '
-        + '<div class="collapsible-body">'
-        + '<a href="#sender-modal-detail" class="modal-trigger" id=\"' + sender.id + '\" >'
-        + sender.name + '</a>'
-        + '：<a href="'+ url + '">'
-        +  messageInfo.relationContent + '</a></div> '
-        + '</a></div><br></li>');
-  }
-  if (data.length === 0) {
-    $('#message-tail').before("<br><p class='red-text'>暂无消息</p>");
-    return;
+    });
+    return message;
   }
 
-  //点击查看主贴详情
-  $("[href='" + url + "']").click(function () {
-    //用户详情
-    if (url === '#null') {
-      showMessage('主贴已被删除');
-    }
-  });
-
-  //点击查看用户详情
-  $("[href='#sender-modal-detail']").click(function () {
-    //用户详情
-    var detail = get_user_detail_ajax(this.id);
-    $('#sender-modal-detail').find("h4").text(detail.name);
-  });
-}
-
-//消息已读ajax
-function messageRead(messageId) {
-  $.ajax({
-    type: 'GET',
-    contentType: "application/json",
-    url: "/messagePush/messageRead/" + messageId,
-    datatype: 'json',
-    async: false,
-    cache: false,
-    timeout: 99999,
-    success: function (data) {
-      if (data.code === 1000) {
-        // console.log(data.data);
-      } else {
-        showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+  function show_message_list(data) {
+    //加载消息
+    for (var i = 0; i < data.length; i++) {
+      //是否查看，否增加new标签
+      var newTag = '';
+      //关联的内容
+      var messageInfo = data[i].messageRelationResponseDTO;
+      var url = get_content_by_type(data[i].messageType, messageInfo.relationId, messageInfo.status);
+      url = (url === null ? '#null' : url);
+      var messageId = data[i].messageId;
+      //发送该信息人的信息
+      var sender = get_user_detail_ajax(data[i].sender);
+      if (data[i].readFlag === '0') {
+        newTag = '<i class="material-icons red-text">fiber_new</i>';
       }
-    },
-    error: function (e) {
-      showMessage('服务器异常，页面加载错误');
+      $('#message-tail').before('<li><br>'
+          + '<div class="collapsible-header" onclick="messageRead(\''+ messageId + '\')">'
+          + newTag
+          + '<br><a href="#!">' +  data[i].content + '</a></div> '
+          + '<div class="collapsible-body">'
+          + '<a href="#sender-modal-detail" class="modal-trigger" id=\"' + sender.id + '\" >'
+          + sender.name + '</a>'
+          + '：<a href="'+ url + '">'
+          +  messageInfo.relationContent + '</a></div> '
+          + '</a></div><br></li>');
     }
-  });
-}
+    if (data.length === 0) {
+      $('#message-tail').before("<br><p class='red-text'>暂无消息</p>");
+      return;
+    }
 
+    //点击查看主贴详情
+    $("[href='" + url + "']").click(function () {
+      //用户详情
+      if (url === '#null') {
+        showMessage('主贴已被删除');
+      }
+    });
 
-//根据返回消息的类型返回地址
-function get_content_by_type(type , id, status) {
-  /**
-   * 消息类型：0系统新闻new_id
-   * 1帖子 当status为0时，可查看，为1时显示已删除
-   * 2评论回复commnet_id  当status为0时，可查看，为1时显示已删除
-   */
-  var url = null;
-  //新闻暂时没有页面
-  if (type === '0') {
-    return '';
-  } else if (type === '1') {
-    //处理帖子
-    if (status === '1') {
-      return null;
-    }
-    url = '/entrance/needInfo/postDetail?id=' + id;
-    return url;
-  } else if (type === '2') {
-    if (status === '1') {
-      return null;
-    }
-    //处理评论
-    url = '/entrance/needInfo/postDetail?id=' + id;
-    return url;
+    //点击查看用户详情
+    $("[href='#sender-modal-detail']").click(function () {
+      //用户详情
+      var detail = get_user_detail_ajax(this.id);
+      $('#sender-modal-detail').find("h4").text(detail.name);
+    });
   }
-}
+
+  //消息已读ajax
+  function messageRead(messageId) {
+    $.ajax({
+      type: 'GET',
+      contentType: "application/json",
+      url: "/messagePush/messageRead/" + messageId,
+      datatype: 'json',
+      async: false,
+      cache: false,
+      timeout: 99999,
+      success: function (data) {
+        if (data.code === 1000) {
+          // console.log(data.data);
+        } else {
+          showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+        }
+      },
+      error: function (e) {
+        showMessage('服务器异常，页面加载错误');
+      }
+    });
+  }
+
+
+  //根据返回消息的类型返回地址
+  function get_content_by_type(type , id, status) {
+    /**
+     * 消息类型：0系统新闻new_id
+     * 1帖子 当status为0时，可查看，为1时显示已删除
+     * 2评论回复commnet_id  当status为0时，可查看，为1时显示已删除
+     */
+    var url = null;
+    //新闻暂时没有页面
+    if (type === '0') {
+      return '';
+    } else if (type === '1') {
+      //处理帖子
+      if (status === '1') {
+        return null;
+      }
+      url = '/entrance/needInfo/postDetail?id=' + id;
+      return url;
+    } else if (type === '2') {
+      if (status === '1') {
+        return null;
+      }
+      //处理评论
+      url = '/entrance/needInfo/postDetail?id=' + id;
+      return url;
+    }
+  }
 </script>
 
 </body>
