@@ -17,6 +17,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    <result column="popular_index" jdbcType="DOUBLE" property="popularIndex"/>
   </resultMap>
 
   <select id="getPostList" parameterType="pers.wong.kec.domain.requestdto.SearchRequestDTO"
@@ -135,6 +136,12 @@
     </foreach>
   </update>
 
+  <update id="updatePostPopularIndex">
+    update kec.post
+    set popular_index = #{index}
+    where id = #{postId}
+  </update>
+
   <select id="selectOriginalPopPost" resultType="java.lang.String">
     select id
     from post
@@ -154,6 +161,7 @@
       p.`status`,
       p.create_time AS createTime,
       c.commentNum AS commentNum,
+      p.popular_index AS popularIndex,
       visit.visitNum AS visitNum
     FROM post p
     LEFT JOIN (
@@ -173,7 +181,7 @@
     <if test='moduleType != null and moduleType!="" '>
       AND m.type = #{moduleType}
     </if>
-    ORDER BY p.create_time DESC
+    ORDER BY p.popular_index DESC, p.create_time DESC
     LIMIT 10
   </select>
 

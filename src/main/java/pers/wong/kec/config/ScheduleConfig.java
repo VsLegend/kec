@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.transaction.annotation.Transactional;
 import pers.wong.kec.common.CommonUtil;
 import pers.wong.kec.common.enums.KecAllEnum;
 import pers.wong.kec.dao.dao.PostMapper;
@@ -31,6 +32,8 @@ public class ScheduleConfig {
 
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
+  private static final double MULTIPLE = 100000.0;
+
 
   @Resource
   PostMapper postMapper;
@@ -45,6 +48,7 @@ public class ScheduleConfig {
 //  @Scheduled(fixedDelay = 100000)
   @Scheduled(cron = "0 0 0 * * *")
 //  @Scheduled(fixedRate = 1000 * 5)
+  @Transactional
   public void popularPostSchedule() {
     LOGGER.info("热门主贴定时任务：开始时间 {}", DATE_FORMAT.format(new Date()));
     List<PopularPostResponseDTO> popularList = postMapper.popularPostList();
@@ -58,7 +62,7 @@ public class ScheduleConfig {
     } else {
       //计算分数，倒序排序，获取前一百名设为热帖
       IntStream.range(0, popularList.size()).forEach(i -> {
-        double score = CommonUtil
+        double score =  MULTIPLE * CommonUtil
             .getPopularScore(popularList.get(i).getFollow(), popularList.get(i).getHours());
         popularList.get(i).setScore(score);
       });
@@ -70,6 +74,7 @@ public class ScheduleConfig {
       }
       IntStream.range(0, size).forEach(i -> {
         if (popularList.get(i).getScore() > 0.0) {
+          postMapper.updatePostPopularIndex(popularList.get(i).getPostId(), popularList.get(i).getScore());
           newPopular.add(popularList.get(i).getPostId());
         }
       });

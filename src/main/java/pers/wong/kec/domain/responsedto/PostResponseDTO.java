@@ -53,6 +53,11 @@ public class PostResponseDTO implements Serializable {
   private int commentNum;
 
   /**
+   * 热度值
+   */
+  private Double popularIndex;
+
+  /**
    * 创建时间
    */
   private Date createTime;

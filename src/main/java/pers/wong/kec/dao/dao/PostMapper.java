@@ -43,6 +43,11 @@ public interface PostMapper extends MyMapper<Post> {
   int updatePostType(@Param("list") List<String> list, @Param("type") String type);
 
   /**
+   * 保存主贴热度值
+   */
+  int updatePostPopularIndex(@Param("postId") String postId, @Param("index") double index );
+
+  /**
    * 原来的热门主贴
    */
   List<String> selectOriginalPopPost();
