@@ -161,7 +161,7 @@ function load_module_for_post(data) {
 }
 
 //用户获取主贴内容
-function user_get_post(moduleId) {
+function user_get_post(num, moduleId) {
   var post_list = null;
   $.ajaxSettings.async = false;
   $.get("/user/getModuleDetail/" + moduleId, function (data, status) {
@@ -174,7 +174,7 @@ function user_get_post(moduleId) {
       $('#module-card').children("div.card-image").find("a").append(detail.userName);
       $('#module-card').children("div.card-image").find("p").append(detail.summary);
       //帖子展示
-      post_list = get_module_post_ajax(1, moduleId);
+      post_list = get_module_post_ajax(num, moduleId);
       //设置信息
       load_post_table("show-post",post_list);
       //点击查看用户详情

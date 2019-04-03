@@ -181,7 +181,7 @@
     show_unread_message();
     //加载板块以及板块下的帖子信息
     var moduleId = getUrlParam("moduleId");
-    var post_list = user_get_post(moduleId);
+    var post_list = user_get_post(1, moduleId);
     $('#module-pagination').jqPaginator({
       totalPages: post_list.pages,
       visiblePages: 10,
@@ -196,7 +196,7 @@
         //翻页
         var i = 0;
         if (i > 0) {
-          get_module_post_ajax(num, moduleId)
+          user_get_post(num, moduleId)
         }
         i++;
       }

@@ -284,6 +284,8 @@
 <script src="/static/js/commonJs.js"></script>
 <script>
   $(document).ready(function () {
+    //预加载画面
+    reloading();
     //登录用户信息
     get_user_loginInfo_ajax();
     //未读消息、
@@ -304,6 +306,8 @@
     for_each_table("learning-table", learn);
     for_each_table("entertainment-table", entertainment);
     for_each_table("others-table", others);
+    //取消预加载画面
+    un_reloading();
   }
 
   //获取热门主贴Ajax

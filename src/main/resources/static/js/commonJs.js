@@ -127,3 +127,69 @@ function isNull(str) {
 function showMessage(message) {
   M.toast({html: message});
 }
+
+//预加载内容
+function reloading() {
+  $("body").before('<div class="page-loading">'
+      + '  <div class="preloader-wrapper big active">'
+      + '    <div class="spinner-layer spinner-blue">'
+      + '      <div class="circle-clipper left">'
+      + '        <div class="circle"></div>'
+      + '      </div><div class="gap-patch">'
+      + '      <div class="circle"></div>'
+      + '    </div><div class="circle-clipper right">'
+      + '      <div class="circle"></div>'
+      + '    </div>'
+      + '    </div>'
+      + ''
+      + '    <div class="spinner-layer spinner-red">'
+      + '      <div class="circle-clipper left">'
+      + '        <div class="circle"></div>'
+      + '      </div><div class="gap-patch">'
+      + '      <div class="circle"></div>'
+      + '    </div><div class="circle-clipper right">'
+      + '      <div class="circle"></div>'
+      + '    </div>'
+      + '    </div>'
+      + ''
+      + '    <div class="spinner-layer spinner-yellow">'
+      + '      <div class="circle-clipper left">'
+      + '        <div class="circle"></div>'
+      + '      </div><div class="gap-patch">'
+      + '      <div class="circle"></div>'
+      + '    </div><div class="circle-clipper right">'
+      + '      <div class="circle"></div>'
+      + '    </div>'
+      + '    </div>'
+      + ''
+      + '    <div class="spinner-layer spinner-green">'
+      + '      <div class="circle-clipper left">'
+      + '        <div class="circle"></div>'
+      + '      </div><div class="gap-patch">'
+      + '      <div class="circle"></div>'
+      + '    </div><div class="circle-clipper right">'
+      + '      <div class="circle"></div>'
+      + '    </div>'
+      + '    </div>'
+      + '  </div>'
+      + '</div>');
+  ban_scroll();
+}
+
+function un_reloading() {
+  $(".page-loading").hide();
+  open_scroll();
+}
+
+//禁用滚动条
+function ban_scroll() {
+  var top = $(document).scrollTop();
+  $(document).on('scroll.unable',function (e) {
+    $(document).scrollTop(top);
+  })
+}
+
+//启用滚动条
+function open_scroll() {
+  $(document).unbind("scroll.unable");
+}
