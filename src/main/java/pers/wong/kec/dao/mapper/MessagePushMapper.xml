@@ -19,7 +19,7 @@
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
   </resultMap>
 
-  <select id="selectUserMessage" resultType="pers.wong.kec.domain.responseDTO.MessagePushResponseDTO">
+  <select id="selectUserMessage" resultType="pers.wong.kec.domain.responsedto.MessagePushResponseDTO">
     SELECT m.id AS messageId, m.receiver AS receiver, m.sender as sender, u.`name` AS receiverName, m.content,
       m.relation_id AS relationId, m.message_type as messageType, m.operation_type as operationType,m.read_flag AS readFlag,
       m.`status`, m.create_time AS createTime, m.update_user AS updateUser

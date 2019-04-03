@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pers.wong.kec.common.Result;
-import pers.wong.kec.domain.requestDTO.ModuleDTO;
+import pers.wong.kec.domain.requestdto.ModuleDTO;
 import pers.wong.kec.service.ModuleService;
 
 /**

@@ -1,7 +1,6 @@
 package pers.wong.kec.service;
 
 import pers.wong.kec.common.Result;
-import pers.wong.kec.domain.requestDTO.NewsDTO;
 
 /**
  * @author Wangjunwei

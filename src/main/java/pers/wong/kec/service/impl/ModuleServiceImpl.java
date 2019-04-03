@@ -15,7 +15,7 @@ import pers.wong.kec.dao.dao.ModuleMapper;
 import pers.wong.kec.dao.dao.UserMapper;
 import pers.wong.kec.domain.entity.Module;
 import pers.wong.kec.domain.entity.User;
-import pers.wong.kec.domain.requestDTO.ModuleDTO;
+import pers.wong.kec.domain.requestdto.ModuleDTO;
 import pers.wong.kec.service.ModuleService;
 import tk.mybatis.mapper.entity.Example;
 
@@ -58,7 +58,7 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   private boolean validName(String name) {
-    if ( name.equals("")) {
+    if ("".equals(name)) {
       return false;
     }
     Example example = new Example(Module.class);
@@ -94,7 +94,8 @@ public class ModuleServiceImpl implements ModuleService {
     } else {
       module.setStatus(KecAllEnum.STATUS_NORMAL.getCode());
     }
-    return Result.success(moduleMapper.updateByPrimaryKeySelective(module) > 0 ? "板块删除成功" : "板块删除失败");
+    return Result
+        .success(moduleMapper.updateByPrimaryKeySelective(module) > 0 ? "板块删除成功" : "板块删除失败");
   }
 
   @Override

@@ -16,7 +16,7 @@
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
   </resultMap>
 
-  <select id="getModuleList" resultType="pers.wong.kec.domain.requestDTO.ModuleDTO">
+  <select id="getModuleList" resultType="pers.wong.kec.domain.requestdto.ModuleDTO">
     select id, name, user_id as userId, summary, type, status, create_time as createTime
     from module
     <where>

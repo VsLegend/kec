@@ -1,7 +1,7 @@
 package pers.wong.kec.service;
 
 import pers.wong.kec.common.Result;
-import pers.wong.kec.domain.requestDTO.ModuleDTO;
+import pers.wong.kec.domain.requestdto.ModuleDTO;
 
 /**
  * @author Wangjunwei

@@ -20,7 +20,7 @@
     where user_id = #{userId} and post_id = #{postId} and status = '0'
   </select>
 
-  <select id="getUserAttentionList" resultType="pers.wong.kec.domain.responseDTO.UserAttentionResponseDTO">
+  <select id="getUserAttentionList" resultType="pers.wong.kec.domain.responsedto.UserAttentionResponseDTO">
     SELECT post.id AS postId, post.title, post.content AS postContent, post.`status` AS postStatus,
 		  module_id AS moduleId, module.`name` AS moduleName, module.`status` AS moduleStatus
     FROM post

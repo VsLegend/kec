@@ -12,7 +12,7 @@ import pers.wong.kec.dao.dao.UserMapper;
 import pers.wong.kec.domain.entity.Comment;
 import pers.wong.kec.domain.entity.Post;
 import pers.wong.kec.domain.entity.UserAttention;
-import pers.wong.kec.domain.requestDTO.CommentRequestDTO;
+import pers.wong.kec.domain.requestdto.CommentRequestDTO;
 import pers.wong.kec.service.CommentService;
 import pers.wong.kec.service.MessagePushService;
 

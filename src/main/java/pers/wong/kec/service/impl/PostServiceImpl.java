@@ -3,7 +3,9 @@ package pers.wong.kec.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import pers.wong.kec.common.CommonUtil;
@@ -16,11 +18,11 @@ import pers.wong.kec.dao.dao.PostMapper;
 import pers.wong.kec.dao.dao.UserMapper;
 import pers.wong.kec.domain.entity.Module;
 import pers.wong.kec.domain.entity.Post;
-import pers.wong.kec.domain.requestDTO.PostContentRequestDTO;
-import pers.wong.kec.domain.requestDTO.PostDTO;
-import pers.wong.kec.domain.requestDTO.SearchRequestDTO;
-import pers.wong.kec.domain.responseDTO.CommentResponseDTO;
-import pers.wong.kec.domain.responseDTO.PostResponseDTO;
+import pers.wong.kec.domain.requestdto.PostContentRequestDTO;
+import pers.wong.kec.domain.requestdto.PostDTO;
+import pers.wong.kec.domain.requestdto.SearchRequestDTO;
+import pers.wong.kec.domain.responsedto.CommentResponseDTO;
+import pers.wong.kec.domain.responsedto.PostResponseDTO;
 import pers.wong.kec.service.MessagePushService;
 import pers.wong.kec.service.PostService;
 
@@ -136,7 +138,6 @@ public class PostServiceImpl implements PostService {
   @Override
   public boolean popularPost() {
 
-
     return false;
     //板块类型  0校园服务 1学习交流  2娱乐交友  3其他板块
     //帖子类型，0普通 1置顶  2精华  3热门
@@ -149,16 +150,21 @@ public class PostServiceImpl implements PostService {
 //      return false;
 //    }
 //    //先将原本的热帖改为普通贴，然后再设置热帖
-//    List<String> oldHot = postMapper.selectOldHot();
+//    List<String> oldHot = postMapper.selectOriginalPopPost();
 //    int i = postMapper.updatePostType(oldHot, KecAllEnum.POST_TYPE_NORMAL.getCode());
 //    int i1 = postMapper.updatePostType(list, KecAllEnum.POST_TYPE_POPULAR.getCode());
 //    return true;
   }
 
   @Override
-  public Result getHotPostList() {
-    List<PostResponseDTO> hotPostList = postMapper.getHotPostList(null);
-    //TODO 访问量以及评论量
-    return Result.success(hotPostList);
+  public Result getPopularPostList() {
+    Map<String, List> result = new HashMap<>();
+    result.put("popular", postMapper.getPopularPostList(null));
+    result.put("school", postMapper.getPopularPostList(KecAllEnum.MODULE_TYPE_SCHOOL.getCode()));
+    result.put("learn", postMapper.getPopularPostList(KecAllEnum.MODULE_TYPE_LEARN.getCode()));
+    result.put("entertainment",
+        postMapper.getPopularPostList(KecAllEnum.MODULE_TYPE_ENTERTAINMENT.getCode()));
+    result.put("others", postMapper.getPopularPostList(KecAllEnum.MODULE_TYPE_OTHERS.getCode()));
+    return Result.success(result);
   }
 }

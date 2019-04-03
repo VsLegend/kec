@@ -12,7 +12,7 @@ import pers.wong.kec.common.enums.KecAllEnum;
 import pers.wong.kec.common.enums.ResultEnum;
 import pers.wong.kec.dao.dao.NewsMapper;
 import pers.wong.kec.domain.entity.News;
-import pers.wong.kec.domain.requestDTO.NewsDTO;
+import pers.wong.kec.domain.requestdto.NewsDTO;
 import pers.wong.kec.service.NewsService;
 import tk.mybatis.mapper.entity.Example;
 
@@ -77,7 +77,7 @@ public class NewsServiceImpl implements NewsService {
   }
 
   private boolean validName(String name) {
-    if ( name.equals("")) {
+    if ("".equals(name)) {
       return false;
     }
     Example example = new Example(News.class);

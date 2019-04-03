@@ -2,7 +2,7 @@ package pers.wong.kec.dao.dao;
 
 import java.util.List;
 import pers.wong.kec.domain.entity.MessagePush;
-import pers.wong.kec.domain.responseDTO.MessagePushResponseDTO;
+import pers.wong.kec.domain.responsedto.MessagePushResponseDTO;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface MessagePushMapper extends Mapper<MessagePush> {

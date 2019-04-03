@@ -1,8 +1,7 @@
-package pers.wong.kec.domain.requestDTO;
+package pers.wong.kec.domain.requestdto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;

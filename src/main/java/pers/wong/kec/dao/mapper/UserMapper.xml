@@ -19,8 +19,8 @@
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
   </resultMap>
 
-  <select id="getUserList" parameterType="pers.wong.kec.domain.requestDTO.SearchRequestDTO"
-    resultType="pers.wong.kec.domain.responseDTO.UserResponseDTO">
+  <select id="getUserList" parameterType="pers.wong.kec.domain.requestdto.SearchRequestDTO"
+    resultType="pers.wong.kec.domain.responsedto.UserResponseDTO">
     <bind name="keyWord" value="'%' + key + '%'" />
     SELECT id, name, email, avatar, studentNo as studentno,
     gender,  type,  status, create_time as createTime

@@ -1,19 +1,16 @@
-package pers.wong.kec.domain.responseDTO;
+package pers.wong.kec.domain.requestdto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author Wangjunwei
- * @Date 2019/3/13 17:19
+ * @Date 2019/2/27 14:49
  * @Description
  */
-@Data
-public class ReplyResponseDTO {
 
-  private String replyId;
+@Data
+public class CommentRequestDTO {
 
   /**
    * 创建时间
@@ -41,7 +38,7 @@ public class ReplyResponseDTO {
   private String userId;
 
   /**
-   * 主贴id/评论id
+   * 关联id 主贴id/评论id
    */
   private String relationId;
 
@@ -50,9 +47,5 @@ public class ReplyResponseDTO {
    */
   private String relationType;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
-  public Date getCreateTime() {
-    return createTime;
-  }
+  private String postId;
 }

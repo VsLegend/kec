@@ -1,23 +1,25 @@
-package pers.wong.kec.domain.requestDTO;
+package pers.wong.kec.domain.requestdto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import pers.wong.kec.domain.entity.Page;
 
 /**
  * @author Wangjunwei
- * @Date 2019/3/8 14:46
+ * @Date 1/25/2019 4:28 PM
  * @Description
  */
 
 @Data
-public class PostDTO {
+public class NewsDTO {
 
-  private String postId;
+  //新闻id
+  private String id;
 
   /**
-   * 标题
+   * 新闻标题
    */
   private String title;
 
@@ -27,29 +29,9 @@ public class PostDTO {
   private String content;
 
   /**
-   * 发帖人姓名
+   * 封面url
    */
-  private String userName;
-
-  /**
-   * 发帖人id
-   */
-  private String userId;
-
-  /**
-   * 板块id
-   */
-  private String moduleId;
-
-  /**
-   * 帖子类型，0普通 1置顶  2精华  3热门
-   */
-  private String type;
-
-  /**
-   * 创建时间
-   */
-  private Date createTime;
+  private String imageUrl;
 
   /**
    * 状态 0 正常 1 删除
@@ -57,14 +39,12 @@ public class PostDTO {
   private String status;
 
   /**
-   * 更新时间
+   * 创建时间
    */
-  private Date updateTime;
+  private Date createTime;
 
-  /**
-   * 更新用户id
-   */
-  private Date updateUser;
+  //分页参数
+  private Page page;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")

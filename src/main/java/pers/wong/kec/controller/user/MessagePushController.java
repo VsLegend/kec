@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pers.wong.kec.common.Common;
 import pers.wong.kec.common.Result;
 import pers.wong.kec.common.enums.ResultEnum;
-import pers.wong.kec.domain.requestDTO.PageRequestDTO;
+import pers.wong.kec.domain.requestdto.PageRequestDTO;
 import pers.wong.kec.service.MessagePushService;
 
 /**

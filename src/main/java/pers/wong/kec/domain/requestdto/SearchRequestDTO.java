@@ -1,4 +1,4 @@
-package pers.wong.kec.domain.requestDTO;
+package pers.wong.kec.domain.requestdto;
 
 import lombok.Data;
 

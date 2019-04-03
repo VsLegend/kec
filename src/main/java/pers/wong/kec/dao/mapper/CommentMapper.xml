@@ -18,7 +18,7 @@
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
   </resultMap>
 
-  <select id="getPostCommentInfo" resultType="pers.wong.kec.domain.responseDTO.CommentResponseDTO">
+  <select id="getPostCommentInfo" resultType="pers.wong.kec.domain.responsedto.CommentResponseDTO">
         select
       id AS commentId,
       content,
@@ -33,7 +33,7 @@
     ORDER BY createTime
   </select>
 
-  <select id="getCommentReplyInfo" resultType="pers.wong.kec.domain.responseDTO.ReplyResponseDTO">
+  <select id="getCommentReplyInfo" resultType="pers.wong.kec.domain.responsedto.ReplyResponseDTO">
         select
       id AS replyId,
       content,
@@ -57,19 +57,31 @@
       id = ( SELECT relation_id FROM `comment` WHERE id = #{commentId} AND `status` = '0' AND relation_type = '1' )
   </select>
 
-  <select id="selectCommentInfo" resultType="pers.wong.kec.domain.responseDTO.MessageRelationResponseDTO">
+  <select id="selectCommentInfo" resultType="pers.wong.kec.domain.responsedto.MessageRelationResponseDTO">
     SELECT post_id AS relationId, content AS relationContent, `status`
     FROM comment
     WHERE id = #{commentId}
   </select>
 
   <select id="getCommentNum" resultType="java.lang.Integer">
-    SELECT COUNT(*)
+
+    SELECT result.commentNum
+    FROM (SELECT c.post_id, COUNT(1) AS commentNum
+    FROM `comment` c
+    LEFT JOIN(
+    SELECT relation_id, id AS reply_id, COUNT(1) AS replyNum
     FROM `comment`
-    WHERE `status` = '0' AND post_id = #{postId}
+    WHERE `status` = '0' AND relation_type = '1'
+    GROUP BY relation_id
+    ) r
+    ON c.id = r.reply_id
+    WHERE c.`status` = '0'
     <if test="day != null and day != 0 ">
-      AND DATE(create_time)
+      AND DATE(c.create_time)
       BETWEEN DATE_SUB(DATE(NOW()),INTERVAL #{day} DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 1 DAY)
     </if>
+    GROUP BY c.post_id
+    ) result
+    WHERE result.post_id = #{postId}
   </select>
 </mapper>

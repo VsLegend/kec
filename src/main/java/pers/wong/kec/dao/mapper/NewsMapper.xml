@@ -15,7 +15,7 @@
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
   </resultMap>
 
-  <select id="getNewsList" resultType="pers.wong.kec.domain.requestDTO.NewsDTO">
+  <select id="getNewsList" resultType="pers.wong.kec.domain.requestdto.NewsDTO">
     select id, title, content, image_url as imageUrl, status, create_time as createTime
     from news
     where status = '0'

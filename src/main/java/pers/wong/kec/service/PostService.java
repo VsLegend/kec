@@ -1,10 +1,9 @@
 package pers.wong.kec.service;
 
-import java.util.List;
 import pers.wong.kec.common.Result;
-import pers.wong.kec.domain.requestDTO.PostContentRequestDTO;
-import pers.wong.kec.domain.requestDTO.PostDTO;
-import pers.wong.kec.domain.requestDTO.SearchRequestDTO;
+import pers.wong.kec.domain.requestdto.PostContentRequestDTO;
+import pers.wong.kec.domain.requestdto.PostDTO;
+import pers.wong.kec.domain.requestdto.SearchRequestDTO;
 
 /**
  * @author Wangjunwei
@@ -44,11 +43,6 @@ public interface PostService {
 
   /**
    * 近期热门主贴
-   * 算法：
-   * 变量 x/天 y/浏览用户 z/评论数
-   * 1. 近期x天内有评论
-   * 2. y > z*2
-   * 3. 一个月内评论 > z
    */
-  Result getHotPostList();
+  Result getPopularPostList();
 }

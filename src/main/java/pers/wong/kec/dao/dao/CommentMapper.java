@@ -3,9 +3,9 @@ package pers.wong.kec.dao.dao;
 import java.util.List;
 import pers.wong.kec.dao.base.MyMapper;
 import pers.wong.kec.domain.entity.Comment;
-import pers.wong.kec.domain.responseDTO.CommentResponseDTO;
-import pers.wong.kec.domain.responseDTO.MessageRelationResponseDTO;
-import pers.wong.kec.domain.responseDTO.ReplyResponseDTO;
+import pers.wong.kec.domain.responsedto.CommentResponseDTO;
+import pers.wong.kec.domain.responsedto.MessageRelationResponseDTO;
+import pers.wong.kec.domain.responsedto.ReplyResponseDTO;
 
 public interface CommentMapper extends MyMapper<Comment> {
 
@@ -31,7 +31,7 @@ public interface CommentMapper extends MyMapper<Comment> {
   MessageRelationResponseDTO selectCommentInfo(String commentId);
 
   /**
-   * 获取主贴（在d天内）的评论数
+   * 获取主贴（在d天内）的应答总条数（评论+回复）
    */
   int getCommentNum(String postId, int day);
 }

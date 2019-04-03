@@ -1,9 +1,9 @@
 package pers.wong.kec.service;
 
 import pers.wong.kec.common.Result;
-import pers.wong.kec.domain.requestDTO.SearchRequestDTO;
-import pers.wong.kec.domain.requestDTO.UserRequestDTO;
-import pers.wong.kec.domain.responseDTO.UserResponseDTO;
+import pers.wong.kec.domain.requestdto.SearchRequestDTO;
+import pers.wong.kec.domain.requestdto.UserRequestDTO;
+import pers.wong.kec.domain.responsedto.UserResponseDTO;
 
 /**
  * @author Wangjunwei
@@ -14,29 +14,21 @@ public interface UserService {
 
   /**
    * 注册
-   * @param userRequestDTO
-   * @return
    */
   Result signUp(UserRequestDTO userRequestDTO);
 
   /**
    * 登录
-   * @param userRequestDTO
-   * @return
    */
   Result login(UserRequestDTO userRequestDTO);
 
   /**
    * 修改密码
-   * @param userResponseDTO
-   * @return
    */
   Result changePassword(UserResponseDTO userResponseDTO);
 
   /**
    * 根据用户的学号或者名字查询学员
-   * @param searchRequestDTO
-   * @return
    */
   Result getUserList(SearchRequestDTO searchRequestDTO);
 

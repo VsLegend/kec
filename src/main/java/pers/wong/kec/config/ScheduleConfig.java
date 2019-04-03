@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import pers.wong.kec.common.CommonUtil;
 import pers.wong.kec.common.enums.KecAllEnum;
 import pers.wong.kec.dao.dao.PostMapper;
-import pers.wong.kec.domain.responseDTO.PopularPostResponseDTO;
+import pers.wong.kec.domain.responsedto.PopularPostResponseDTO;
 
 /**
  * @author Wangjunwei
@@ -49,7 +49,7 @@ public class ScheduleConfig {
     LOGGER.info("热门主贴定时任务：开始时间 {}", DATE_FORMAT.format(new Date()));
     List<PopularPostResponseDTO> popularList = postMapper.popularPostList();
     //获取原本的热帖并将其设为普通
-    List<String> oldPopular = postMapper.selectOldHot();
+    List<String> oldPopular = postMapper.selectOriginalPopPost();
     int size = 0;
     List<String> newPopular = new ArrayList<>();
     int o = postMapper.updatePostType(oldPopular, KecAllEnum.POST_TYPE_NORMAL.getCode());

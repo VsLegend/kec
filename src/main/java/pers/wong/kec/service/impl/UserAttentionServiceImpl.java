@@ -11,8 +11,8 @@ import pers.wong.kec.dao.dao.PostMapper;
 import pers.wong.kec.dao.dao.UserAttentionMapper;
 import pers.wong.kec.domain.entity.Post;
 import pers.wong.kec.domain.entity.UserAttention;
-import pers.wong.kec.domain.requestDTO.PageRequestDTO;
-import pers.wong.kec.domain.responseDTO.UserAttentionResponseDTO;
+import pers.wong.kec.domain.requestdto.PageRequestDTO;
+import pers.wong.kec.domain.responsedto.UserAttentionResponseDTO;
 import pers.wong.kec.service.UserAttentionService;
 
 /**

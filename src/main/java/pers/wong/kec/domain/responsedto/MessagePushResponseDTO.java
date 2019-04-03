@@ -1,4 +1,4 @@
-package pers.wong.kec.domain.responseDTO;
+package pers.wong.kec.domain.responsedto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;

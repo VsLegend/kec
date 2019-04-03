@@ -1,9 +1,8 @@
-package pers.wong.kec.domain.responseDTO;
+package pers.wong.kec.domain.responsedto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

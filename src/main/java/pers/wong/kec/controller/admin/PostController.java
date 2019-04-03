@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pers.wong.kec.common.CommonUtil;
 import pers.wong.kec.common.Result;
 import pers.wong.kec.common.enums.ResultEnum;
-import pers.wong.kec.domain.requestDTO.PostContentRequestDTO;
-import pers.wong.kec.domain.requestDTO.PostDTO;
-import pers.wong.kec.domain.requestDTO.SearchRequestDTO;
+import pers.wong.kec.domain.requestdto.PostContentRequestDTO;
+import pers.wong.kec.domain.requestdto.PostDTO;
+import pers.wong.kec.domain.requestdto.SearchRequestDTO;
 import pers.wong.kec.service.PostService;
 
 /**

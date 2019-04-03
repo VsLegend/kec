@@ -1,7 +1,5 @@
-package pers.wong.kec.domain.requestDTO;
+package pers.wong.kec.domain.requestdto;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.Data;
 

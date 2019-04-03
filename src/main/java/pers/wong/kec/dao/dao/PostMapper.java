@@ -4,12 +4,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import pers.wong.kec.dao.base.MyMapper;
 import pers.wong.kec.domain.entity.Post;
-import pers.wong.kec.domain.requestDTO.PostDTO;
-import pers.wong.kec.domain.requestDTO.SearchRequestDTO;
-import pers.wong.kec.domain.responseDTO.MessageRelationResponseDTO;
-import pers.wong.kec.domain.responseDTO.PopularPostResponseDTO;
-import pers.wong.kec.domain.responseDTO.PostResponseDTO;
-import pers.wong.kec.domain.responseDTO.UserAttentionResponseDTO;
+import pers.wong.kec.domain.requestdto.PostDTO;
+import pers.wong.kec.domain.requestdto.SearchRequestDTO;
+import pers.wong.kec.domain.responsedto.MessageRelationResponseDTO;
+import pers.wong.kec.domain.responsedto.PopularPostResponseDTO;
+import pers.wong.kec.domain.responsedto.PostResponseDTO;
+import pers.wong.kec.domain.responsedto.UserAttentionResponseDTO;
 
 public interface PostMapper extends MyMapper<Post> {
 
@@ -45,7 +45,10 @@ public interface PostMapper extends MyMapper<Post> {
   /**
    * 原来的热门主贴
    */
-  List<String> selectOldHot();
+  List<String> selectOriginalPopPost();
 
-  List<PostResponseDTO> getHotPostList(String moduleType);
+  /**
+   * 根据板块类型获取热门主贴
+   */
+  List<PostResponseDTO> getPopularPostList(@Param("moduleType") String moduleType);
 }

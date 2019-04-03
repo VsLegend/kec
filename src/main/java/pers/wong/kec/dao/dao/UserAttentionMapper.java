@@ -4,7 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import pers.wong.kec.dao.base.MyMapper;
 import pers.wong.kec.domain.entity.UserAttention;
-import pers.wong.kec.domain.responseDTO.UserAttentionResponseDTO;
+import pers.wong.kec.domain.responsedto.UserAttentionResponseDTO;
 
 public interface UserAttentionMapper extends MyMapper<UserAttention> {
 

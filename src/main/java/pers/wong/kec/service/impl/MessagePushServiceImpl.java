@@ -17,9 +17,9 @@ import pers.wong.kec.dao.dao.PostMapper;
 import pers.wong.kec.domain.entity.Comment;
 import pers.wong.kec.domain.entity.MessagePush;
 import pers.wong.kec.domain.entity.Post;
-import pers.wong.kec.domain.requestDTO.PageRequestDTO;
-import pers.wong.kec.domain.responseDTO.MessagePushResponseDTO;
-import pers.wong.kec.domain.responseDTO.MessageRelationResponseDTO;
+import pers.wong.kec.domain.requestdto.PageRequestDTO;
+import pers.wong.kec.domain.responsedto.MessagePushResponseDTO;
+import pers.wong.kec.domain.responsedto.MessageRelationResponseDTO;
 import pers.wong.kec.service.MessagePushService;
 
 /**
@@ -46,7 +46,7 @@ public class MessagePushServiceImpl implements MessagePushService {
   public Result selectUserMessage(PageRequestDTO pageRequestDTO, String userId) {
     PageInfo<MessagePushResponseDTO> messagePush = PageHelper
         .startPage(pageRequestDTO.getPageNum(), pageRequestDTO.getPageSize(), true)
-        .doSelectPageInfo( () -> messagePushMapper.selectUserMessage(userId));
+        .doSelectPageInfo(() -> messagePushMapper.selectUserMessage(userId));
     List<MessagePushResponseDTO> list = messagePush.getList();
     for (int i = 0; i < list.size(); i++) {
       String type = list.get(i).getMessageType();
@@ -84,7 +84,7 @@ public class MessagePushServiceImpl implements MessagePushService {
 //        .andEqualTo("relation_id", postId).andEqualTo("status", "0");
 //    List<MessagePush> messagePushes = messagePushMapper.selectByExample(example);
     String content = "主贴《" + post.getTitle() + "》已被管理员删除";
-    insertMessagePush(post.getUserId(), post.getId(), content,sender,
+    insertMessagePush(post.getUserId(), post.getId(), content, sender,
         KecAllEnum.MESSAGE_TYPE_POST.getCode(), KecAllEnum.OPERATION_TYPE_DELETE.getCode());
     return true;
   }
@@ -109,14 +109,15 @@ public class MessagePushServiceImpl implements MessagePushService {
   public boolean replyComment(Comment comment, String receiver, String relationId) {
     String content = "你的评论'" + comment.getContent() + "'有人回复";
     insertMessagePush(receiver, relationId, content,
-        comment.getUserId(), KecAllEnum.MESSAGE_TYPE_COMMENT.getCode(), KecAllEnum.OPERATION_TYPE_INSERT.getCode());
+        comment.getUserId(), KecAllEnum.MESSAGE_TYPE_COMMENT.getCode(),
+        KecAllEnum.OPERATION_TYPE_INSERT.getCode());
     return true;
   }
 
   @Override
   public Result messageRead(String messageId) {
     MessagePush messagePush = messagePushMapper.selectByPrimaryKey(messageId);
-    if (null == messagePush){
+    if (null == messagePush) {
       return Result.failed(ResultEnum.RESULT_EMPTY, "未找到该条记录");
     }
     messagePush.setReadFlag(KecAllEnum.MESSAGE_READ_FLAG_TRUE.getCode());
@@ -125,7 +126,8 @@ public class MessagePushServiceImpl implements MessagePushService {
   }
 
   //插入方法
-  private MessagePush insertMessagePush(String receiver, String relationId, String content, String sender
+  private MessagePush insertMessagePush(String receiver, String relationId, String content,
+      String sender
       , String messageType, String operationType) {
     MessagePush messagePush = new MessagePush();
     messagePush.setId(CommonUtil.getUUID());

@@ -12,9 +12,9 @@ import pers.wong.kec.common.enums.KecAllEnum;
 import pers.wong.kec.common.enums.ResultEnum;
 import pers.wong.kec.dao.dao.UserMapper;
 import pers.wong.kec.domain.entity.User;
-import pers.wong.kec.domain.requestDTO.SearchRequestDTO;
-import pers.wong.kec.domain.requestDTO.UserRequestDTO;
-import pers.wong.kec.domain.responseDTO.UserResponseDTO;
+import pers.wong.kec.domain.requestdto.SearchRequestDTO;
+import pers.wong.kec.domain.requestdto.UserRequestDTO;
+import pers.wong.kec.domain.responsedto.UserResponseDTO;
 import pers.wong.kec.service.UserService;
 import tk.mybatis.mapper.entity.Example;
 
@@ -35,9 +35,10 @@ public class UserServiceImpl implements UserService {
     //判断学号是否重复
     User user = new User();
     Example example = new Example(User.class);
-    example.createCriteria().andEqualTo("studentno", userRequestDTO.getStudentno()).andNotEqualTo("status", "1");
+    example.createCriteria().andEqualTo("studentno", userRequestDTO.getStudentno())
+        .andNotEqualTo("status", "1");
     List<User> users = userMapper.selectByExample(example);
-    if (users.size() !=0) {
+    if (users.size() != 0) {
       return Result.failed(ResultEnum.STUDENT_NUMBER_BEEN_OCCUPIED, "该学号已被占用");
     }
     user.setId(CommonUtil.getUUID());
@@ -74,11 +75,11 @@ public class UserServiceImpl implements UserService {
     User user = users.get(0);
     //封号处理
     if (KecAllEnum.STATUS_DELETE.getCode().equals(user.getStatus())) {
-       return Result.failed(ResultEnum.USER_HAS_BEEN_FORBIDDEN, "用户已被封号");
+      return Result.failed(ResultEnum.USER_HAS_BEEN_FORBIDDEN, "用户已被封号");
     }
     //密码错误
     if (!password.equals(user.getPassword())) {
-      return Result.failed(ResultEnum.USER_PASSWORD_ERROR,"密码错误");
+      return Result.failed(ResultEnum.USER_PASSWORD_ERROR, "密码错误");
     }
     UserResponseDTO userResponseDTO = new UserResponseDTO();
     userResponseDTO.setId(user.getId());
@@ -97,11 +98,11 @@ public class UserServiceImpl implements UserService {
     User user = userMapper.selectByPrimaryKey(userResponseDTO.getId());
     //密码错误
     if (!oldPassword.equals(user.getPassword())) {
-      return Result.failed(ResultEnum.USER_PASSWORD_ERROR,"密码输入错误");
+      return Result.failed(ResultEnum.USER_PASSWORD_ERROR, "密码输入错误");
     }
     if (CommonUtil.isEmptyOrNull(userResponseDTO.getNewPassword())
-        ||  !userResponseDTO.getNewPassword().equals(userResponseDTO.getReNewPassword())) {
-      return Result.failed(ResultEnum.USER_PASSWORD_ERROR,"密码不一致");
+        || !userResponseDTO.getNewPassword().equals(userResponseDTO.getReNewPassword())) {
+      return Result.failed(ResultEnum.USER_PASSWORD_ERROR, "密码不一致");
     }
     //加密
     String newPassword = CommonUtil.encodePassWord(userResponseDTO.getNewPassword());
