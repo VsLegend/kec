@@ -33,8 +33,14 @@
         <label class="blue-text text-darken-1" for="password">密码</label>
       </div>
     </div>
-    <a class="center blue-text text-lighten-1" href="/backstage/login">管理员登录</a>
-    <br><br>
+    <div class="row col s12">
+      <div class="col s6 m6">
+        <a class="center blue-text text-lighten-1" href="/backstage/login">管理员登录</a>
+      </div>
+      <div class="col s6 m6">
+        <a class="center blue-text text-lighten-1" href="/entrance/signUp">注册</a>
+      </div>
+    </div>
     <!--登录提示信息！！-->
     <div class="center row" style="width: 300px; margin-left: 38px;">
       <span id="sign_info" class="red-text" style="font-size: larger;"></span>
@@ -52,10 +58,6 @@
 <script src="/static/js/user.js"></script>
 <script src="/static/js/commonJs.js"></script>
 <script>
-  $(document).ready(function () {
-    M.updateTextFields();
-  });
-
   $('#user_login').click(function () {
     user_lgoin();
   });

@@ -11,4 +11,6 @@ import lombok.Data;
 public class PostContentRequestDTO extends PageRequestDTO {
 
   private String postId;
+
+  private String userId;
 }

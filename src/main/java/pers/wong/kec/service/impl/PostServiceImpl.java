@@ -15,9 +15,11 @@ import pers.wong.kec.common.enums.ResultEnum;
 import pers.wong.kec.dao.dao.CommentMapper;
 import pers.wong.kec.dao.dao.ModuleMapper;
 import pers.wong.kec.dao.dao.PostMapper;
+import pers.wong.kec.dao.dao.UserAttentionMapper;
 import pers.wong.kec.dao.dao.UserMapper;
 import pers.wong.kec.domain.entity.Module;
 import pers.wong.kec.domain.entity.Post;
+import pers.wong.kec.domain.entity.UserAttention;
 import pers.wong.kec.domain.requestdto.PostContentRequestDTO;
 import pers.wong.kec.domain.requestdto.PostDTO;
 import pers.wong.kec.domain.requestdto.SearchRequestDTO;
@@ -48,6 +50,9 @@ public class PostServiceImpl implements PostService {
 
   @Resource
   MessagePushService messagePushService;
+
+  @Resource
+  UserAttentionMapper userAttentionMapper;
 
   @Override
   public Result getPostList(SearchRequestDTO searchRequestDTO) {
@@ -166,5 +171,27 @@ public class PostServiceImpl implements PostService {
         postMapper.getPopularPostList(KecAllEnum.MODULE_TYPE_ENTERTAINMENT.getCode()));
     result.put("others", postMapper.getPopularPostList(KecAllEnum.MODULE_TYPE_OTHERS.getCode()));
     return Result.success(result);
+  }
+
+  @Override
+  public Result focusPost(PostContentRequestDTO postContentRequestDTO) {
+    Post post = postMapper.selectByPrimaryKey(postContentRequestDTO.getPostId());
+    if (post.getUserId().equals(postContentRequestDTO.getUserId())) {
+      return Result.failed(ResultEnum.UNEXCEPTED, "不能关注自己发布的主贴");
+    }
+    //查看是否已经关注
+    UserAttention followInfo = userAttentionMapper
+        .getFollowInfo(postContentRequestDTO.getUserId(), postContentRequestDTO.getPostId());
+    if (null != followInfo) {
+      return Result.success();
+    }
+    UserAttention userAttention = new UserAttention();
+    userAttention.setId(CommonUtil.getUUID());
+    userAttention.setUserId(postContentRequestDTO.getUserId());
+    userAttention.setPostId(postContentRequestDTO.getPostId());
+    userAttention.setCreateTime(new Date());
+    userAttention.setStatus("0");
+    userAttentionMapper.insertSelective(userAttention);
+    return Result.success();
   }
 }

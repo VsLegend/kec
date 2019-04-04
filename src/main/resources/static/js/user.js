@@ -1,7 +1,4 @@
 $(document).ready(function () {
-  //小贴士工具
-  $('.tooltipped').tooltip();
-  M.updateTextFields();
   $('#user_signup').submit(function (event) {
     event.preventDefault();
     if (check_info()
@@ -257,11 +254,6 @@ function load_post_table(table ,data) {
   }
 }
 
-//首页热门展示Ajax
-function show_hot_post_in_home_ajax() {
-
-}
-
 //访问量增加Ajax
 function visit_num_plus_ajax(postId) {
   $.ajax({
@@ -394,6 +386,36 @@ function password_check(pass1, pass2) {
     return false;
   }
   return true;
+}
+
+//关注主贴Ajax
+function focus_post_ajax(postId) {
+  var result = null;
+  var postContentRequestDTO = {
+    postId: postId
+  };
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/userPostOperation/focusPost",
+    data: JSON.stringify(postContentRequestDTO),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        console.log(data.data);
+        result = data.data;
+      } else {
+        showMessage(data.code + data.data);
+      }
+    },
+    error: function (e) {
+      showMessage(e)
+    }
+  });
+  return result;
 }
 
 // 注册提交Ajax

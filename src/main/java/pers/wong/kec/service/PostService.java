@@ -45,4 +45,9 @@ public interface PostService {
    * 近期热门主贴
    */
   Result getPopularPostList();
+
+  /**
+   * 关注主贴
+   */
+  Result focusPost(PostContentRequestDTO postContentRequestDTO);
 }

@@ -43,7 +43,7 @@ function show_post_comment(data, postId, post) {
   $('#post_div').find('span').html(post.content);
   //展示评论以及其回复
   var comment = data.list;
-  // console.log(data);
+  console.log(comment);
   //展示评论
   for (var i = 0; i < comment.length; i++) {
     var commentId = comment[i].commentId;
