@@ -1,5 +1,5 @@
 // 主贴内容加载Ajax
-function post_content_ajax(size, num) {
+function post_content_ajax(size, num, post) {
   var postContentRequestDTO = {
     pageSize: size,
     pageNum: num,
@@ -19,7 +19,7 @@ function post_content_ajax(size, num) {
       if (data.code === 1000) {
         // console.log(data.data);
         list = data.data;
-        show_post_comment(data, getUrlParam("id"));
+        show_post_comment(data, getUrlParam("id"), post);
       } else {
         showMessage(data.data);
       }
@@ -33,11 +33,14 @@ function post_content_ajax(size, num) {
 }
 
 //展示主贴以及其评论，回复
-function show_post_comment(data, postId) {
-  var post =  get_post_detail_ajax(postId);
+function show_post_comment(data, postId, post) {
+  if (post.status === "1") {
+    $("#add_new_comment").attr("disabled", true);
+    return;
+  }
   $('#post_div').find('a').text(post.userName);
   $('#post_div').find('h5').html(post.title);
-  $('#post_div').find('span').append(post.content);
+  $('#post_div').find('span').html(post.content);
   //展示评论以及其回复
   var comment = data.list;
   // console.log(data);
@@ -87,7 +90,7 @@ function show_post_comment(data, postId) {
 
 //获取单个主贴的详细内容
 function get_post_detail_ajax(postId) {
-  var list = "";
+  var list = null;
   $.ajax({
     type: 'POST',
     contentType: "application/json",
@@ -102,7 +105,7 @@ function get_post_detail_ajax(postId) {
         // console.log(data.data);
         list = data.data;
       } else {
-        showMessage(data.data);
+        showMessage("CODE：" + data.code+ + " 原因：" + data.data);
       }
     },
     error: function (e) {

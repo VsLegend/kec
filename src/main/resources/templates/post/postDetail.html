@@ -162,17 +162,11 @@
 </script>
 <script>
   $(document).ready(function () {
-    //输入框的字数限制
-    $('input#post_name, textarea#textarea2').characterCounter();
-    //Select jQuery
-    $('select').formSelect();
-    //collapsibel
-    $('.collapsible').collapsible();
-    //对话框初始化
-    $('.modal').modal();
-    var list = post_content_ajax(10, 1);
+    var postId = getUrlParam("id");
+    var post = get_post_detail_ajax(postId);
+    var list = post_content_ajax(10, 1, post);
     //初始化页面数据
-    show_post_comment(list, getUrlParam("id"));
+    show_post_comment(list, postId, post);
     //分页初始化
     $('#post-pagination').jqPaginator({
       totalPages: list.pages,
@@ -188,8 +182,8 @@
         //初始化也要调用
         var i = 0;
         if (i !== 0){
-          var data = post_content_ajax(list.pageSize, num);
-          show_post_comment(data, getUrlParam("id"));
+          var data = post_content_ajax(list.pageSize, num, post);
+          show_post_comment(data, postId, post);
         }
         i++;
       }

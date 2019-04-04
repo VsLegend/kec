@@ -133,9 +133,10 @@
     get_user_loginInfo_ajax();
     //未读消息、
     show_unread_message();
-    var list = post_content_ajax(10, 1);
+    var post = get_post_detail_ajax(postId);
+    var list = post_content_ajax(10, 1, post);
     //初始化页面数据
-    show_post_comment(list, postId);
+    show_post_comment(list, postId, post);
     //访问量+1
     visit_num_plus_ajax(postId);
     //分页初始化
@@ -153,8 +154,8 @@
         //初始化也要调用
         var i = 0;
         if (i !== 0){
-          var data = post_content_ajax(list.pageSize, num);
-          show_post_comment(data, postId);
+          var data = post_content_ajax(list.pageSize, num, post);
+          show_post_comment(data, postId, post);
         }
         i++;
       }
