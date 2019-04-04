@@ -129,28 +129,28 @@ function load_module_for_post(data) {
           + "<div class='col s12 m4'>" + "<div class='card z-depth-0'>"
           + "<div class='card-content'>"
           //拼接URL，跳转到板块详情
-          + "<a href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
+          + "<a target='_blank' href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
           + "</div>" + "</div>" + "</div>"
           + "</li>")
     } else if (list[i].type === '1') {
       $('#study').append("<li>"
           + "<div class='col s12 m4'>" + "<div class='card z-depth-0'>"
           + "<div class='card-content'>"
-          + "<a href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
+          + "<a target='_blank' href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
           + "</div>" + "</div>" + "</div>"
           + "</li>")
     } else if (list[i].type === '2') {
       $('#game').append("<li>"
           + "<div class='col s12 m4'>" + "<div class='card z-depth-0'>"
           + "<div class='card-content'>"
-          + "<a href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
+          + "<a target='_blank' href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
           + "</div>" + "</div>" + "</div>"
           + "</li>")
     } else if (list[i].type === '3') {
       $('#others').append("<li>"
           + "<div class='col s12 m4'>" + "<div class='card z-depth-0'>"
           + "<div class='card-content'>"
-          + "<a href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
+          + "<a target='_blank' href='/entrance/postDisplay?moduleId=" +list[i].id + "'>" + list[i].name + "</a>"
           + "</div>" + "</div>" + "</div>"
           + "</li>")
     }
@@ -166,12 +166,20 @@ function user_get_post(num, moduleId) {
       //展示板块信息
       var detail =  data.data;
       //设置卡片下的元素内容
-      $('#module-card').children("div.card-image").find("b").text(detail.name);
-      $('#module-card').children("div.card-image").find("a").attr("id", detail.userId);
-      $('#module-card').children("div.card-image").find("a").append(detail.userName);
-      $('#module-card').children("div.card-image").find("p").append(detail.summary);
+      var userContent = "<a href='#user-modal-detail' id='" + detail.userId + "' "
+      + "class='modal-trigger blue-text text-lighten-3'>"+ detail.userName +"</a>";
+      $('#post-name').text(detail.name);
+      $('#post-admin').html(userContent);
+      $('#module-card').append(detail.summary);
       //帖子展示
-      post_list = get_module_post_ajax(num, moduleId);
+      //参数
+      var searchRequestDTO = {
+        pageSize: 20,
+        pageNum: num,
+        moduleId: moduleId,
+        status: '0'
+      };
+      post_list = get_module_post_ajax(searchRequestDTO);
       //设置信息
       load_post_table("show-post",post_list);
       //点击查看用户详情
@@ -203,14 +211,8 @@ function user_get_post(num, moduleId) {
 }
 
 //获取板块下的全部主贴内容
-function get_module_post_ajax(num, moduleId) {
+function get_module_post_ajax(searchRequestDTO) {
   var post_list = null;
-  var searchRequestDTO = {
-    pageSize: 20,
-    pageNum: num,
-    moduleId: moduleId,
-    status: '0'
-  };
   $.ajax({
     type: 'POST',
     contentType: "application/json",
@@ -243,7 +245,7 @@ function load_post_table(table ,data) {
         "<td width='30px'><i class='material-icons red-text'>" + post_type(list[i].type) + "</i></td>"
         + "<td width='100px'>"+ "评论数" +"</td>" +
         //点击查看主贴内容
-        "<td><a href='/entrance/needInfo/postDetail?id=" + list[i].postId +"' "
+        "<td><a target='_blank' href='/entrance/needInfo/postDetail?id=" + list[i].postId +"' "
         + "class='blue-text text-lighten-3'>"+ list[i].title+"</a></td>"
         + "<td width='200px'>"
         //点击查看用户信息
@@ -251,6 +253,10 @@ function load_post_table(table ,data) {
         + "class='modal-trigger blue-text text-lighten-3'>"+ list[i].userName +"</a></td>"
         + "<td width='200px'>" + list[i].createTime + "</td>"
         + "</tr>");
+  }
+  if (list.length === 0) {
+    $("#show-post tbody")
+    .append('<tr><td colspan="5" class="center"><br><p class="red-text">暂无内容</p></td></tr>');
   }
 }
 

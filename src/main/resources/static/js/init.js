@@ -1,6 +1,12 @@
 (function($){
   $(function(){
-
+    //tabs
+    $('.tabs').tabs();
+    //图片
+    $('.materialboxed').materialbox();
+    //固定悬浮按钮
+    $('.fixed-action-btn').floatingActionButton();
+    //左边导航
     $('.sidenav').sidenav();
     //输入框的字数限制
     $('input#post_name, textarea#textarea2').characterCounter();

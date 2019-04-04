@@ -23,5 +23,10 @@ public class SearchRequestDTO extends PageRequestDTO {
    */
   private String moduleId;
 
+  /**
+   * 主贴类型
+   */
+  private String postType;
+
   private String status;
 }
