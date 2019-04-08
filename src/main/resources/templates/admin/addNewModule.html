@@ -206,8 +206,10 @@
   //页面初始化
   window.onload = function () {
     $('#update_module').hide();
-    //不为空，即为编辑界面
-    update_module();
+    if (null !== getUrlParam("moduleId")) {
+      //不为空，即为编辑界面
+      update_module();
+    }
   };
 
   $(document).ready(function(){
@@ -215,16 +217,6 @@
       id: null,
       name: null
     };
-    //输入框的字数限制
-    $('input#module_name, textarea#textarea2').characterCounter();
-    //小贴士工具
-    $('.tooltipped').tooltip();
-    //Select jQuery
-    $('select').formSelect();
-    //collapsibel
-    $('.collapsible').collapsible();
-    //对话框初始化
-    $('.modal').modal();
   });
 
 

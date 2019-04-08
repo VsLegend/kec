@@ -45,7 +45,7 @@ public class ScheduleConfig {
    * fixedDelay：以固定延迟的每一段时间调用方法，这意味着该周期是从每个前一次调用的完成时间开始测量的
    * cron 即CronSequenceGenerator，精确的时间
    */
-//  @Scheduled(fixedDelay = 100000)
+//  @Scheduled(fixedDelay = 1000 * 60 * 60)
   @Scheduled(cron = "0 0 0 * * *")
 //  @Scheduled(fixedRate = 1000 * 5)
   @Transactional

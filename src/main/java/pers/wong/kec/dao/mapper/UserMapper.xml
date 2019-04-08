@@ -26,8 +26,9 @@
     gender,  type,  status, create_time as createTime
     FROM `user`
     <where>
+      type in ("0", "1")
       <if test='status != null and status!="" '>
-        status = #{status}
+        and status = #{status}
       </if>
       <if test='key != null and key!="" '>
         and (name like #{keyWord} or studentNo like #{keyWord})

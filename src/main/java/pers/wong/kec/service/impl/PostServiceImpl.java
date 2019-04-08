@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
     if (CommonUtil.isEmptyOrNull(postDTO.getType())) {
       postDTO.setType("0");
     }
-    postMapper.insertPost(postDTO);
+    int i = postMapper.insertPost(postDTO);
     return Result.success();
   }
 

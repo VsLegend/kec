@@ -101,7 +101,7 @@ public class ModuleServiceImpl implements ModuleService {
   @Override
   public Result getModuleDetail(String moduleId) {
     if (CommonUtil.isEmptyOrNull(moduleId)) {
-      Result.failed(ResultEnum.ILLEGAL_PARAMETER, "非法参数");
+      return Result.failed(ResultEnum.ILLEGAL_PARAMETER, "无效参数");
     }
     Module module = moduleMapper.selectByPrimaryKey(moduleId);
     User user = userMapper.selectByPrimaryKey(module.getUserId());
@@ -129,7 +129,7 @@ public class ModuleServiceImpl implements ModuleService {
       }
     }
     //用户被禁用时，不能设置为板块管理员
-    User user = userMapper.selectByPrimaryKey(moduleDTO.getUserId());
+    User user = userMapper.selectByPrimaryKey(module.getUserId());
     if (null == user) {
       Result.failed(ResultEnum.RESULT_EMPTY, "用户查询失败");
     }

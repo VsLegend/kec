@@ -82,8 +82,8 @@
   </select>
 
   <insert id="insertPost" parameterType="pers.wong.kec.domain.requestdto.PostDTO">
-    insert into post values (#{postId}, #{title}, #{content}, #{userName}, #{userId}, #{moduleId}
-    , #{type}, #{status}, #{createTime}, #{updateTime}, #{updateUser})
+    insert into post values (#{postId}, #{title}, #{content}, #{userName}, #{userId}, #{moduleId}, 0,
+    #{type}, #{status}, #{createTime}, #{updateTime}, #{updateUser})
   </insert>
 
   <select id="getPostById" resultType="pers.wong.kec.domain.responsedto.PostResponseDTO">

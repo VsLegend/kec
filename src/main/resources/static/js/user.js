@@ -245,7 +245,7 @@ function load_post_table(table ,data) {
         "<td width='30px'><i class='material-icons red-text'>" + post_type(list[i].type) + "</i></td>"
         + "<td width='100px'>"+ "评论数" +"</td>" +
         //点击查看主贴内容
-        "<td><a target='_blank' href='/entrance/needInfo/postDetail?id=" + list[i].postId +"' "
+        "<td><a href='/entrance/needInfo/postDetail?id=" + list[i].postId +"' "
         + "class='blue-text text-lighten-3'>"+ list[i].title+"</a></td>"
         + "<td width='200px'>"
         //点击查看用户信息

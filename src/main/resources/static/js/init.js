@@ -1,5 +1,7 @@
 (function($){
   $(function(){
+    //图片视差
+    $('.parallax').parallax();
     //tabs
     $('.tabs').tabs();
     //图片

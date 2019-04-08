@@ -18,7 +18,7 @@ public interface PostMapper extends MyMapper<Post> {
    */
   List<PostResponseDTO> getPostList(SearchRequestDTO searchRequestDTO);
 
-  void insertPost(PostDTO postDTO);
+  int insertPost(PostDTO postDTO);
 
   /**
    * 查找指定主贴的信息
