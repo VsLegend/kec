@@ -130,7 +130,7 @@
 <script>
   $(document).ready(function () {
     var postId = getUrlParam("id");
-    get_user_loginInfo_ajax();
+    var user = get_user_loginInfo_ajax();
     //未读消息、
     show_unread_message();
     var post = get_post_detail_ajax(postId);
@@ -141,7 +141,7 @@
     visit_num_plus_ajax(postId);
     //分页初始化
     $('#post-pagination').jqPaginator({
-      totalPages: list.pages,
+      totalPages: list.pages === 0 ? 1 : list.pages,
       visiblePages: 10,
       pageSize: list.pageSize,
       currentPage: 1,

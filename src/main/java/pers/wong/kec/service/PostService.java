@@ -22,10 +22,10 @@ public interface PostService {
   /**
    * 修改主贴
    */
-  Result updatePost(PostDTO postDTO);
+  Result updatePost(String postId, String userId);
 
   /**
-   * 删除或恢复主贴
+   * 删除主贴
    */
   Result deletePost(String postId, String userId);
 

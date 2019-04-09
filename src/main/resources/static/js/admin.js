@@ -248,7 +248,7 @@ function change_post_status_ajax(postId) {
   $.ajax({
     type: 'GET',
     contentType: "application/json",
-    url: "/post/deletePost/" + postId,
+    url: "/post/updatePost/" + postId,
     data: JSON.stringify(),
     datatype: 'json',
     cache: false,

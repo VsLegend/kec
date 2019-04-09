@@ -79,12 +79,7 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public Result updatePost(PostDTO postDTO) {
-    return null;
-  }
-
-  @Override
-  public Result deletePost(String postId, String userId) {
+  public Result updatePost(String postId, String userId) {
     //如果正常则删除，如果删除则恢复正常
     Post post = postMapper.selectByPrimaryKey(postId);
     if (post == null) {
@@ -103,9 +98,20 @@ public class PostServiceImpl implements PostService {
         : Result.failed(ResultEnum.FAIL_DATABASE, "操作失败");
   }
 
-  public Result deletePost(PostDTO postDTO) {
-    return null;
+  @Override
+  public Result deletePost(String postId, String userId) {
+    if (CommonUtil.isEmptyOrNull(postId)) {
+      return Result.failed(ResultEnum.RESULT_EMPTY, "主贴不存在");
+    }
+    Post post = postMapper.selectByPrimaryKey(postId);
+    if (!post.getUserId().equals(userId)) {
+      return Result.failed(ResultEnum.ACCESS_DENIED, "非法用户");
+    }
+    post.setStatus(KecAllEnum.STATUS_DELETE.getCode());
+    postMapper.updateByPrimaryKeySelective(post);
+    return Result.success();
   }
+
 
   @Override
   public Result getPostAndComment(PostContentRequestDTO contentRequestDTO) {

@@ -22,63 +22,67 @@
 
   <select id="getPostList" parameterType="pers.wong.kec.domain.requestdto.SearchRequestDTO"
     resultType="pers.wong.kec.domain.responsedto.PostResponseDTO">
-    ( SELECT
-    id AS postId,
-    title,
-    content,
-    user_name AS userName,
-    user_id AS userId,
-    module_id AS moduleId,
-    type,
-    `status`,
-    create_time AS createTime
-    FROM post
-    WHERE type = '1'
-    and module_id = #{moduleId}
-    <if test='userId != null and userId!="" '>
-      and user_id = #{userId}
-    </if>
-    <if test='key != null and key!="" '>
-      <bind name="keyWord" value="'%' + key + '%'"/>
-      and (title like #{keyWord} or content like #{keyWord})
-    </if>
-    <if test='status != null and status!="" '>
-      and status = #{status}
-    </if>
-    <if test='postType != null and postType!="" '>
-      and type = #{postType}
-    </if>
-    ORDER BY create_time
-    )
-    UNION
-    (SELECT
-    id AS postId,
-    title,
-    content,
-    user_name AS userName,
-    user_id AS userId,
-    module_id AS moduleId,
-    type,
-    `status`,
-    create_time AS createTime
-    FROM post
-    WHERE type NOT IN ( '1' )
-    and module_id = #{moduleId}
-    <if test='userId != null and userId!="" '>
-      and user_id = #{userId}
-    </if>
-    <if test='key != null and key!="" '>
-      <bind name="keyWord" value="'%' + key + '%'"/>
-      and (title like #{keyWord} or content like #{keyWord})
-    </if>
-    <if test='status != null and status!="" '>
-      and status = #{status}
-    </if>
-    <if test='postType != null and postType!="" '>
-      and type = #{postType}
-    </if>
-    ORDER BY create_time
-    )
+    select *
+    from (
+      ( SELECT
+      id AS postId,
+      title,
+      content,
+      user_name AS userName,
+      user_id AS userId,
+      module_id AS moduleId,
+      type,
+      `status`,
+      create_time AS createTime,
+      0 as n
+      FROM post
+      WHERE type = '1'
+      and module_id = #{moduleId}
+      <if test='userId != null and userId!="" '>
+        and user_id = #{userId}
+      </if>
+      <if test='key != null and key!="" '>
+        <bind name="keyWord" value="'%' + key + '%'"/>
+        and (title like #{keyWord} or content like #{keyWord})
+      </if>
+      <if test='status != null and status!="" '>
+        and status = #{status}
+      </if>
+      <if test='postType != null and postType!="" '>
+        and type = #{postType}
+      </if>
+      )
+      UNION
+      (SELECT
+      id AS postId,
+      title,
+      content,
+      user_name AS userName,
+      user_id AS userId,
+      module_id AS moduleId,
+      type,
+      `status`,
+      create_time AS createTime,
+      1 as n
+      FROM post
+      WHERE type NOT IN ( '1' )
+      and module_id = #{moduleId}
+      <if test='userId != null and userId!="" '>
+        and user_id = #{userId}
+      </if>
+      <if test='key != null and key!="" '>
+        <bind name="keyWord" value="'%' + key + '%'"/>
+        and (title like #{keyWord} or content like #{keyWord})
+      </if>
+      <if test='status != null and status!="" '>
+        and status = #{status}
+      </if>
+      <if test='postType != null and postType!="" '>
+        and type = #{postType}
+      </if>
+      )
+    )result
+    ORDER BY result.n, createTime DESC
   </select>
 
   <insert id="insertPost" parameterType="pers.wong.kec.domain.requestdto.PostDTO">

@@ -54,12 +54,12 @@ public class PostController {
     return postService.getPostById(postId);
   }
 
-  @GetMapping("/deletePost/{postId}")
+  @GetMapping("/updatePost/{postId}")
   public Result deletePost(@PathVariable("postId") String postId, HttpServletRequest request) {
     String userId = CommonUtil.getCurrentUserId(request);
     if (CommonUtil.isEmptyOrNull(userId)) {
       return Result.failed(ResultEnum.USER_NOT_SIGN_UP, "用户未登录");
     }
-    return postService.deletePost(postId, userId);
+    return postService.updatePost(postId, userId);
   }
 }
