@@ -29,7 +29,7 @@
       `status`,
       create_time AS createTime
     from `comment`
-    where relation_id = #{postId} AND relation_type = '0'
+    where relation_id = #{postId} AND relation_type = '0' and status = '0'
     ORDER BY createTime
   </select>
 
@@ -44,7 +44,7 @@
       `status`,
       create_time AS createTime
     from `comment`
-    where relation_id = #{commentId} AND relation_type = '1'
+    where relation_id = #{commentId} AND relation_type = '1' and status = '0'
     ORDER BY createTime
   </select>
 

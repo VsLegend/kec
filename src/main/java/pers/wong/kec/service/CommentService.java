@@ -2,6 +2,7 @@ package pers.wong.kec.service;
 
 import pers.wong.kec.common.Result;
 import pers.wong.kec.domain.requestdto.CommentRequestDTO;
+import pers.wong.kec.domain.requestdto.DeleteCommentRequestDTO;
 
 /**
  * @author Wangjunwei
@@ -19,4 +20,9 @@ public interface CommentService {
    * 获取主贴的评论数
    */
   int getCommentNum(String postId, int day);
+
+  /**
+   * 删除评论或回复
+   */
+  Result deleteComment(DeleteCommentRequestDTO dto);
 }

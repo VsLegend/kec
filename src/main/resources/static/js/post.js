@@ -1,3 +1,72 @@
+//展示主贴以及其评论，回复
+function user_show_post_comment(user, data, postId, post) {
+  load_post_content(post, user);
+  //展示评论以及其回复
+  var comment = data.list;
+  // console.log(comment);
+  //展示评论
+  for (var i = 0; i < comment.length; i++) {
+    var commentId = comment[i].commentId;
+    var owner = '';
+    if (post.userId === comment[i].userId) {
+      owner += '<span class="badge red lighten-2 white-text">楼主</span>';
+    }
+    var operaion = '';
+    operaion = getCommentBottomInfo(post, comment[i], user, '0', i + 2);
+    // 在翻页前依次插入
+    $('#pagination-li').before(
+        '  <li class="collection-item">'
+        + '  <div class="row" style="margin: 0; padding-top:5px">'
+        + '    <div class="col s2 center">'
+        + '      <div class="row">'
+        + '        <img src="/static/image/9.jpg" width="64" height="64"'
+        + '             class="circle" style="padding: 3px; border: #40c4ff solid 1px;">'
+        + '      </div>'
+        //用户姓名
+        + '      <a href="#user-modal-detail" class="modal-trigger blue-text text-lighten-3" id="'
+        + comment[i].userId + '">' + comment[i].userName + '</a>' + owner
+        + '    </div>'
+        + '    <div class="col s10" style="border-left: #eceff1 solid 1px">'
+        + '      <!--主贴内容-->'
+        + '      <div class="col s12"><p>' + comment[i].content + '<br></p></div><br>'
+        + '      <!--操作-->'
+        + '      <div class="col s12"><p class="right">' + operaion + '</p></div>'
+        + '      <!--回复-->'
+        + '      <div class="col s12">'
+        + '        <ul class="collection with-header" >'
+        + '          <li class="collection-item" id="li_' + commentId + '">'
+        + '            <textarea  placeholder="Placeholder" id="reply_' + commentId + '"></textarea>'
+        + '            <button class="btn-small waves-effect waves-light right" onclick="send_reply_p(this.id)" type="button" name="action"'
+        + '               id="reply_button' + commentId + '">'
+        + '              发送'
+        + '            </button>'
+        + '          </li>'
+        + '        </ul>'
+        + '      </div>'
+        + '    </div>'
+        + '  </div>'
+        + '</li>');
+    //展示回复
+    var reply = comment[i].replyResponseDTOS;
+    if (reply.length != 0) {
+      for (var j = 0; j < reply.length; j++) {
+        var replyOwn = '';
+        replyOwn = getReplyBottomInfo(post, reply[j], user, '1');
+        $('#li_' + commentId).before('<li class="collection-item">'
+            + '<div class="" id="' + reply[j].replyId + '"><a href="#user-modal-detail"'
+            + 'id="' + reply[j].userId + '" class="modal-trigger blue-text text-lighten-3"> '
+            + reply[j].userName + '</a> 回复: '
+            + reply[j].content
+            + '<p class="right" style="margin: 3px">' + replyOwn + '</p>'
+            + '</div>'
+            + '</li>');
+      }
+    }
+    view_user_detail();
+  }
+}
+
+
 // 主贴内容加载Ajax
 function post_content_ajax(size, num, post) {
   var postContentRequestDTO = {
@@ -19,7 +88,6 @@ function post_content_ajax(size, num, post) {
       if (data.code === 1000) {
         // console.log(data.data);
         list = data.data;
-        show_post_comment(data, getUrlParam("id"), post);
       } else {
         showMessage(data.data);
       }
@@ -43,7 +111,7 @@ function show_post_comment(data, postId, post) {
   $('#post_div').find('span').html(post.content);
   //展示评论以及其回复
   var comment = data.list;
-  console.log(comment);
+  // console.log(comment);
   //展示评论
   for (var i = 0; i < comment.length; i++) {
     var commentId = comment[i].commentId;
@@ -167,6 +235,112 @@ function send_reply_ajax(relationId, type, text) {
     },
     error: function (e) {
       showMessage("服务器异常，回复失败");
+    }
+  });
+}
+
+//加载主贴信息
+function load_post_content(post, user) {
+  if (post.status === "1") {
+    $("#add_new_comment").attr("disabled", true);
+    return;
+  }
+  var operation = null;
+  operation = getPostBottomInfo(post, user);
+  $('#user-name').text(post.userName);
+  $('#user-name').attr("id", user.id);
+  $('#post-title').text(post.title);
+  $('#post-comment-content').html(post.content);
+  $('#operation-date-content').html(operation);
+}
+
+//返回 主贴是否有删除按钮
+function getPostBottomInfo(post, user) {
+  // console.log(post);
+  var info = "";
+  //可以删除本人发布的主贴、评论或回复
+  if (post.userId === user.id) {
+    info += ('<a href="#!" onclick="delete_post_ajax(\'' + post.postId + '\')">删除</a>' + ' | ')
+  }
+  info +=(" 1楼 " + post.createTime + " | ");
+  return info;
+}
+
+//返回 评论是否有删除按钮
+function getCommentBottomInfo(post, comment, user, relationType, i) {
+  // 类型 0评论  1回复
+  // console.log(post);
+  var info = "";
+  //可以删除本人发布的主贴、评论或回复
+  if (post.userId === user.id || comment.userId === user.id) {
+    info += ('<a href="#!" onclick="delete_comment_ajax(\'' + post.postId + '\',\'' + comment.commentId + '\',\'' + relationType + '\')">删除</a>' + ' | ')
+  }
+  info +=(" "+ i + "楼 " + comment.createTime + " | ");
+  return info;
+}
+
+//返回 回复是否有删除按钮
+function getReplyBottomInfo(post, reply, user, relationType) {
+  // 类型 0评论  1回复
+  // console.log(post);
+  var info = "";
+  //可以删除本人发布的主贴、评论或回复
+  if (post.userId === user.id || reply.userId === user.id) {
+    info += ('<a href="#!" onclick="delete_comment_ajax(\'' + post.postId + '\',\'' + reply.replyId + '\',\'' + relationType + '\')">删除</a>' + ' | ')
+  }
+  info +=(" " + reply.createTime + " | ");
+  info +=('<a href="#!" class="">回复</a>');
+  return info;
+}
+
+//用户删除主贴Ajax
+function delete_post_ajax(postId) {
+  $.ajax({
+    type: 'GET',
+    contentType: "application/json",
+    url: "/userPostOperation/deletePost/" + postId,
+    datatype: 'json',
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        showMessage("删除成功");
+        setInterval("go_back();", 1500);
+      } else {
+        showMessage("删除失败：" + data.message);
+      }
+    },
+    error: function (e) {
+      showMessage("服务器异常");
+    }
+  });
+}
+
+//删除评论或回复Ajax 类型 0评论  1回复
+function delete_comment_ajax(postId, commentId, relationType) {
+  var dto = {
+    commentId: commentId,
+    postId: postId,
+    relationType: relationType
+  };
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/userPostOperation/deleteComment",
+    data: JSON.stringify(dto),
+    datatype: 'json',
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        showMessage("删除成功");
+        setInterval("window.location.reload();", 1500);
+      } else {
+        showMessage("删除失败：" + data.message);
+      }
+    },
+    error: function (e) {
+      showMessage("服务器异常");
     }
   });
 }

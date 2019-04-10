@@ -5,6 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import pers.wong.kec.common.CommonUtil;
 import pers.wong.kec.common.Result;
+import pers.wong.kec.common.enums.KecAllEnum;
+import pers.wong.kec.common.enums.ResultEnum;
 import pers.wong.kec.dao.dao.CommentMapper;
 import pers.wong.kec.dao.dao.PostMapper;
 import pers.wong.kec.dao.dao.UserAttentionMapper;
@@ -13,6 +15,7 @@ import pers.wong.kec.domain.entity.Comment;
 import pers.wong.kec.domain.entity.Post;
 import pers.wong.kec.domain.entity.UserAttention;
 import pers.wong.kec.domain.requestdto.CommentRequestDTO;
+import pers.wong.kec.domain.requestdto.DeleteCommentRequestDTO;
 import pers.wong.kec.service.CommentService;
 import pers.wong.kec.service.MessagePushService;
 
@@ -78,6 +81,19 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public int getCommentNum(String postId, int day) {
     return commentMapper.getCommentNum(postId, day);
+  }
+
+  @Override
+  public Result deleteComment(DeleteCommentRequestDTO dto) {
+    Post post = postMapper.selectByPrimaryKey(dto.getPostId());
+    Comment comment = commentMapper.selectByPrimaryKey(dto.getCommentId());
+    //当前用户为主贴发贴人 || 当前用户为评论或回复人
+    if (post.getUserId().equals(dto.getCurrentUserId()) || comment.getUserId().equals(dto.getCurrentUserId())) {
+      comment.setStatus(KecAllEnum.STATUS_DELETE.getCode());
+      commentMapper.updateByPrimaryKeySelective(comment);
+      return Result.success();
+    }
+    return Result.failed(ResultEnum.ACCESS_DENIED, "当前用户无权删除");
   }
 
   //插入语句

@@ -108,11 +108,11 @@ function module_ajax(size, num, status) {
         list = data.data;
         load_module_for_post(data.data);
       } else {
-        alert(data.data);
+        showMessage(data.data);
       }
     },
     error: function (e) {
-      alert("服务器异常，获取失败");
+      showMessage("服务器异常，获取失败");
     }
   });
   // console.log(list);
@@ -183,31 +183,35 @@ function user_get_post(num, moduleId) {
       //设置信息
       load_post_table("show-post",post_list);
       //点击查看用户详情
-      $("[href='#user-modal-detail']").click(function () {
-        //同步请求，get post默认异步
-        $.ajaxSettings.async = false;
-        $.get('/user/getUserDetail/' + this.id, function (data, status) {
-          if (status === 'success') {
-            if (data.code === 1000) {
-              //成功
-              // console.log(data.data);
-              var info = data.data;
-              $('#user-modal-detail').find("h4").text(info.name);
-            } else {
-              showMessage("状态码：" + data.code + "异常信息：" + data.data);
-            }
-          } else {
-            showMessage("服务器异常，查询失败");
-          }
-        });
-        $.ajaxSettings.async = true;
-      });
+      view_user_detail();
     } else {
-      alert(data.message);
+      showMessage(data.message);
     }
   });
   $.ajaxSettings.async = true;
   return post_list;
+}
+
+//点击查看用户详情
+function view_user_detail() {
+  $("[href='#user-modal-detail']").click(function () {
+    //同步请求，get post默认异步
+    $.ajaxSettings.async = false;
+    $.get('/user/getUserDetail/' + this.id, function (data, status) {
+      if (status === 'success') {
+        if (data.code === 1000) {
+          //成功
+          // console.log(data.data);
+          var info = data.data;
+          $('#user-modal-detail').find("h4").text(info.name);
+        } else {
+          showMessage("状态码：" + data.code + " 异常信息：" + data.data);
+        }
+      } else {
+        showMessage("服务器异常，查询失败");
+      }
+    });
+  })
 }
 
 //获取板块下的全部主贴内容
