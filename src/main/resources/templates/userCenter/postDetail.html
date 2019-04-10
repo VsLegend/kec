@@ -41,7 +41,7 @@
       <!--添加栏，筛选栏--><br>
       <div class="row">
         <div class="left">
-          <h6 class="red-text text-lighten-3" style="margin-left: 60px">帖子内容展示</h6>
+          <h6 class="red-text text-lighten-3" style="margin-left: 60px">贴子内容展示</h6>
         </div>
         <div class="right">
           <a onclick="go_back()" style="margin-right: 60px"
@@ -51,27 +51,53 @@
       <hr>
       <br><br>
 
-      <div class="col s12">
-        <div class="card-panel grey lighten-5 z-depth-1" id="post_card_show">
-          <!--主贴内容-->
-          <div class="row valign-wrapper" id="post_div">
-            <div class="col s2">
-              <img src="/static/image/tomato.png" alt="" class="circle-clipper responsive-img"><!-- notice the "circle" class -->
-              <br><a href="#!"></a>
+      <!--主贴以及其主贴评论内容-->
+      <div class="row">
+        <ul class="collection" id="post-and-comment-ul">
+          <!--主贴信息-->
+          <li class="collection-item">
+            <div class="row" style="margin: 0; padding-top: 5px">
+              <div class="col s2 center">
+                <div class="row">
+                  <img src="/static/image/7.jpg" width="64" height="64"
+                       class="circle" style="padding: 3px; border: #40c4ff solid 1px;">
+                </div>
+                <!--用户名-->
+                <a href="#user-modal-detail" class="modal-trigger blue-text text-lighten-3" id="user-name"></a>
+                <span class="badge red lighten-2 white-text">楼主</span>
+              </div>
+              <div class="col s10" style="border-left: #eceff1 solid 1px">
+                <!--主贴标题-->
+                <div class="col s12"><span id="post-title" class="title"></span></div>
+                <!--主贴内容-->
+                <div class="col s12"><p id="post-comment-content"><br></p></div><br>
+                <!--操作-->
+                <div class="col s12"><p class="right" id="operation-date-content"></p></div>
+              </div>
             </div>
-            <div class="col s10">
-              <p class="right">1楼</p>
-              <h5></h5>
-              <span></span>
 
+
+            <!--翻页-->
+          <li class="collection-item avatar" id="pagination-li">
+            <br>
+            <div class="container center" >
+              <ul class="pagination" id="post-pagination">
+              </ul>
             </div>
+          </li>
+        </ul>
+
+        <!--用户详情展示-->
+        <div id="user-modal-detail" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>吧龄：2</p>
+            <p>发帖：90</p>
+            <p>他关注的板块：XX XX XX</p>
           </div>
-          <br><hr color="#f0f4c3"><br>
-        </div>
-        <!--翻页-->
-        <div class="container center" >
-          <ul class="pagination" id="post-pagination">
-          </ul>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">返回</a>
+          </div>
         </div>
       </div>
 
@@ -136,7 +162,7 @@
     var post = get_post_detail_ajax(postId);
     var list = post_content_ajax(10, 1, post);
     //初始化页面数据
-    show_post_comment(list, postId, post);
+    user_show_post_comment(user, list, postId, post);
     //访问量+1
     visit_num_plus_ajax(postId);
     //分页初始化
@@ -155,7 +181,7 @@
         var i = 0;
         if (i !== 0){
           var data = post_content_ajax(list.pageSize, num, post);
-          show_post_comment(data, postId, post);
+          user_show_post_comment(user, data, postId, post);
         }
         i++;
       }
