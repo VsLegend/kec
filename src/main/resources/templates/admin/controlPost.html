@@ -175,14 +175,6 @@
 <script src="/static/js/commonJs.js"></script>
 <script>
   $(document).ready(function(){
-    //输入框的字数限制
-    $('input#module_name, textarea#textarea2').characterCounter();
-    //Select jQuery
-    $('select').formSelect();
-    //collapsibel
-    $('.collapsible').collapsible();
-    //对话框初始化
-    $('.modal').modal();
     var post_list = getPostDetail();
     $('#module-pagination').jqPaginator({
       totalPages: post_list.pages === 0 ? 1 : post_list.pages,

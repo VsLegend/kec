@@ -9,7 +9,7 @@ function user_show_post_comment(user, data, postId, post) {
     var commentId = comment[i].commentId;
     var owner = '';
     if (post.userId === comment[i].userId) {
-      owner += '<span class="badge red lighten-2 white-text">楼主</span>';
+      owner += '<span class="badge child-like-red white-text">楼主</span>';
     }
     var operaion = '';
     operaion = getCommentBottomInfo(post, comment[i], user, '0', i + 2);
@@ -20,10 +20,10 @@ function user_show_post_comment(user, data, postId, post) {
         + '    <div class="col s2 center">'
         + '      <div class="row">'
         + '        <img src="/static/image/9.jpg" width="64" height="64"'
-        + '             class="circle" style="padding: 3px; border: #40c4ff solid 1px;">'
+        + '             class="circle child-like-border-blue">'
         + '      </div>'
         //用户姓名
-        + '      <a href="#user-modal-detail" class="modal-trigger blue-text text-lighten-3" id="'
+        + '      <a href="#user-modal-detail" class="modal-trigger child-like-text-blue" id="'
         + comment[i].userId + '">' + comment[i].userName + '</a>' + owner
         + '    </div>'
         + '    <div class="col s10" style="border-left: #eceff1 solid 1px">'
@@ -36,10 +36,11 @@ function user_show_post_comment(user, data, postId, post) {
         + '        <ul class="collection with-header" >'
         + '          <li class="collection-item" id="li_' + commentId + '">'
         + '            <textarea  placeholder="Placeholder" id="reply_' + commentId + '"></textarea>'
-        + '            <button class="btn-small waves-effect waves-light right" onclick="send_reply_p(this.id)" type="button" name="action"'
+        + '            <a class="btn-small waves-effect waves-light right child-like-blue white-text" '
+        + '               onclick="send_reply_p(this.id)" '
         + '               id="reply_button' + commentId + '">'
         + '              发送'
-        + '            </button>'
+        + '            </a>'
         + '          </li>'
         + '        </ul>'
         + '      </div>'

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,9 +11,10 @@
   <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
         media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 
-<body>
+<body class="child-like-light-white">
 <!--导航栏-->
 <nav class="z-depth-1">
   <div class="white nav-wrapper">
@@ -41,30 +43,30 @@
       <!--添加栏，筛选栏--><br>
       <div class="row">
         <div class="left">
-          <h6 class="red-text text-lighten-3" style="margin-left: 60px">贴子内容展示</h6>
+          <h6 class="child-like-text-red" style="margin-left: 60px">贴子内容展示</h6>
         </div>
         <div class="right">
           <a onclick="go_back()" style="margin-right: 60px"
-             class="waves-effect waves-light btn modal-trigger red lighten-3 white-text">返回</a>
+             class="btn modal-trigger child-like-red white-text">返回</a>
         </div>
       </div>
       <hr>
       <br><br>
 
       <!--主贴以及其主贴评论内容-->
-      <div class="row">
-        <ul class="collection" id="post-and-comment-ul">
+      <div class="row z-depth-1" style="margin: 0">
+        <ul class="collection" id="post-and-comment-ul" style="margin: 0">
           <!--主贴信息-->
           <li class="collection-item">
             <div class="row" style="margin: 0; padding-top: 5px">
               <div class="col s2 center">
                 <div class="row">
                   <img src="/static/image/7.jpg" width="64" height="64"
-                       class="circle" style="padding: 3px; border: #40c4ff solid 1px;">
+                       class="circle child-like-border-blue">
                 </div>
                 <!--用户名-->
-                <a href="#user-modal-detail" class="modal-trigger blue-text text-lighten-3" id="user-name"></a>
-                <span class="badge red lighten-2 white-text">楼主</span>
+                <a href="#user-modal-detail" class="modal-trigger child-like-text-blue" id="user-name"></a>
+                <span class="badge child-like-red white-text">楼主</span>
               </div>
               <div class="col s10" style="border-left: #eceff1 solid 1px">
                 <!--主贴标题-->
@@ -106,7 +108,7 @@
       <!--回复主贴-->
       <div class="row center col s12">
         <form>
-          <label for="post_container" class="left">评论内容：</label><br>
+          <label for="post_container" class="left child-like-text-red">评论内容：</label><br>
           <!-- 加载编辑器的容器 -->
           <script id="post_container" name="content" type="text/plain">
           </script>
@@ -115,7 +117,7 @@
         <!--提交-->
         <div class="row">
           <button id="add_new_comment"
-                  class="btn-large btn waves-effect waves-light red lighten-3 white-text"
+                  class="btn-large waves-effect waves-light child-like-blue white-text"
                   style="width: 200px; margin-left: 20px;" type="button">评论<i class="material-icons right">send</i></button>
         </div>
       </div>

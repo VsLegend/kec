@@ -10,9 +10,10 @@
   <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
         media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 
-<body class="blue-grey lighten-5">
+<body class="child-like-light-white">
 <!--导航栏-->
 <nav class="z-depth-1">
   <div class="white nav-wrapper">
@@ -61,15 +62,15 @@
       <div class="row left-align">
           <div class="row col s12 m12" style="padding-left: 40px">
             <div class="col s12">
-              <h5 id="post-name" class="red-text text-lighten-3">板块名称</h5>
-              <p id="post-admin" class="red-text text-lighten-3">管理员</p>
+              <h5 id="post-name" class="">板块名称</h5>
+              <p id="post-admin" class="child-like-text-blue">管理员</p>
             </div>
 
             <div class="col s2">
-              <p class="blue-grey-text text-lighten-3">主贴总数:290420</p>
+              <p class="child-like-text-blue">主贴总数:290420</p>
             </div>
             <div class="col s10">
-              <p class="blue-grey-text text-lighten-3">关注量:23984</p>
+              <p class="child-like-text-blue">关注量:23984</p>
             </div>
           </div>
       </div>
@@ -137,13 +138,13 @@
     <form>
       <div class="row">
         <div class="input-field">
-          <i class="material-icons prefix">mode_edit</i>
+          <i class="material-icons prefix child-like-text-red">mode_edit</i>
           <input id="post_name" type="text" data-length="30">
           <label for="post_name">主贴标题</label>
         </div>
       </div>
       <div class="row">
-        <label for="post_container" class="left">主贴内容：</label><br>
+        <label for="post_container" class="left child-like-text-red">主贴内容：</label><br>
         <!-- 加载编辑器的容器 -->
         <script id="post_container" name="content" type="text/plain">
         </script>
@@ -153,9 +154,9 @@
     <!--提交-->
     <div class="row">
       <button id="add_new_module"
-              class="waves-effect waves-light btn modal-trigger red lighten-3 white-text"
+              class="btn-large waves-effect waves-light child-like-blue white-text"
               style="width: 200px; margin-left: 20px;"
-              type="button">提交
+              type="button">提交<i class="material-icons right">send</i>
       </button>
     </div>
   </div>

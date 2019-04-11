@@ -1,0 +1,90 @@
+
+
+/**
+童趣
+ */
+.child-like-red {
+  /*background-color: #ff7573;*/
+  background-color: rgba(255,117,115, 1);
+}
+
+.child-like-light-white {
+  /*background-color: #feffd5;*/
+  background-color: rgba(254,255,213, 0.6);
+}
+
+.child-like-blue {
+  /*background-color: #93cadf;*/
+  background-color: rgba(147,202,223, 1);
+}
+
+.child-like-text-red {
+  color: #ff7573;
+}
+
+.child-like-text-light-white {
+  color: #feffd5;
+}
+
+.child-like-text-blue {
+  color: #93cadf;
+}
+
+.child-like-border-red {
+  padding: 3px;
+  border: #ff7573 solid 1px;
+}
+
+.child-like-border-light-white {
+  padding: 3px;
+  border: #feffd5 solid 1px;
+}
+
+.child-like-border-blue {
+  padding: 3px;
+  border: #93cadf solid 1px;
+}
+
+
+
+/**
+大众化的
+ */
+.papularization-red{
+  background-color:#ff6569 ;
+}
+
+.papularization-yellow{
+  background-color:#fff087 ;
+}
+
+.papularization-blue{
+  background-color:#636cb9 ;
+}
+
+.papularization-text-red{
+  color:#ff6569 ;
+}
+
+.papularization-text-yellow{
+  color:#fff087 ;
+}
+
+.papularization-text-blue{
+  color:#636cb9 ;
+}
+
+.papularization-border-red {
+  padding: 3px;
+  border: #ff6569 solid 1px;
+}
+
+.papularization-border-yellow {
+  padding: 3px;
+  border: #fff087 solid 1px;
+}
+
+.papularization-border-blue {
+  padding: 3px;
+  border: #636cb9 solid 1px;
+}

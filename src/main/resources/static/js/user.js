@@ -8,6 +8,62 @@ $(document).ready(function () {
   });
 });
 
+
+//获取消息推送的内容
+function message_push_ajax(size, num) {
+  var message = null;
+  var page ={
+    pageNum: num,
+    pageSize: size
+  };
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/messagePush/selectUserMessage",
+    data: JSON.stringify(page),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data);
+        message = data.data;
+        //页面加载信息
+      } else {
+        showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+      }
+    },
+    error: function (e) {
+      showMessage('服务器异常，页面加载错误');
+    }
+  });
+  return message;
+}
+
+//消息已读ajax
+function messageRead(messageId) {
+  $.ajax({
+    type: 'GET',
+    contentType: "application/json",
+    url: "/messagePush/messageRead/" + messageId,
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data);
+      } else {
+        showMessage('错误码：' + data.data.code + '。 异常：' + data.data.message);
+      }
+    },
+    error: function (e) {
+      showMessage('服务器异常，页面加载错误');
+    }
+  });
+}
+
 //保存修改的密码
 function save_password() {
   //新密码校验
