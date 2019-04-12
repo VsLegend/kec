@@ -472,6 +472,7 @@ function focus_post_ajax(postId) {
     success: function (data) {
       if (data.code === 1000) {
         console.log(data.data);
+        showMessage(data.data);
         result = data.data;
       } else {
         showMessage(data.code + data.data);

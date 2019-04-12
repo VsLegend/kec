@@ -34,12 +34,7 @@ public interface PostService {
    */
   Result getPostAndComment(PostContentRequestDTO contentRequestDTO);
 
-  Result getPostById(String postId);
-
-  /**
-   * 热门主贴算法
-   */
-  boolean popularPost();
+  Result getPostById(String postId, String userId);
 
   /**
    * 近期热门主贴

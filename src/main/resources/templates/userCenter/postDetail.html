@@ -39,6 +39,22 @@
 <!--内容-->
 <div class="row">
   <div class="container">
+
+    <!--右下角固定导航栏-->
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large red">
+        <i class="large material-icons">view_list</i>
+      </a>
+      <ul>
+        <li><a href="javascript:self.location.reload();" class="btn-floating yellow darken-1">
+          <i class="material-icons">refresh</i></a></li>
+        <li><a href="#" class="btn-floating green">
+          <i class="material-icons">publish</i></a></li>
+        <li><a href="#post_container" class="btn-floating blue">
+          <i class="material-icons">comment</i></a></li>
+      </ul>
+    </div>
+
     <div class="input-field col s12">
       <!--添加栏，筛选栏--><br>
       <div class="row">
@@ -56,6 +72,16 @@
       <!--主贴以及其主贴评论内容-->
       <div class="row z-depth-1" style="margin: 0">
         <ul class="collection" id="post-and-comment-ul" style="margin: 0">
+          <li class="collection-item">
+            <div class="row" style="margin: 0;">
+              <!--主贴标题-->
+              <div class="col s9"><h6 id="post-title" class="title"></h6></div>
+              <div class="col s2" style="padding-top: 6px">
+                <a id="focus-post" href="#!" class="right child-like-text-blue child-like-border-blue">关注</a></div>
+              <div class="col s1" style="padding-top: 6px">
+                <a href="#post_container" class="left child-like-text-blue child-like-border-blue">回复</a></div>
+            </div>
+          </li>
           <!--主贴信息-->
           <li class="collection-item">
             <div class="row" style="margin: 0; padding-top: 5px">
@@ -69,14 +95,13 @@
                 <span class="badge child-like-red white-text">楼主</span>
               </div>
               <div class="col s10" style="border-left: #eceff1 solid 1px">
-                <!--主贴标题-->
-                <div class="col s12"><span id="post-title" class="title"></span></div>
                 <!--主贴内容-->
                 <div class="col s12"><p id="post-comment-content"><br></p></div><br>
                 <!--操作-->
                 <div class="col s12"><p class="right" id="operation-date-content"></p></div>
               </div>
             </div>
+          </li>
 
 
             <!--翻页-->
@@ -163,6 +188,13 @@
     show_unread_message();
     var post = get_post_detail_ajax(postId);
     var list = post_content_ajax(10, 1, post);
+    //是否关注
+    focus_post(post);
+    $('#focus-post').click(function () {
+      //关注
+      focus_post_ajax(post.postId);
+      setInterval("window.location.reload()", 1500);
+    });
     //初始化页面数据
     user_show_post_comment(user, list, postId, post);
     //访问量+1
@@ -189,6 +221,16 @@
       }
     });
   });
+
+  //是否关注 focusPost 0否 1是
+  function focus_post(post) {
+    // console.log(post);
+    if (post.focusPost === '1'){
+      $('#focus-post').text("取消关注");
+    } else {
+      $('#focus-post').text("关注");
+    }
+  }
 
   //发评论
   $('#add_new_comment').click(function () {

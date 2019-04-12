@@ -54,6 +54,12 @@ public enum KecAllEnum {
   POST_TYPE_TOPPING("7", "1", "置顶"),
   POST_TYPE_ESSENCE("7", "2", "精华"),
   POST_TYPE_POPULAR("7", "3", "热门"),
+
+  /**
+   * 是否关注主贴
+   */
+  FOLLOW_POST_NO("8", "0", "没有关注主贴"),
+  FOLLOW_POST_YES("8", "1", "关注主贴"),
   ;
 
   private String group;

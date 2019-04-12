@@ -141,30 +141,15 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public Result getPostById(String postId) {
+  public Result getPostById(String postId, String userId) {
     PostResponseDTO post = postMapper.getPostById(postId);
+    UserAttention followInfo = userAttentionMapper.getFollowInfo(userId, postId);
+    if (null != followInfo) {
+      post.setFocusPost(KecAllEnum.FOLLOW_POST_YES.getCode());
+    } else {
+      post.setFocusPost(KecAllEnum.FOLLOW_POST_NO.getCode());
+    }
     return Result.success(post);
-  }
-
-  @Override
-  public boolean popularPost() {
-
-    return false;
-    //板块类型  0校园服务 1学习交流  2娱乐交友  3其他板块
-    //帖子类型，0普通 1置顶  2精华  3热门
-//    List<String> list = new ArrayList<>();
-//        list = postMapper.popularPost(10, KecAllEnum.MODULE_TYPE_SCHOOL.getCode());
-//    list.addAll(postMapper.popularPost(10, KecAllEnum.MODULE_TYPE_LEARN.getCode()));
-//    list.addAll(postMapper.popularPost(10, KecAllEnum.MODULE_TYPE_ENTERTAINMENT.getCode()));
-//    list.addAll(postMapper.popularPost(10, KecAllEnum.MODULE_TYPE_OTHERS.getCode()));
-//    if (list.size() == 0) {
-//      return false;
-//    }
-//    //先将原本的热帖改为普通贴，然后再设置热帖
-//    List<String> oldHot = postMapper.selectOriginalPopPost();
-//    int i = postMapper.updatePostType(oldHot, KecAllEnum.POST_TYPE_NORMAL.getCode());
-//    int i1 = postMapper.updatePostType(list, KecAllEnum.POST_TYPE_POPULAR.getCode());
-//    return true;
   }
 
   @Override
@@ -189,7 +174,8 @@ public class PostServiceImpl implements PostService {
     UserAttention followInfo = userAttentionMapper
         .getFollowInfo(postContentRequestDTO.getUserId(), postContentRequestDTO.getPostId());
     if (null != followInfo) {
-      return Result.success();
+      int i = userAttentionMapper.deleteByPrimaryKey(followInfo);
+      return Result.success("取消关注成功");
     }
     UserAttention userAttention = new UserAttention();
     userAttention.setId(CommonUtil.getUUID());
@@ -198,6 +184,6 @@ public class PostServiceImpl implements PostService {
     userAttention.setCreateTime(new Date());
     userAttention.setStatus("0");
     userAttentionMapper.insertSelective(userAttention);
-    return Result.success();
+    return Result.success("关注成功");
   }
 }

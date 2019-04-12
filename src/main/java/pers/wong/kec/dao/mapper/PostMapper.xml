@@ -92,16 +92,19 @@
 
   <select id="getPostById" resultType="pers.wong.kec.domain.responsedto.PostResponseDTO">
     select
-      id AS postId,
-      title,
-      content,
-      user_name AS userName,
-      user_id AS userId,
-      module_id AS moduleId,
-      type,
-      `status`,
-      create_time AS createTime
-    from post
+      p.id AS postId,
+      p.title,
+      p.content,
+      p.user_name AS userName,
+      p.user_id AS userId,
+      p.module_id AS moduleId,
+      p.type,
+      p.`status`,
+      p.create_time AS createTime,
+      visit.visitNum AS visitNum
+    from post p
+    LEFT JOIN ( SELECT post_id, COUNT( 1 ) AS visitNum FROM visit WHERE `status` = '0' GROUP BY post_id ) visit
+    ON p.id = visit.post_id
     where id = #{postId}
   </select>
 
