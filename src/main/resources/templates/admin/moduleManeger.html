@@ -9,6 +9,7 @@
   <link href="/static/css/Material.css" rel="stylesheet">
   <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <style>
     header, main, footer {
       padding-left: 300px;
@@ -69,13 +70,18 @@
   <div class="container">
     <div class="left input-field col s12">
       <!--添加栏，筛选栏--><br>
-      <div class="row">
-        <div class="right">
-          <a href="/backstage/addNewModule"
-             class="waves-effect btn blue lighten-3 white-text">新增板块</a>
+      <div class="row col s12">
+        <div class="col s12 m9">
+          <h6 class="child-like-text-blue left">板块列表</h6>
+        </div>
+        <div class="col s12 m3">
+          <a href="/backstage/addNewModule" class="child-btn right">新增板块</a>
         </div>
       </div>
+
       <br><br>
+      <hr class="child-hr-blue">
+      <br>
       <!--板块列表展示-->
       <table class="highlight centered" style="line-height: 50px" id="module_table" >
         <thead>

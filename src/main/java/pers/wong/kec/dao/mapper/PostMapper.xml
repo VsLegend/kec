@@ -139,14 +139,20 @@
       AND f.follow > 0
   </select>
 
-  <update id="updatePostType" parameterType="java.util.List">
+  <update id="updatePostType">
     update post
     set type = #{type}
-    where id in
-    <foreach collection="list" index="index" item="item"
-      separator="," open="(" close=")">
-      #{item}
-    </foreach>
+    where status = '0'
+    <if test='list == null or list.size == 0 '>
+      and 0=1
+    </if>
+    <if test='list != null and list.size != 0 '>
+       and id in
+      <foreach collection="list" index="index" item="item"
+        separator="," open="(" close=")">
+        #{item}
+      </foreach>
+    </if>
   </update>
 
   <update id="updatePostPopularIndex">

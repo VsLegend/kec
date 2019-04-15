@@ -56,18 +56,8 @@
     </div>
 
     <div class="input-field col s12">
-      <!--添加栏，筛选栏--><br>
-      <div class="row">
-        <div class="left">
-          <h6 class="child-like-text-red" style="margin-left: 60px">贴子内容展示</h6>
-        </div>
-        <div class="right">
-          <a onclick="go_back()" style="margin-right: 60px"
-             class="btn modal-trigger child-like-red white-text">返回</a>
-        </div>
-      </div>
-      <hr>
-      <br><br>
+
+      <br><br><br>
 
       <!--主贴以及其主贴评论内容-->
       <div class="row z-depth-1" style="margin: 0">
@@ -75,11 +65,13 @@
           <li class="collection-item">
             <div class="row" style="margin: 0;">
               <!--主贴标题-->
-              <div class="col s9"><h6 id="post-title" class="title"></h6></div>
+              <div class="col s8"><h6 id="post-title" class="title"></h6></div>
               <div class="col s2" style="padding-top: 6px">
-                <a id="focus-post" href="#!" class="right child-like-text-blue child-like-border-blue">关注</a></div>
+                <a id="focus-post" href="#!" class="right child-btn">关注</a></div>
               <div class="col s1" style="padding-top: 6px">
-                <a href="#post_container" class="left child-like-text-blue child-like-border-blue">回复</a></div>
+                <a href="#post_container" class="right child-btn">回复</a></div>
+              <div class="col s1" style="padding-top: 6px">
+                <a href="#!" onclick="go_back()" class="right child-btn">返回</a></div>
             </div>
           </li>
           <!--主贴信息-->
@@ -200,6 +192,7 @@
     //访问量+1
     visit_num_plus_ajax(postId);
     //分页初始化
+    var i = 0;
     $('#post-pagination').jqPaginator({
       totalPages: list.pages === 0 ? 1 : list.pages,
       visiblePages: 10,
@@ -212,7 +205,6 @@
       page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
       onPageChange: function (num, type) {
         //初始化也要调用
-        var i = 0;
         if (i !== 0){
           var data = post_content_ajax(list.pageSize, num, post);
           user_show_post_comment(user, data, postId, post);

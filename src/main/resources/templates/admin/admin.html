@@ -9,6 +9,7 @@
   <link href="/static/css/Material.css" rel="stylesheet">
   <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <style>
     header, main, footer {
       padding-left: 300px;
@@ -32,7 +33,7 @@
   <div class="nav-wrapper">
     <span id="nav-text" class="brand-logo left blue-text text-lighten-3">新闻中心</span>
     <ul class="right hide-on-med-and-down">
-      <li><a class="blue-text text-lighten-3" href="/logout">退出登录</a></li>
+      <li><a class="child-like-text-blue" href="/logout">退出登录</a></li>
     </ul>
   </div>
 </nav>
@@ -66,21 +67,40 @@
 <!--内容-->
 <br><br>
   <div class="container">
-      <div class="section no-pad-bot" id="index-banner">
-        <div class="container">
-          <br><br>
-          <h1 class="header center orange-text">Starter Template</h1>
-          <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material
-              Design</h5>
-          </div>
-          <div class="row center">
-            <a href="#" id="download-button" class="btn-large waves-effect waves-light orange">Get
-              Started</a>
-          </div>
-          <br><br>
+
+    <!--新闻展示列表-->
+    <div class="row">
+      <div class="row col s12">
+        <div class="col s12 m9">
+          <h6 class="child-like-text-blue left">新闻列表</h6>
+        </div>
+        <div class="col s12 m3">
+          <a href="#!" class="child-btn left">发布新闻</a>
         </div>
       </div>
+
+      <br><br>
+      <hr class="child-hr-blue">
+      <table class="striped responsive-table" style="line-height: 50px" id="show-news-table" >
+        <thead>
+        <tr>
+          <th>新闻标题</th>
+          <th>当前状态</th>
+          <th>创建时间</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <!--翻页-->
+      <div class="row center" >
+        <ul class="pagination" id="news-pagination">
+        </ul>
+      </div>
+    </div>
+
   </div>
 </main>
 
@@ -101,11 +121,58 @@
 <script src="/static/js/materialize.js"></script>
 <script src="/static/js/init.js"></script>
 <script src="/static/js/commonJs.js"></script>
+<script src="/static/js/admin.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
 <script>
   $(document).ready(function(){
-    //导航栏初始化
-    $('.sidenav').sidenav();
+    var newsDto = {
+      page:{
+        pageNum:1,
+        pageSize:10
+      }
+    };
+    var news_list = get_news_list_ajax(newsDto);
+    // console.log(news_list);
+    show_news_table(news_list.list);
+    //分页初始化
+    var i = 0;
+    $('#news-pagination').jqPaginator({
+      totalPages: news_list.pages === 0 ? 1 : news_list.pages,
+      visiblePages: 10,
+      pageSize: news_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        if (i > 0) {
+          newsDto.page.pageNum = num;
+          var news = get_news_list_ajax(newsDto).list;
+          show_news_table(news);
+        }
+        i++;
+      }
+    });
   });
+
+  //新闻表格展示
+  function show_news_table(list) {
+    console.log(list);
+    if (list.length === 0) {
+      $('#show-news-table tbody').append('<tr><td class="center" colspan="4">暂无新闻</td></tr>')
+    } else {
+      for (var i = 0; i < list.length; i++) {
+        $('#show-news-table tbody').append('<tr>'
+            +'<td>' + list[i].title + '</td>'
+            +'<td>' + list[i].status + '</td>'
+            +'<td>' + list[i].createTime + '</td>'
+            +'<td><a href="#!">编辑</a> <a href="#!">删除</a> </td>'
+            + '</tr>')
+      }
+    }
+  }
 </script>
 </body>
 </html>

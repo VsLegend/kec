@@ -116,6 +116,7 @@
     var message = message_push_ajax(10, 1);
     show_message_list(message.list);
     //分页初始化
+    var i = 0;
     $('#message-pagination').jqPaginator({
       totalPages: message.pages === 0 ? 1 : message.pages,
       visiblePages: 10,
@@ -127,7 +128,6 @@
       last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
       page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
       onPageChange: function (num, type) {
-        var i = 0;
         if (i !== 0) {
           show_message_list(get_focus_post_list(message.pageSize, num).list)
         }

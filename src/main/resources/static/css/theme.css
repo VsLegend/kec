@@ -3,6 +3,9 @@
 /**
 童趣
  */
+/**
+字体跟背景颜色
+ */
 .child-like-red {
   /*background-color: #ff7573;*/
   background-color: rgba(255,117,115, 1);
@@ -30,6 +33,31 @@
   color: #93cadf;
 }
 
+/**
+hr水平线颜色
+ */
+.child-hr-red {
+  background-color: rgba(255,117,115, 1);
+  border: none;
+  height: 1px;
+}
+
+.child-hr-light-white {
+  background-color: rgba(254,255,213, 1);
+  border: none;
+  height: 1px;
+}
+
+.child-hr-blue {
+  background-color: rgba(147,202,223, 1);
+  border: none;
+  height: 1px;
+}
+
+/**
+边框
+ */
+
 .child-like-border-red {
   padding: 3px;
   border: #ff7573 solid 1px;
@@ -44,6 +72,26 @@
   padding: 3px;
   border: #93cadf solid 1px;
 }
+
+/**
+按钮样式
+ */
+.child-btn {
+  color: #93cadf;
+  margin: 0;
+  padding: 3px 8px 3px 8px;
+  border: #93cadf solid 2px;
+  border-radius: 2px;
+  transition: all 0.2s linear;
+}
+
+.child-btn:hover{
+  background-color: rgba(147,202,223, 1);
+  color: white;
+}
+
+
+
 
 
 

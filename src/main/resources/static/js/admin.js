@@ -1,4 +1,4 @@
-// 板块加载Ajax
+//【板块】板块加载Ajax
 function module_ajax(size, num, status) {
   var moduleDTO = {
     // 选择状态 0上线 1下线
@@ -28,11 +28,11 @@ function module_ajax(size, num, status) {
         load_module_table(data.data);
         load_module_for_post(data.data);
       } else {
-        alert(data.data);
+        showMessage("板块信息获取失败：" + data.data);
       }
     },
     error: function (e) {
-      alert("服务器异常，注册失败");
+      showMessage("服务器异常，操作失败");
     }
   });
   // console.log(list);
@@ -110,7 +110,7 @@ function getPostDetail() {
   return post_list;
 }
 
-//帖子查询
+//【主贴】帖子查询
 function get_post_ajax(num,id) {
   var post_list = null;
   var searchRequestDTO = {
@@ -140,19 +140,18 @@ function get_post_ajax(num,id) {
           $('#user-modal-detail').find("h4").text(detail.name);
         });
       } else {
-        alert(data.data.code);
+        showMessage("主贴信息获取失败：" + data.data.code);
       }
     },
     error: function (data) {
       console.log(data.responseJSON);
-      alert("查询异常");
+      showMessage("服务器异常，操作失败");
     }
   });
   return post_list;
 }
 
-
-//获取某个板块的详细信息
+//【主贴】获取某个板块的详细信息
 function get_module_detail_ajax(moduleId) {
   var module = null;
   $.ajaxSettings.async = false;
@@ -161,7 +160,7 @@ function get_module_detail_ajax(moduleId) {
       // console.log(data.data);
       module = data.data;
     } else {
-      showMessage(data.message);
+      showMessage("板块信息获取失败：" + data.message);
     }
   });
   return module;
@@ -228,7 +227,7 @@ function load_module_table(data) {
   });
 }
 
-//获取用户详情
+//【用户】获取用户详情
 function get_user_detail_ajax(userId) {
   var detail = null;
   $.ajaxSettings.async = false;
@@ -237,13 +236,14 @@ function get_user_detail_ajax(userId) {
       // console.log(data.data);
       detail = data.data;
     } else {
-      alert(data.data);
+      showMessage("用户信息获取失败：" + data.data);
     }
   });
   return detail;
 }
 
-//修改板块状态
+
+//【板块】修改板块状态
 function change_post_status_ajax(postId) {
   $.ajax({
     type: 'GET',
@@ -256,20 +256,20 @@ function change_post_status_ajax(postId) {
     success: function (data) {
       if (data.code === 1000) {
         // console.log(data.data.list);
-        M.toast({html: '修改成功!'});
+        showMessage("修改成功");
         setInterval("window.location.reload()", 1500);
       } else {
-        alert(data.data);
+        showMessage(data.data);
       }
     },
     error: function (data) {
       // console.log(data.responseJSON);
-      alert("服务器异常，修改失败。");
+      alert("服务器异常，操作失败。");
     }
   });
 }
 
-//修改板块状态
+//【板块】修改板块状态
 function change_module_status_ajax(moduleId) {
   $.ajax({
     type: 'GET',
@@ -282,20 +282,20 @@ function change_module_status_ajax(moduleId) {
     success: function (data) {
       if (data.code === 1000) {
         // console.log(data.data.list);
-        M.toast({html: '修改成功!'});
-        location.reload();
+        showMessage("修改成功");
+        setInterval("location.reload()", 1500);
       } else {
-        alert(data.data);
+        showMessage("修改失败：" + data.data);
       }
     },
     error: function (data) {
       // console.log(data.responseJSON);
-      alert("服务器异常，修改失败。");
+      showMessage("服务器异常，操作失败。");
     }
   });
 }
 
-// 新增板块Ajax
+//【板块】新增板块Ajax
 function new_module_ajax() {
   var moduleDTO = {
     name: $('#module_name').val(),
@@ -315,20 +315,19 @@ function new_module_ajax() {
     success: function (data) {
       if (data.code === 1000) {
         // console.log(data.data.list);
-        M.toast({html: '新增成功'});
-        setInterval("location.reload()", 2000);
+        showMessage("新增成功");
+        setInterval("location.reload()", 1500);
       } else {
-        alert(data.data);
+        showMessage("新增失败：" + data.data);
       }
     },
     error: function (data) {
-      console.log(data.responseJSON);
-      alert("服务器异常，板块添加失败。");
+      showMessage("服务器异常，操作失败。");
     }
   });
 }
 
-// 更新板块Ajax
+//【板块】更新板块Ajax
 function update_module_ajax() {
   var moduleDTO = {
     id: getUrlParam("moduleId"),
@@ -349,17 +348,120 @@ function update_module_ajax() {
     success: function (data) {
       if (data.code === 1000) {
         // console.log(data.data.list);
-        M.toast({html: '修改成功'});
-        setInterval("window.location.href = '/backstage/moduleManeger'", 2000);
+        showMessage("修改成功");
+        setInterval("window.location.href = '/backstage/moduleManeger'", 1500);
       } else {
-        alert(data.data);
+        showMessage(data.data);
       }
     },
     error: function (data) {
-      console.log(data.responseJSON);
-      alert("服务器异常，板块添加失败。");
+      // console.log(data.responseJSON);
+      showMessage("服务器异常，操作失败。");
     }
   });
+}
+
+
+//【新闻】新增新闻Ajax
+function insert_news_ajax(newsDto) {
+  console.log(newsDto);
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/news/insertNews",
+    data: JSON.stringify(newsDto),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        console.log(data.data);
+        showMessage("新增成功");
+        setInterval("location.reload()", 1500);
+      } else {
+        showMessage("新增失败：" + data.data);
+      }
+    },
+    error: function (data) {
+      showMessage("服务器异常，板块添加失败。");
+    }
+  });
+}
+
+//【新闻】获取新闻列表Ajax
+function get_news_list_ajax(newsDto) {
+  var result = null;
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/news/getNewsList",
+    data: JSON.stringify(newsDto),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data);
+        result = data.data;
+      } else {
+        showMessage("获取新闻列表失败：" + data.data);
+      }
+    },
+    error: function (data) {
+      showMessage("服务器异常，操作失败。");
+    }
+  });
+  return result;
+}
+
+//【新闻】删除新闻Ajax
+function delete_news_ajax(newsId) {
+  $.ajax({
+    type: 'GET',
+    contentType: "application/json",
+    url: "/news/deleteNews/" + newsId,
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        showMessage("删除成功")
+      } else {
+        showMessage("删除失败失败：" + data.data);
+      }
+    },
+    error: function (data) {
+      showMessage("服务器异常，操作失败。");
+    }
+  });
+}
+
+//【新闻】获取新闻详情Ajax
+function get_news_detail_ajax(newsId) {
+  var result = null;
+  $.ajax({
+    type: 'GET',
+    contentType: "application/json",
+    url: "/news/getNewsDetail/" + newsId,
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        result = data.data;
+      } else {
+        showMessage("获取新闻详情失败：" + data.data);
+      }
+    },
+    error: function (data) {
+      showMessage("服务器异常，操作失败。");
+    }
+  });
+  return result;
 }
 
 //返回主贴详情页
