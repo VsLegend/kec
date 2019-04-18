@@ -1,4 +1,23 @@
 
+/**
+登录框设计
+ */
+.login-border {
+  width: 450px;
+  margin-top: 5%;
+  background-color: rgba(255,255,255, 0.8);
+  padding: 10px;
+  border: white solid 1px;
+  border-radius: 2px;
+}
+
+.login-border form table tr {
+  border-bottom: 0px;
+}
+
+.login-border form table tr td {
+  width: 215px;
+}
 
 /**
 童趣
@@ -13,7 +32,7 @@
 
 .child-like-light-white {
   /*background-color: #feffd5;*/
-  background-color: rgba(254,255,213, 0.6);
+  background-color: rgba(254,255,213, 1);
 }
 
 .child-like-blue {
@@ -73,6 +92,10 @@ hr水平线颜色
   border: #93cadf solid 1px;
 }
 
+.child-radius {
+  border-radius: 2px;
+}
+
 /**
 按钮样式
  */
@@ -88,6 +111,26 @@ hr水平线颜色
 .child-btn:hover{
   background-color: rgba(147,202,223, 1);
   color: white;
+}
+
+/**
+圆形按钮
+ */
+.child-btn-circle{
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  color: white;
+  background-color: rgba(255,117,115, 1);
+  border: #ff7573 solid 1px;
+  border-radius: 50%;
+  transition: all 0.2s linear;
+}
+
+.child-btn-circle:hover {
+  background-color: rgba(255,117,115, 0.7);
 }
 
 
@@ -123,16 +166,16 @@ hr水平线颜色
 }
 
 .papularization-border-red {
-  padding: 3px;
+  padding: 8px;
   border: #ff6569 solid 1px;
 }
 
 .papularization-border-yellow {
-  padding: 3px;
+  padding: 8px;
   border: #fff087 solid 1px;
 }
 
 .papularization-border-blue {
-  padding: 3px;
+  padding: 8px;
   border: #636cb9 solid 1px;
 }

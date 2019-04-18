@@ -8,46 +8,66 @@
   <link href="/static/css/Material.css" rel="stylesheet">
   <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <style type="text/css">
-    .row {
-      width: 800px;
-    }
-  </style>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
-<body style="background-image: url('/static/image/9.jpg'); background-size: 100%; background-repeat: no-repeat; ">
+<body style="background-image: url('/static/image/5.jpg'); background-size: 100%; background-repeat: no-repeat; ">
 
 <!--表单-->
-<div class="row" style="width: 30%; margin-top: 10%">
+<div class="row login-border center z-depth-1">
   <form class="col s12">
-    <a href="/" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">home</i></a>
-    <h4 class="blue-text text-darken-1" style="margin-left: 150px">登录</h4>
-    <div class="row">
-      <div class="input-field col s6">
-        <input id="studentno" type="text" data-length="10" maxlength="10" />
-        <label class="blue-text text-darken-1" for="studentno">学号</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s6">
-        <input id="password" type="password" data-length="10">
-        <label class="blue-text text-darken-1" for="password">密码</label>
-      </div>
-    </div>
-    <div class="row col s12">
-      <div class="col s6 m6">
-        <a class="center blue-text text-lighten-1" href="/backstage/login">管理员登录</a>
-      </div>
-      <div class="col s6 m6">
-        <a class="center blue-text text-lighten-1" href="/entrance/signUp">注册</a>
-      </div>
-    </div>
-    <!--登录提示信息！！-->
-    <div class="center row" style="width: 300px; margin-left: 38px;">
-      <span id="sign_info" class="red-text" style="font-size: larger;"></span>
-    </div>
-    <div class="row" style="margin-left: 10px;">
-      <button class="btn waves-effect blue darken-1 white-text" style="width: 360px" type="button" id="user_login">确认</button>
-    </div>
+    <table>
+      <tbody>
+      <tr>
+        <td colspan="2" class="right-align">
+          <a href="/" class="child-btn-circle">
+            <i class="material-icons">home</i></a>
+          <h5 class="blue-text text-darken-1 left-align">用户名密码登录</h5>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="studentno" type="text" data-length="10" maxlength="10" />
+              <label class="blue-text text-darken-1" for="studentno">学号</label>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="password" type="password" data-length="10">
+              <label class="blue-text text-darken-1" for="password">密码</label>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="left-align">
+          <a class="center blue-text text-darken-1" href="/backstage/login">管理员登录</a>
+        </td>
+        <td class="right-align">
+          <a class="center blue-text text-darken-1" href="/entrance/signUp">用户注册</a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!--登录提示信息！！-->
+          <div class="center row" style="width: 300px; margin-left: 38px;">
+            <span id="sign_info" class="child-like-text-red" style="font-size: larger;"></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button class="btn waves-effect blue darken-1 white-text" style="width: 400px"
+                  type="button" id="user_login">确认</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </form>
 </div>
 
