@@ -45,4 +45,14 @@ public interface PostService {
    * 关注主贴
    */
   Result focusPost(PostContentRequestDTO postContentRequestDTO);
+
+  /**
+   * 修改主贴类型，加精 或 置顶
+   */
+  Result updatePostType(PostDTO postDTO, String updateMan);
+
+  /**
+   * 获取用户的管理板块
+   */
+  Result getUserManagedSection(String userId);
 }

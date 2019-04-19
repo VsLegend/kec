@@ -19,6 +19,7 @@ import pers.wong.kec.dao.dao.UserAttentionMapper;
 import pers.wong.kec.dao.dao.UserMapper;
 import pers.wong.kec.domain.entity.Module;
 import pers.wong.kec.domain.entity.Post;
+import pers.wong.kec.domain.entity.User;
 import pers.wong.kec.domain.entity.UserAttention;
 import pers.wong.kec.domain.requestdto.PostContentRequestDTO;
 import pers.wong.kec.domain.requestdto.PostDTO;
@@ -27,6 +28,7 @@ import pers.wong.kec.domain.responsedto.CommentResponseDTO;
 import pers.wong.kec.domain.responsedto.PostResponseDTO;
 import pers.wong.kec.service.MessagePushService;
 import pers.wong.kec.service.PostService;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * @author Wangjunwei
@@ -185,5 +187,42 @@ public class PostServiceImpl implements PostService {
     userAttention.setStatus("0");
     userAttentionMapper.insertSelective(userAttention);
     return Result.success("关注成功");
+  }
+
+  @Override
+  public Result updatePostType(PostDTO postDTO, String updateMan) {
+    Post post = postMapper.selectByPrimaryKey(postDTO.getPostId());
+    if (null == post) {
+      return Result.failed(ResultEnum.RESULT_EMPTY, "查询失败，结果为空");
+    }
+    if (!postQualification(post, updateMan)) {
+      return Result.failed(ResultEnum.ACCESS_DENIED, "权限不足，禁止操作");
+    }
+    post.setUpdateTime(new Date());
+    post.setUpdateUser(updateMan);
+    //仅支持一种类型
+    if ( KecAllEnum.POST_TYPE_POPULAR.getCode().equals(post.getType())) {
+      return Result.failed(ResultEnum.FAIL_DATABASE, "主贴当前无法修改为其他类型");
+    }
+    post.setType(postDTO.getType());
+    postMapper.updateByPrimaryKeySelective(post);
+    return Result.success();
+  }
+
+  @Override
+  public Result getUserManagedSection(String userId) {
+    Example example = new Example(Module.class);
+    example.createCriteria().andEqualTo("userId", userId)
+        .andEqualTo("status", KecAllEnum.STATUS_NORMAL.getCode());
+    List<Module> modules = moduleMapper.selectByExample(example);
+    return Result.success(modules);
+  }
+
+  public boolean postQualification(Post post, String userId) {
+    User user = userMapper.selectByPrimaryKey(userId);
+    if (post.getUserId().equals(userId) || user.getType().equals(KecAllEnum.ROLE_ADMIN.getCode())) {
+      return true;
+    }
+    return false;
   }
 }

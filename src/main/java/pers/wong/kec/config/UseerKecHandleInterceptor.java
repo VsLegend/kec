@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import pers.wong.kec.common.CommonUtil;
 
 /**
  * @author Wangjunwei
@@ -18,7 +19,7 @@ public class UseerKecHandleInterceptor extends HandlerInterceptorAdapter {
   /**
    * 登录session key
    */
-  public final static String SESSION_KEY = "userId";
+  public static final String SESSION_KEY = "userId";
 
   /**
    * 进入controller层之前拦截请求
@@ -27,7 +28,8 @@ public class UseerKecHandleInterceptor extends HandlerInterceptorAdapter {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     HttpSession session = request.getSession();
-    if (session.getAttribute(SESSION_KEY) != null)
+    String s = session.getAttribute(SESSION_KEY).toString();
+    if ( !CommonUtil.isEmptyOrNull(s))
       return true;
 
     // 跳转登录

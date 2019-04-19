@@ -67,4 +67,13 @@ public class PostController {
     }
     return postService.updatePost(postId, userId);
   }
+
+  @PostMapping("/updatePostType")
+  public Result updatePostType(@RequestBody PostDTO postDTO, HttpServletRequest request) {
+    String userId = CommonUtil.getCurrentUserId(request);
+    if (CommonUtil.isEmptyOrNull(userId)) {
+      return Result.failed(ResultEnum.USER_NOT_SIGN_UP, "用户未登录");
+    }
+    return postService.updatePostType(postDTO, userId);
+  }
 }
