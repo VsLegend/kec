@@ -25,7 +25,9 @@ public class WebMVCConfig implements WebMvcConfigurer {
     // addPathPatterns 用于添加拦截规则
     // excludePathPatterns 用户排除拦截
     registry.addInterceptor(new UseerKecHandleInterceptor())
-        .addPathPatterns("/entrance/needInfo/**");
+        .addPathPatterns("/entrance/needInfo/**")
+        .addPathPatterns("/entrance/moduleAdmin")
+        .addPathPatterns("/entrance/moduleAdmin/**");
     registry.addInterceptor(new AdminKecHandleInterceptor()).addPathPatterns("/backstage/**")
         .addPathPatterns("/module/**").addPathPatterns("/post/deletePost/**")
         .addPathPatterns("/userControl/**").addPathPatterns("/news/**")

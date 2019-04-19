@@ -136,7 +136,7 @@ public class ModuleServiceImpl implements ModuleService {
     if (KecAllEnum.STATUS_DELETE.equals(user.getStatus())) {
       Result.failed(ResultEnum.USER_HAS_BEEN_FORBIDDEN, "该用户已被封号");
     }
-    module.setUserId(user.getId());
+    module.setUserId(moduleDTO.getUserId());
     module.setSummary(moduleDTO.getSummary());
     module.setName(moduleDTO.getName());
     module.setType(moduleDTO.getType());

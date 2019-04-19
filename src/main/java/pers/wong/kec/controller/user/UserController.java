@@ -1,14 +1,9 @@
 package pers.wong.kec.controller.user;
 
-import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pers.wong.kec.domain.entity.User;
-import pers.wong.kec.service.UserService;
 
 /**
  * @author Wangjunwei
@@ -79,6 +74,22 @@ public class UserController {
   public ModelAndView messageCenter() {
     ModelAndView model = new ModelAndView();
     model.setViewName("userCenter/messageCenter");
+    return model;
+  }
+
+  //版主中心
+  @GetMapping("/moduleAdmin")
+  public ModelAndView moduleAdmin() {
+    ModelAndView model = new ModelAndView();
+    model.setViewName("userCenter/moduleAdmin");
+    return model;
+  }
+
+  //版主主贴管理
+  @GetMapping("/moduleAdmin/moduleManagement")
+  public ModelAndView moduleManagement() {
+    ModelAndView model = new ModelAndView();
+    model.setViewName("userCenter/moduleManagement");
     return model;
   }
 }

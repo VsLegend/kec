@@ -110,6 +110,38 @@ function getPostDetail() {
   return post_list;
 }
 
+//帖子查询
+function search_post_ajax() {
+  var searchRequestDTO = {
+    pageSize: 10,
+    pageNum: 1,
+    key: $('#search-key').val()
+  };
+  // console.log(moduleDTO.name);
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/post/getPostList",
+    data: JSON.stringify(searchRequestDTO),
+    datatype: 'json',
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data.list);
+        //展示
+        show_post_in_table(data.data.list);
+      } else {
+        showMessage(data.data.code);
+      }
+    },
+    error: function (data) {
+      console.log(data.responseJSON);
+      showMessage("查询异常");
+    }
+  });
+}
+
 //【主贴】帖子查询
 function get_post_ajax(num,id) {
   var post_list = null;
@@ -371,7 +403,6 @@ function new_module_ajax() {
 
 //【板块】更新板块Ajax
 function update_module_ajax() {
-  console.log(choose_user.id);
   var moduleDTO = {
     id: getUrlParam("moduleId"),
     name: $('#module_name').val(),
