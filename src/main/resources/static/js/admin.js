@@ -371,6 +371,7 @@ function new_module_ajax() {
 
 //【板块】更新板块Ajax
 function update_module_ajax() {
+  console.log(choose_user.id);
   var moduleDTO = {
     id: getUrlParam("moduleId"),
     name: $('#module_name').val(),

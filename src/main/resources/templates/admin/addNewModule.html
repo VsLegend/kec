@@ -339,12 +339,12 @@
           user_list = data.data;
           show_user_in_table(data.data.list);
         } else {
-          alert(data.data.code);
+          showMessage(data.data.code);
         }
       },
       error: function (data) {
         console.log(data.responseJSON);
-        alert("查询异常");
+        showMessage("查询异常");
       }
     });
     return user_list;

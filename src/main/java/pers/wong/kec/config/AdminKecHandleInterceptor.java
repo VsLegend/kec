@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import pers.wong.kec.common.CommonUtil;
 
 /**
  * @author Wangjunwei
@@ -25,8 +24,7 @@ public class AdminKecHandleInterceptor extends HandlerInterceptorAdapter {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     HttpSession session = request.getSession();
-    String s = session.getAttribute(SESSION_ADMIN_KEY).toString();
-    if (!CommonUtil.isEmptyOrNull(s)) {
+    if (null != session.getAttribute(SESSION_ADMIN_KEY)) {
       return true;
     }
 

@@ -1,6 +1,8 @@
 $(document).ready(function () {
   //是否有管理的板块，有的话，导航栏新增板块管理
-  if ( get_managed_section_ajax().length !==0 ) {
+  var moduleList = get_managed_section_ajax();
+  console.log(moduleList);
+  if ( moduleList.length !==0 ) {
 
   }
   $('#user_signup').submit(function (event) {
