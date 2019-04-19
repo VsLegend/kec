@@ -22,12 +22,11 @@
           class="large material-icons blue-text text-lighten-3">account_balance</i></li>
       <li style="width: 130px" class="center"><a href="/"><i
           class="material-icons large black-text">home</i></a></li>
-      <li style="width: 130px" class="center active red lighten-3"><a href="/entrance/moduleDisplay"
-                                                                      class="white-text">主贴展示</a>
-      </li>
+      <li style="width: 130px" class="center">
+        <a href="/entrance/moduleDisplay" class="black-text">主贴展示</a></li>
       <!--<li class="divider"></li>-->
-      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus"
-                                                 class="black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
       <li style="width: 130px" class="center">
         <a id="unread-message" href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a>
       </li>
@@ -41,8 +40,31 @@
 
 <!--内容-->
 <div class="row">
-  <div class="container">
 
+  <br>
+  <div class="container">
+    <h5>你管理的板块</h5>
+    <hr class="child-hr-blue">
+    <!--板块内容-->
+    <table class="child-table">
+      <tbody>
+        <tr>
+          <td>
+            <div class="child-card">
+              <h5>板块名称</h5>
+              <span>简介</span>
+            </div>
+          </td>
+
+          <td>
+            <div class="child-card">
+              <h5>板块名称</h5>
+              <span>简介</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -72,7 +94,8 @@
       show_unread_message();
       //展示有权限的板块
       var moduleList = get_managed_section_ajax();
-
+      $('#nav-list li:last').addClass("active red lighten-3");
+      $('#nav-list li:last a').addClass("white-text");
     });
   </script>
 </body>

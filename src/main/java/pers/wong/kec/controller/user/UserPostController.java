@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pers.wong.kec.common.CommonUtil;
 import pers.wong.kec.common.Result;
+import pers.wong.kec.common.enums.ResultEnum;
 import pers.wong.kec.domain.requestdto.DeleteCommentRequestDTO;
 import pers.wong.kec.domain.requestdto.PostContentRequestDTO;
 import pers.wong.kec.service.CommentService;
@@ -42,6 +43,9 @@ public class UserPostController {
   @GetMapping("/deletePost/{postId}")
   public Result deletePost(@PathVariable("postId") String postId, HttpServletRequest request) {
     String userId = CommonUtil.getCurrentUserId(request);
+    if (CommonUtil.isEmptyOrNull(userId)) {
+      return Result.failed(ResultEnum.USER_NOT_SIGN_UP, "用户未登录");
+    }
     return postService.deletePost(postId, userId);
   }
 
@@ -49,6 +53,9 @@ public class UserPostController {
   @PostMapping("/deleteComment")
   public Result deleteComment(@RequestBody DeleteCommentRequestDTO dto, HttpServletRequest request) {
     String userId = CommonUtil.getCurrentUserId(request);
+    if (CommonUtil.isEmptyOrNull(userId)) {
+      return Result.failed(ResultEnum.USER_NOT_SIGN_UP, "用户未登录");
+    }
     dto.setCurrentUserId(userId);
     return commentService.deleteComment(dto);
   }
@@ -57,6 +64,9 @@ public class UserPostController {
   @GetMapping("/getUserManagedSection")
   public Result getUserManagedSection(HttpServletRequest request) {
     String userId = CommonUtil.getCurrentUserId(request);
+    if (CommonUtil.isEmptyOrNull(userId)) {
+      return Result.failed(ResultEnum.USER_NOT_SIGN_UP, "用户未登录");
+    }
     return postService.getUserManagedSection(userId);
   }
 }

@@ -19,9 +19,33 @@
   width: 215px;
 }
 
+.child-table{}
+
+.child-table tr{
+  border-bottom: 0px;
+}
+
+
+
 /**
 童趣
  */
+
+/**
+卡片
+ */
+.child-card {
+  margin: 30px;
+  padding: 10px;
+  border: #93cadf double 1px;
+  box-shadow: 4px 4px 2px #757575  ;
+}
+
+.child-card:hover {
+  transform: scale(1.1);
+  transition: all 0.2s linear;
+}
+
 /**
 字体跟背景颜色
  */

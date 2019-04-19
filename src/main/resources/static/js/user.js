@@ -1,8 +1,7 @@
 $(document).ready(function () {
   //是否有管理的板块，有的话，导航栏新增板块管理
   var moduleList = get_managed_section_ajax();
-  // console.log(moduleList);
-  if ( moduleList.length !==0 ) {
+  if ( moduleList !== null && moduleList.length !==0 ) {
     $('#nav-list').append('<li style="width: 130px" class="center">'
         + '<a href="/entrance/moduleAdmin" class="black-text">板块管理</a></li>')
   }
