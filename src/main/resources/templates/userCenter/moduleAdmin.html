@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>主贴展示</title>
+
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+<!--导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" id="nav-list">
+      <li style="width: 100px" class="center"><i
+          class="large material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center"><a href="/"><i
+          class="material-icons large black-text">home</i></a></li>
+      <li style="width: 130px" class="center active red lighten-3"><a href="/entrance/moduleDisplay"
+                                                                      class="white-text">主贴展示</a>
+      </li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center"><a href="/entrance/needInfo/userFocus"
+                                                 class="black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a id="unread-message" href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a>
+      </li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center black-text" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!--内容-->
+<div class="row">
+  <div class="container">
+
+  </div>
+</div>
+
+  <!--脚部-->
+  <footer class="page-footer black">
+    <div class="footer-copyright">
+      <div class="container">
+        技术支持<a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="/static/js/jQuery.js"></script>
+  <script src="/static/js/materialize.js"></script>
+  <script src="/static/js/init.js"></script>
+  <script src="/static/js/post.js"></script>
+  <script src="/static/js/jq-paginator.js"></script>
+  <script src="/static/js/commonJs.js"></script>
+  <script src="/static/js/user.js"></script>
+  <script>
+    $(document).ready(function () {
+      var postId = getUrlParam("id");
+      var user = get_user_loginInfo_ajax();
+      //未读消息、
+      show_unread_message();
+      //展示有权限的板块
+      var moduleList = get_managed_section_ajax();
+
+    });
+  </script>
+</body>
+</html>
