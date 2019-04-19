@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  //是否有管理的板块，有的话，导航栏新增板块管理
+  if ( get_managed_section_ajax().length !==0 ) {
+
+  }
   $('#user_signup').submit(function (event) {
     event.preventDefault();
     if (check_info()
@@ -8,6 +12,19 @@ $(document).ready(function () {
   });
 });
 
+
+//获取用户的管理板块Ajax
+function get_managed_section_ajax() {
+  var detail = null;
+  $.ajaxSettings.async = false;
+  $.get("/userPostOperation/getUserManagedSection",function (data) {
+    if (data.code === 1000) {
+      // console.log(data.data);
+      detail = data.data;
+    }
+  });
+  return detail;
+}
 
 //获取消息推送的内容
 function message_push_ajax(size, num) {

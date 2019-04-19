@@ -170,9 +170,12 @@ function get_module_detail_ajax(moduleId) {
 function load_post_table(data) {
   var list = data.data.list;
   $("#show-post tbody").empty();
+  var top = '<a class="update-post-type" id="1" href="#!">置顶</a>';
+  var essence = '<a class="update-post-type" id="2" href="#!">加精</a>';
+  var normal = '<a class="update-post-type" id="0" href="#!">设为普通</a>';
   for (var i = 0; i < list.length; i++) {
     //赋值
-    $("#show-post tbody").append("<tr>" +
+    $("#show-post tbody").append("<tr id='" + list[i].postId + "'>" +
         "<td width='30px'><i class='material-icons red-text'>" + post_type(list[i].type) + "</i></td>" +
         "<td width='100px'>"+ "评论数" +"</td>" +
         //点击查看主贴内容
@@ -182,15 +185,54 @@ function load_post_table(data) {
         //点击查看用户信息
         + "<a href='#user-modal-detail' id='" + list[i].userId + "' "
         + "class='modal-trigger blue-text text-lighten-3'>"+ list[i].userName +"</a></td>" +
-        "<td width='200px'><a href='#!' onclick='change_post_status_ajax(\"" + list[i].postId + "\")'> "+ (list[i].status === '0'? '删除' : '恢复') +"</a></td>" +
-        // "<td width='100px'>"+ "恢复" +"</td>" +
+        "<td width='100px'><a href='#!' onclick='change_post_status_ajax(\"" + list[i].postId + "\")'> "+ (list[i].status === '0'? '屏蔽' : '恢复') +"</a></td>" +
+        "<td width='100px'>"+ (list[i].type === '0'? top + ' | ' + essence : normal ) +"</td>" +
         "</tr>");
   }
   if (list.length === 0) {
     $("#show-post tbody")
       .append('<tr><td colspan="5" class="center"><br><p class="red-text">暂无内容</p></td></tr>');
   }
+  // 帖子类型，0普通 1置顶  2精华  3热门
+  $('a.update-post-type').click(function () {
+    var type = $(this).attr('id');
+    var postId = $(this).parents("tr").attr('id');
+    // console.log(type);
+    // console.log(postId);
+    update_post_type_ajax(type, postId);
+  })
 }
+
+//修改主贴的类型，置顶或加精Ajax
+function update_post_type_ajax(type, postId) {
+  var postDTO = {
+    postId:postId,
+    type:type
+  };
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/post/updatePostType",
+    data: JSON.stringify(postDTO),
+    datatype: 'json',
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data.list);
+        showMessage("修改成功");
+        setInterval("window.location.reload()", 1500);
+      } else {
+        showMessage(data.data);
+      }
+    },
+    error: function (data) {
+      // console.log(data.responseJSON);
+      showMessage("服务器异常，操作失败。");
+    }
+  });
+}
+
 
 //【板块】管理中将值赋给table
 function load_module_table(data) {
