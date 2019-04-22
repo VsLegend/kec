@@ -14,6 +14,32 @@ $(document).ready(function () {
   });
 });
 
+//板块管理员的板块管理界面表
+function show_module_list(data) {
+  if (data === null || data.length < 1) {
+    $('#module-admin-table tbody').append('<tr><td class="center" colspan="2">没有管理的板块，查询失败</td></tr>')
+    return;
+  }
+  for (var i = 0; i < data.length; i++) {
+    if ((i % 2) === 0) {
+      $('#module-admin-table tbody').append('<tr>'
+          + '<td>'
+          + '<div class="child-card">'
+          + '<h5><a href="/entrance/moduleAdmin/moduleManagement?moduleId=' + data[i].id + '">' + data[i].name + '</a></h5>'
+          + '<span>' + data[i].summary + '<br></span>'
+          + '</div>'
+          + '</td></tr>')
+    } else {
+      $('#module-admin-table tbody tr:last').append('<td>'
+          + '<div class="child-card">'
+          + '<div class="child-card">'
+          + '<h5><a href="#!" id="' + data[i].id + '">' + data[i].name + '</a></h5>'
+          + '<span>' + data[i].summary + '<br></span>'
+          + '</div>'
+          + '</td>')
+    }
+  }
+}
 
 //获取用户的管理板块Ajax
 function get_managed_section_ajax() {

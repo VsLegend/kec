@@ -79,14 +79,14 @@ function load_module_for_post(data) {
 }
 
 //获取当前选中板块的详情，以及板块下的帖子
-function getPostDetail() {
-  var id = getUrlParam("id");
+function getPostDetail(moduleId) {
   var post_list = null;
   $.ajaxSettings.async = false;
-  $.get("/module/getModuleDetail/" + id, function (data, status) {
+  $.get("/user/getModuleDetail/" + moduleId, function (data, status) {
     if (status === 'success') {
       //展示板块信息
       var detail =  data.data;
+      console.log(detail);
       // console.log($('#module-card').find("b").text());
       //设置卡片下的元素内容
       $('#module-card').children("div.card-image").find("b").text(detail.name);
@@ -95,15 +95,15 @@ function getPostDetail() {
       $('#module-card').children("div.card-image").find("p").append(detail.summary);
 
       //帖子展示
-      post_list = get_post_ajax(1, id);
+      post_list = get_post_ajax(1, moduleId);
       $("#admin-add-post").click(function () {
         // console.log("===================" + id);
         //在当前板块添加主贴
-        var h = "/backstage/addNewPost?id=" + id;
+        var h = "/backstage/addNewPost?id=" + moduleId;
         window.location.href = h;
       })
     } else {
-      alert(data.message);
+      showMessage(data.message);
     }
   });
   $.ajaxSettings.async = true;

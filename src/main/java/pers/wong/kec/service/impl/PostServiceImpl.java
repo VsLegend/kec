@@ -220,7 +220,8 @@ public class PostServiceImpl implements PostService {
 
   public boolean postQualification(Post post, String userId) {
     User user = userMapper.selectByPrimaryKey(userId);
-    if (post.getUserId().equals(userId) || user.getType().equals(KecAllEnum.ROLE_ADMIN.getCode())) {
+    Module module = moduleMapper.selectByPrimaryKey(post.getModuleId());
+    if (module.getUserId().equals(userId) || user.getType().equals(KecAllEnum.ROLE_ADMIN.getCode())) {
       return true;
     }
     return false;

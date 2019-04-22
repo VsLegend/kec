@@ -57,6 +57,7 @@ public class UserDataController {
       UserResponseDTO data = (UserResponseDTO) (login.getData());
       if (KecAllEnum.ROLE_USER.getCode().equals(data.getType())) {
         request.getSession().setAttribute(Common.SESSION_USER_KEY, data.getId());
+        request.getSession().setAttribute(Common.SESSION_USER_TYPE,  data.getType());
       } else if (KecAllEnum.ROLE_ADMIN.getCode().equals(data.getType())) {
         request.getSession().setAttribute(Common.SESSION_ADMIN_KEY, data.getId());
       }

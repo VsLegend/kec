@@ -10,8 +10,8 @@ public class Common {
   /**
    * 登录session key
    */
-  public final static String SESSION_USER_KEY = "userId";
-  public final static String SESSION_MODULE_USER_KEY = "moduleUserId";
-  public final static String SESSION_ADMIN_KEY = "adminId";
+  public static final String SESSION_USER_KEY = "userId";
+  public static final String SESSION_USER_TYPE = "USER_TYPE";
+  public static final String SESSION_ADMIN_KEY = "adminId";
 
 }
