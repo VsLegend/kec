@@ -175,7 +175,8 @@
 <script src="/static/js/commonJs.js"></script>
 <script>
   $(document).ready(function(){
-    var post_list = getPostDetail();
+    var moduleId = getUrlParam("id");
+    var post_list = getPostDetail(moduleId);
     $('#module-pagination').jqPaginator({
       totalPages: post_list.pages === 0 ? 1 : post_list.pages,
       visiblePages: 10,
@@ -188,7 +189,7 @@
       page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
       onPageChange: function (num, type) {
         //翻页
-        get_post_ajax(num, getUrlParam("id"))
+        get_post_ajax(num, moduleId)
       }
     });
   });

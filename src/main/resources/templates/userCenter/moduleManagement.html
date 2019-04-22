@@ -1,10 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cmn" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>主贴管理</title>
 
+  <!-- CSS  -->
+  <link href="/static/css/Material.css" rel="stylesheet">
+  <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
+        media="screen,projection"/>
+  <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+<!--导航栏-->
+<nav class="z-depth-1">
+  <div class="white nav-wrapper">
+    <ul class="left hide-on-med-and-down" id="nav-list">
+      <li style="width: 100px" class="center"><i
+          class="large material-icons blue-text text-lighten-3">account_balance</i></li>
+      <li style="width: 130px" class="center"><a href="/"><i
+          class="material-icons large black-text">home</i></a></li>
+      <li style="width: 130px" class="center">
+        <a href="/entrance/moduleDisplay" class="black-text">主贴展示</a></li>
+      <!--<li class="divider"></li>-->
+      <li style="width: 130px" class="center">
+        <a href="/entrance/needInfo/userFocus" class="black-text">我的关注</a></li>
+      <li style="width: 130px" class="center">
+        <a id="unread-message" href="/entrance/needInfo/messageCenter" class="black-text">消息中心</a>
+      </li>
+    </ul>
+    <ul class="right hide-on-med-and-down" id="user_login_info">
+      <li style="width: 120px"><a class="center black-text" href="/entrance/login">登录</a></li>
+      <li style="width: 120px"><a class="center black-text" href="/entrance/signUp">注册</a></li>
+    </ul>
+  </div>
+</nav>
+
+<br><br>
+<!--内容-->
+<div class="row">
+  <div class="container center">
+    <div class="row">
+
+      <!--面包屑-->
+      <div class="row">
+        <nav>
+          <div class="nav-wrapper white">
+            <div class="col s12">
+              <a href="#!" onclick="go_back()" class="breadcrumb left grey-text text-lighten-1">返回板块</a>
+              <a class="breadcrumb left grey-text text-lighten-1">></a>
+              <a class="breadcrumb left black-text text-lighten-3">主贴展示</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card medium" style="height: 350px" id="module-card">
+            <!--板块基本信息展示-->
+            <div class="card-image">
+              <img src="/static/image/1.jpg">
+              <span class="card-title black-text" style="padding-top: 20px">
+                <b class="left"></b><br><br>
+                <a class="left modal-trigger" href="#user-modal-detail" style="font-size: large;">版主：</a><br>
+                <p class="left" style="font-size: large;">简介：</p>
+              </span>
+            </div>
+            <div class="card-content center">
+              <p class="col s4 orange-text text-lighten-3">关注：80</p>
+              <p class="col s4 orange-text text-lighten-3">帖子：100</p>
+              <p class="col s4 orange-text text-lighten-3">今日发帖：3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!--帖子展示-->
+      <div class="row">
+        <div class="col s12 m12 z-depth-1">
+          <table class="highlight" id="show-post">
+            <thead>
+            <tr>
+              <td class="center" colspan = "4"><h5>看帖</h5></td>
+              <td class="left" colspan="2"><h5>操作</h5></td>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <br>
+          </table>
+          <br><br>
+
+          <!--翻页-->
+          <div class="container center" >
+            <ul class="pagination" id="module-pagination">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!--用户详情展示-->
+      <div id="user-modal-detail" class="modal">
+        <div class="modal-content">
+          <h4>Modal Header</h4>
+          <p>吧龄：2</p>
+          <p>发帖：90</p>
+          <p>他关注的板块：XX XX XX</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">返回</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--脚部-->
+<footer class="page-footer black">
+  <div class="footer-copyright">
+    <div class="container">
+      技术支持<a class="blue-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
+<script src="/static/js/post.js"></script>
+<script src="/static/js/jq-paginator.js"></script>
+<script src="/static/js/commonJs.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/admin.js"></script>
+<script>
+  $(document).ready(function () {
+    var user = get_user_loginInfo_ajax();
+    //未读消息、
+    show_unread_message();
+    var moduleId = getUrlParam("moduleId");
+    var post_list = getPostDetail(moduleId);
+    $('#module-pagination').jqPaginator({
+      totalPages: post_list.pages === 0 ? 1 : post_list.pages,
+      visiblePages: 10,
+      pageSize: post_list.pageSize,
+      currentPage: 1,
+      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
+      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
+      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
+      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
+      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+      onPageChange: function (num, type) {
+        //翻页
+        get_post_ajax(num, moduleId)
+      }
+    });
+  });
+</script>
 </body>
 </html>

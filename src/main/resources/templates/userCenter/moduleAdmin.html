@@ -46,23 +46,8 @@
     <h5>你管理的板块</h5>
     <hr class="child-hr-blue">
     <!--板块内容-->
-    <table class="child-table">
+    <table class="child-table" id="module-admin-table">
       <tbody>
-        <tr>
-          <td>
-            <div class="child-card">
-              <h5>板块名称</h5>
-              <span>简介</span>
-            </div>
-          </td>
-
-          <td>
-            <div class="child-card">
-              <h5>板块名称</h5>
-              <span>简介</span>
-            </div>
-          </td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -88,14 +73,15 @@
   <script src="/static/js/user.js"></script>
   <script>
     $(document).ready(function () {
-      var postId = getUrlParam("id");
       var user = get_user_loginInfo_ajax();
       //未读消息、
       show_unread_message();
-      //展示有权限的板块
-      var moduleList = get_managed_section_ajax();
+      //选定当前页面
       $('#nav-list li:last').addClass("active red lighten-3");
       $('#nav-list li:last a').addClass("white-text");
+      //展示有权限的板块
+      var moduleList = get_managed_section_ajax();
+      show_module_list(moduleList);
     });
   </script>
 </body>
