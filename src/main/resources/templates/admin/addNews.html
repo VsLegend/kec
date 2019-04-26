@@ -188,7 +188,7 @@
     }
     var newsId = getUrlParam("newsId");
     var newsDto = null;
-    if ( !isNull(newsId)) {
+    if ( newsId !== null && newsId !== "") {
       newsDto = {
         id:newsId,
         title:title,

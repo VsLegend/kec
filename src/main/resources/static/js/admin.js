@@ -529,7 +529,8 @@ function delete_news_ajax(newsId) {
     timeout: 99999,
     success: function (data) {
       if (data.code === 1000) {
-        showMessage("删除成功")
+        showMessage("删除成功");
+        setInterval("location.reload()", 1500);
       } else {
         showMessage("删除失败失败：" + data.data);
       }

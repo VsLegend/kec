@@ -167,7 +167,7 @@
             + '<td><a href="/backstage/addNews?newsId=' + list[i].id + '">' + list[i].title + '</a></td>'
             + '<td>' + list[i].createTime + '</td>'
             + '<td><a href="/backstage/addNews?newsId=' + list[i].id + '">编辑 </a> '
-            + '<a href="#!"> 删除</a> </td>'
+            + '<a href="#!" onclick="delete_news_ajax(\'' + list[i].id + '\')"> 删除</a> </td>'
             + '</tr>')
       }
     }
