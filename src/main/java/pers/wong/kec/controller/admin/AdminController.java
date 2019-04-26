@@ -31,6 +31,14 @@ public class AdminController {
     return model;
   }
 
+  //新增或修改新闻
+  @GetMapping("/addNews")
+  public ModelAndView addNews() {
+    ModelAndView model = new ModelAndView();
+    model.setViewName("admin/addNews");
+    return model;
+  }
+
   //管理员板块管理
   @GetMapping("/moduleManeger")
   public ModelAndView moduleManeger() {

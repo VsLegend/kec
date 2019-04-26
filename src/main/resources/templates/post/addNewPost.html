@@ -174,11 +174,11 @@
     //提交
     $('#add_new_module').click(function () {
       if ($('#post_name').val().isEmpty || $('#post_name').val() === '') {
-        alert("帖子名称不能为空");
+        showMessage("帖子名称不能为空");
       } else if ($('#post_name').val().length >= 30) {
-        alert("帖子名称名称过长");
+        showMessage("帖子名称名称过长");
       } else if ($('#post_type').val() === null) {
-        alert("未选择主贴类型")
+        showMessage("未选择主贴类型")
       } else {
         add_new_post_ajax(getUrlParam("id"));
       }

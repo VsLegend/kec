@@ -37,7 +37,7 @@
     </ul>
   </div>
 </nav>
-  <hr style="margin: 0px;padding: 0px">
+<hr style="margin: 0px;padding: 0px">
 
 
 <header>
@@ -64,40 +64,51 @@
 </header>
 
 <main>
-<!--内容-->
-<br><br>
+  <!--内容-->
+  <br><br>
   <div class="container">
 
     <!--新闻展示列表-->
     <div class="row">
       <div class="row col s12">
         <div class="col s12 m9">
-          <h6 class="child-like-text-blue left">新闻列表</h6>
+          <h6 class="child-like-text-blue left">新增新闻</h6>
         </div>
         <div class="col s12 m3">
-          <a href="/backstage/addNews" class="child-btn left">发布新闻</a>
+          <a href="#!" onclick="go_back()" class="child-btn left"> 返 回 </a>
         </div>
       </div>
 
       <br><br>
       <hr class="child-hr-blue">
-      <table class="striped responsive-table" style="line-height: 50px" id="show-news-table" >
-        <thead>
-        <tr>
-          <th>新闻标题</th>
-          <th>当前状态</th>
-          <th>创建时间</th>
-          <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+      <!--新增新闻-->
+      <div class="row center">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <input  id="news_name" type="text" data-length="10">
+              <label for="news_name">新闻标题</label>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <label for="container" class="left">新闻内容：</label><br>
+            <!-- 加载编辑器的容器 -->
+            <script id="container" name="content" type="text/plain">
+            </script>
+          </div>
+          <br>
+        </form>
 
-      <!--翻页-->
-      <div class="row center" >
-        <ul class="pagination" id="news-pagination">
-        </ul>
+        <!--提交-->
+        <div class="row" style="margin-left: 10px;">
+          <button id="add_news" class="waves-effect waves-light btn blue lighten-3"
+                  style="width: 160px" type="button">提交</button>
+          <!--<button id="update_news" class="waves-effect waves-light btn blue lighten-3"-->
+                  <!--style="width: 160px" type="button">提交</button>-->
+          <a href="/backstage/moduleManeger" style="width:160px; margin-left: 20%; text-align: center"
+             class="waves-effect waves-light btn blue lighten-3">取消</a>
+        </div>
       </div>
     </div>
 
@@ -123,56 +134,36 @@
 <script src="/static/js/commonJs.js"></script>
 <script src="/static/js/admin.js"></script>
 <script src="/static/js/jq-paginator.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="/static/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/static/UEditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+  window.ue = UE.getEditor('container');
+</script>
 <script>
   $(document).ready(function(){
-    var newsDto = {
-      page:{
-        pageNum:1,
-        pageSize:10
-      }
-    };
-    var news_list = get_news_list_ajax(newsDto);
-    // console.log(news_list);
-    show_news_table(news_list.list);
-    //分页初始化
-    var i = 0;
-    $('#news-pagination').jqPaginator({
-      totalPages: news_list.pages === 0 ? 1 : news_list.pages,
-      visiblePages: 10,
-      pageSize: news_list.pageSize,
-      currentPage: 1,
-      first: '<li class="waves-effect"><a href="#!"><i class="material-icons">first_page</i></a></li>',
-      prev: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_left</i></a></li>',
-      next: '<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>',
-      last: '<li class="waves-effect"><a href="#!"><i class="material-icons">last_page</i></a></li>',
-      page: '<li class="waves-effect"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-      onPageChange: function (num, type) {
-        if (i > 0) {
-          newsDto.page.pageNum = num;
-          var news = get_news_list_ajax(newsDto).list;
-          show_news_table(news);
-        }
-        i++;
-      }
-    });
   });
-
-  //新闻表格展示
-  function show_news_table(list) {
-    // console.log(list);
-    if (list.length === 0) {
-      $('#show-news-table tbody').append('<tr><td class="center" colspan="4">暂无新闻</td></tr>')
-    } else {
-      for (var i = 0; i < list.length; i++) {
-        $('#show-news-table tbody').append('<tr>'
-            +'<td>' + list[i].title + '</td>'
-            +'<td>' + list[i].status + '</td>'
-            +'<td>' + list[i].createTime + '</td>'
-            +'<td><a href="#!">编辑</a> <a href="#!">删除</a> </td>'
-            + '</tr>')
-      }
+  $('#add_news').click(function () {
+    var title = $('#news_name').val();
+    var content = ue.getContent();
+    if (isNull(title)) {
+      showMessage("新闻标题不能为空");
+      return;
     }
-  }
+    if (isNull(content)) {
+      showMessage("新闻内容不能为空");
+      return;
+    }
+    //新增
+    var newsDto = {
+      title:title,
+      content:content
+    };
+    insert_news_ajax(newsDto);
+  })
+
 </script>
 </body>
 </html>

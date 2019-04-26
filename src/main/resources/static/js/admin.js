@@ -438,7 +438,7 @@ function update_module_ajax() {
 
 //【新闻】新增新闻Ajax
 function insert_news_ajax(newsDto) {
-  console.log(newsDto);
+  // console.log(newsDto);
   $.ajax({
     type: 'POST',
     contentType: "application/json",

@@ -130,7 +130,7 @@ function showMessage(message) {
 
 //预加载内容
 function reloading() {
-  $("body").before('<div class="page-loading">'
+  $("body").before('<div class="page-loading fixed">'
       + '  <div class="preloader-wrapper big active">'
       + '    <div class="spinner-layer spinner-blue">'
       + '      <div class="circle-clipper left">'
