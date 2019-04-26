@@ -29,4 +29,9 @@ public interface NewsService {
    * 获取新闻详情
    */
   Result getNewsDetail(String newsId);
+
+  /**
+   * 编辑新闻
+   */
+  Result updateNews(NewsDTO newsDTO);
 }

@@ -458,7 +458,34 @@ function insert_news_ajax(newsDto) {
       }
     },
     error: function (data) {
-      showMessage("服务器异常，板块添加失败。");
+      showMessage("服务器异常，操作失败。");
+    }
+  });
+}
+
+//【新闻】编辑新闻Ajax
+function update_news_ajax(newsDto) {
+  console.log(newsDto);
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/news/updateNews",
+    data: JSON.stringify(newsDto),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        console.log(data.data);
+        showMessage("修改成功");
+        setInterval("location.reload()", 1500);
+      } else {
+        showMessage("修改失败：" + data.data);
+      }
+    },
+    error: function (data) {
+      showMessage("服务器异常，操作失败。");
     }
   });
 }

@@ -31,6 +31,11 @@ public class NewsController {
     return newsService.insertNews(newsDTO);
   }
 
+  @PostMapping("/updateNews")
+  public Result updateNews(@RequestBody NewsDTO newsDTO) {
+    return newsService.updateNews(newsDTO);
+  }
+
   @PostMapping("/getNewsList")
   public Result getNewsList(@RequestBody NewsDTO newsDTO) {
     return newsService.getNewsList(newsDTO);
