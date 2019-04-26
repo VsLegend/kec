@@ -85,7 +85,6 @@
         <thead>
         <tr>
           <th>新闻标题</th>
-          <th>当前状态</th>
           <th>创建时间</th>
           <th>操作</th>
         </tr>
@@ -165,10 +164,10 @@
     } else {
       for (var i = 0; i < list.length; i++) {
         $('#show-news-table tbody').append('<tr>'
-            +'<td>' + list[i].title + '</td>'
-            +'<td>' + list[i].status + '</td>'
-            +'<td>' + list[i].createTime + '</td>'
-            +'<td><a href="#!">编辑</a> <a href="#!">删除</a> </td>'
+            + '<td><a href="/backstage/addNews?newsId=' + list[i].id + '">' + list[i].title + '</a></td>'
+            + '<td>' + list[i].createTime + '</td>'
+            + '<td><a href="/backstage/addNews?newsId=' + list[i].id + '">编辑 </a> '
+            + '<a href="#!"> 删除</a> </td>'
             + '</tr>')
       }
     }

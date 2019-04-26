@@ -75,7 +75,8 @@
           <h6 class="child-like-text-blue left">新增新闻</h6>
         </div>
         <div class="col s12 m3">
-          <a href="#!" onclick="go_back()" class="child-btn left"> 返 回 </a>
+          <a href="#!" id="update-news-btn" onclick="open_update()" class="child-btn left" hidden="hidden"> 编 辑 </a>
+          <a href="#!" onclick="go_back()" class="child-btn right"> 返 回 </a>
         </div>
       </div>
 
@@ -144,7 +145,36 @@
 </script>
 <script>
   $(document).ready(function(){
+    var newsId = getUrlParam("newsId");
+    if (newsId !== null && newsId !== "") {
+      $(".container *").attr("disabled","disabled");
+      $("#update-news-btn").attr("hidden", false);
+      update_news(newsId);
+    }
   });
+
+
+  function open_update() {
+    showMessage("已进入编辑状态");
+    $(".container *").removeAttr("disabled");
+  }
+
+  //编辑
+  function update_news(newsId) {
+    reloading();
+    var news = get_news_detail_ajax(newsId);
+    if (null === news) {
+      return;
+    }
+    $('#news_name').val(news.title);
+    ue.addListener("ready", function () {
+      // editor准备好之后才可以使用
+      ue.setContent(news.content);
+    });
+    un_reloading();
+  }
+
+  //新增
   $('#add_news').click(function () {
     var title = $('#news_name').val();
     var content = ue.getContent();
@@ -156,13 +186,24 @@
       showMessage("新闻内容不能为空");
       return;
     }
-    //新增
-    var newsDto = {
-      title:title,
-      content:content
-    };
-    insert_news_ajax(newsDto);
-  })
+    var newsId = getUrlParam("newsId");
+    var newsDto = null;
+    if ( !isNull(newsId)) {
+      newsDto = {
+        id:newsId,
+        title:title,
+        content:content
+      };
+      update_news_ajax(newsDto);
+    } else {
+      //新增
+      newsDto = {
+        title:title,
+        content:content
+      };
+      insert_news_ajax(newsDto);
+    }
+  });
 
 </script>
 </body>

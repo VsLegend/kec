@@ -79,11 +79,13 @@ public class NewsServiceImpl implements NewsService {
   @Override
   public Result updateNews(NewsDTO newsDTO) {
     News news = newsMapper.selectByPrimaryKey(newsDTO.getId());
-    if (CommonUtil.isEmptyOrNull(newsDTO.getTitle()) || CommonUtil.isEmptyOrNull(newsDTO.getTitle())) {
+    if (CommonUtil.isEmptyOrNull(newsDTO.getTitle()) || CommonUtil.isEmptyOrNull(newsDTO.getContent())) {
       return Result.failed(ResultEnum.ILLEGAL_PARAMETER, "新闻标题或内容为空");
     }
     news.setTitle(newsDTO.getTitle());
     news.setContent(newsDTO.getContent());
+    news.setUpdateTime(new Date());
+    news.setUpdateUser("admin");
     newsMapper.updateByPrimaryKeySelective(news);
     return Result.success();
   }
