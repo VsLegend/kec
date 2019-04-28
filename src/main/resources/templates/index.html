@@ -10,6 +10,7 @@
   <link href="/static/css/materialize.css" type="text/css" rel="stylesheet"
         media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="/static/css/theme.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 
 <body>
@@ -42,30 +43,43 @@
       <div id="news-section" class="section scrollspy">
         <div class="section white">
           <div class="row container">
-            <h4 class="header">最新快讯</h4>
+            <h4 class="header">新闻公告</h4>
             <p class="grey-text text-darken-3 lighten-3">The latest news from around the world.</p>
           </div>
         </div>
-        <div class="carousel center">
-          <!--<div class="carousel-fixed-item center">-->
-          <!--<a class="btn waves-effect white black-text">button</a>-->
-          <!--</div>-->
-          <div class="carousel-item red lighten-4 white-text" href="#one!">
-            <h2>First News</h2>
-            <p class="white-text">This is your first panel</p>
-          </div>
-          <div class="carousel-item amber lighten-4 white-text" href="#two!">
-            <h2>Second News</h2>
-            <p class="white-text">This is your second panel</p>
-          </div>
-          <div class="carousel-item green lighten-4 white-text" href="#three!">
-            <h2>Third News</h2>
-            <p class="white-text">This is your third panel</p>
-          </div>
-          <div class="carousel-item blue lighten-4 white-text" href="#four!">
-            <h2>Fourth News</h2>
-            <p class="white-text">This is your fourth panel</p>
-          </div>
+
+        <!--图片滑块-->
+        <div class="slider">
+          <ul class="slides" id="slider-ul">
+            <li>
+              <img src="/static/image/16.jpg"> <!-- random image -->
+              <div class="caption left-align white-text">
+                <h4>This is our big Tagline!</h4>
+                <h6>Here's our small slogan.</h6>
+              </div>
+            </li>
+            <li>
+              <img src="/static/image/16.png"> <!-- random image -->
+              <div class="caption left-align white-text">
+                <h4>Left Aligned Caption</h4>
+                <h6>Here's our small slogan.</h6>
+              </div>
+            </li>
+            <li>
+              <img src="/static/image/5.jpg"> <!-- random image -->
+              <div class="caption left-align white-text">
+                <h4>Right Aligned Caption</h4>
+                <h6>Here's our small slogan.</h6>
+              </div>
+            </li>
+            <li>
+              <img src="/static/image/18.jpg"> <!-- random image -->
+              <div class="caption left-align white-text">
+                <h4>This is our big Tagline!</h4>
+                <h6>Here's our small slogan.</h6>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -290,9 +304,30 @@
     get_user_loginInfo_ajax();
     //未读消息、
     show_unread_message();
+    //新闻列表
+    var newsDto = {
+      page:{
+        pageNum:1,
+        pageSize:10
+      }
+    };
+    var newsList = get_news_list_ajax(newsDto);
+    // console.log(newsList);
+    show_news_list(newsList.list);
     var popularPost = get_popular_post_ajax();
     show_popular_table(popularPost);
   });
+
+  //新闻列表展示
+  function show_news_list(newsList) {
+    var arr = ['/static/image/16.jpg', '/static/image/16.png', '/static/image/5.jpg', '/static/image/18.jpg'];
+    //长度，首页最多显示4条
+    var length = newsList.length > 4 ? 4 : newsList.length;
+    for (var i = 0; i < length; i++) {
+      $('#slider-ul li:eq(' + i + ') div h4').html(newsList[i].title);
+      $('#slider-ul li:eq(' + i + ') div h6').html(newsList[i].content);
+    }
+  }
 
   //【热门展示】
   function show_popular_table(popularPost) {

@@ -30,7 +30,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
         .addPathPatterns("/entrance/moduleAdmin/**");
     registry.addInterceptor(new AdminKecHandleInterceptor()).addPathPatterns("/backstage/**")
         .addPathPatterns("/module/**").addPathPatterns("/post/deletePost/**")
-        .addPathPatterns("/userControl/**").addPathPatterns("/news/**")
+        .addPathPatterns("/userControl/**").addPathPatterns("/news/**").excludePathPatterns("/news/getNewsList")
     .excludePathPatterns("/backstage/login");
   }
 

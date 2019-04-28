@@ -14,6 +14,33 @@ $(document).ready(function () {
   });
 });
 
+//【新闻】获取新闻列表Ajax
+function get_news_list_ajax(newsDto) {
+  var result = null;
+  $.ajax({
+    type: 'POST',
+    contentType: "application/json",
+    url: "/news/getNewsList",
+    data: JSON.stringify(newsDto),
+    datatype: 'json',
+    async: false,
+    cache: false,
+    timeout: 99999,
+    success: function (data) {
+      if (data.code === 1000) {
+        // console.log(data.data);
+        result = data.data;
+      } else {
+        showMessage("获取新闻列表失败：" + data.data);
+      }
+    },
+    error: function (data) {
+      showMessage("服务器异常，操作失败。");
+    }
+  });
+  return result;
+}
+
 //板块管理员的板块管理界面表
 function show_module_list(data) {
   if (data === null || data.length < 1) {

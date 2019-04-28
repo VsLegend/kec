@@ -1,5 +1,7 @@
 (function($){
   $(function(){
+    //滑块
+    $('.slider').slider();
     //图片视差
     $('.parallax').parallax();
     //tabs
