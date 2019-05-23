@@ -47,6 +47,9 @@ function show_module_list(data) {
     $('#module-admin-table tbody').append('<tr><td class="center" colspan="2">没有管理的板块，查询失败</td></tr>');
     return;
   }
+  var user = get_user_detail_ajax(data[0].userId);
+  $('#user-name-h5').append(user.name);
+  $('#user-module-num').append(data.length);
   for (var i = 0; i < data.length; i++) {
     if ((i % 2) === 0) {
       $('#module-admin-table tbody').append('<tr>'
@@ -59,7 +62,7 @@ function show_module_list(data) {
     } else {
       $('#module-admin-table tbody tr:last').append('<td>'
           + '<div class="child-card z-depth-0 child-radius">'
-          + '<h5><a href="#!" id="' + data[i].id + '">' + data[i].name + '</a></h5>'
+          + '<h5><a href="/entrance/moduleAdmin/moduleManagement?moduleId=' + data[i].id + '">' + data[i].name + '</a></h5>'
           + '<span>' + data[i].summary + '<br></span>'
           + '</div>'
           + '</td>')
